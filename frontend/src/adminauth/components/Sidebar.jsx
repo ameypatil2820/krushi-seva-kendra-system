@@ -15,6 +15,8 @@ import {
   UserPlus
 } from 'lucide-react';
 
+import logo from '../../assets/logo.png';
+
 const Sidebar = () => {
   const { user, logout, hasPermission } = useAuth();
 
@@ -38,9 +40,10 @@ const Sidebar = () => {
 
   return (
     <aside className="sidebar glass-card" style={{ width: '260px', height: '100vh', padding: '20px', borderRadius: '0' }}>
-      <div className="brand" style={{ marginBottom: '40px', textAlign: 'center' }}>
-        <h2 style={{ color: 'var(--primary)', fontWeight: '800', letterSpacing: '1px' }}>KRUSHI SEVA</h2>
-        <p style={{ fontSize: '0.7rem', color: 'var(--text-secondary)' }}>SYSTEM</p>
+      <div className="brand" style={{ marginBottom: '40px', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <img src={logo} alt="Krushi Seva Logo" style={{ width: '80px', height: '80px', marginBottom: '10px', borderRadius: '12px' }} />
+        <h2 style={{ color: 'var(--primary)', fontWeight: '800', letterSpacing: '1px', fontSize: '1.2rem', margin: '0' }}>KRUSHI SEVA</h2>
+        <p style={{ fontSize: '0.7rem', color: 'var(--text-secondary)', margin: '0' }}>SYSTEM</p>
       </div>
 
       <nav style={{ display: 'flex', flexDirection: 'column', gap: '8px', height: 'calc(100% - 140px)' }}>
