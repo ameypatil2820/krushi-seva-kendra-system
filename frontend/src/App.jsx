@@ -11,6 +11,14 @@ import UserManagement from './adminauth/pages/dashboard/UserManagement';
 import ModulePage from './adminauth/pages/dashboard/ModulePage';
 import { Suppliers, Customers, Categories, Taxes, Products } from './mastermodel/pages';
 
+import SaleEntry from './sales/SaleEntry';
+import Quotation from './sales/Quotation';
+import SaleReturn from './sales/SaleReturn';
+
+import PurchaseEntry from './purchase/PurchaseEntry';
+import PurchaseOrder from './purchase/PurchaseOrder';
+import PurchaseReturn from './purchase/PurchaseReturn';
+
 const AppRoutes = () => {
   return (
     <Routes>
@@ -21,6 +29,7 @@ const AppRoutes = () => {
         <Route index element={<Navigate to="/dashboard" />} />
         <Route path="dashboard" element={<Dashboard />} />
 
+        {/* Master Model Routes */}
         <Route path="products" element={<Products />} />
         <Route path="customers" element={<Customers />} />
         <Route path="suppliers" element={<Suppliers />} />
@@ -28,9 +37,22 @@ const AppRoutes = () => {
         <Route path="taxes" element={<Taxes />} />
         <Route path="tax" element={<Taxes />} />
         
-        <Route path="sales" element={<ModulePage title="Sales" module="sale" />} />
-        <Route path="purchases" element={<ModulePage title="Purchases" module="purchase" />} />
+        {/* Sales Routes */}
+        <Route path="sales">
+          <Route path="entry" element={<SaleEntry />} />
+          <Route path="quotations" element={<Quotation />} />
+          <Route path="returns" element={<SaleReturn />} />
+          <Route index element={<ModulePage title="Sales" module="sale" />} />
+        </Route>
         
+        {/* Purchase Routes */}
+        <Route path="purchase">
+          <Route path="entry" element={<PurchaseEntry />} />
+          <Route path="orders" element={<PurchaseOrder />} />
+          <Route path="returns" element={<PurchaseReturn />} />
+          <Route index element={<ModulePage title="Purchases" module="purchase" />} />
+        </Route>
+
         <Route path="roles" element={
           <ProtectedRoute module="roles" action="manage">
             <RoleManagement />
