@@ -168,10 +168,13 @@
   background: white;
   padding: 32px;
   border-radius: 20px;
-  width: 100%;
-  max-width: 650px;
+  width: 95%;
+  max-width: 850px;
+  max-height: 85vh; /* Form will not go off screen */
+  overflow-y: auto; /* Adds scrollbar */
   box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
   animation: modalScale 0.3s ease-out;
+  position: relative;
 }
 
 @keyframes modalScale {
