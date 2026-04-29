@@ -4,9 +4,12 @@ import { ShieldCheck, Plus, Trash2, Edit3, Save, X } from 'lucide-react';
 
 const AVAILABLE_MODULES = [
   { id: 'product', name: 'Product' },
+  { id: 'category', name: 'Category' },
   { id: 'customer', name: 'Customer' },
+  { id: 'supplier', name: 'Supplier' },
   { id: 'sale', name: 'Sale' },
   { id: 'purchase', name: 'Purchase' },
+  { id: 'tax', name: 'Tax' },
   { id: 'users', name: 'Users' },
   { id: 'roles', name: 'Roles' }
 ];
@@ -34,12 +37,28 @@ const RoleManagement = () => {
     setError('');
   };
 
-  const togglePermission = (moduleId) => {
+  const toggleAction = (moduleId, action) => {
     const perms = { ...currentRole.permissions };
-    if (perms[moduleId]) {
+    const currentActions = perms[moduleId] || [];
+    
+    if (currentActions.includes(action)) {
+      perms[moduleId] = currentActions.filter(a => a !== action);
+      if (perms[moduleId].length === 0) delete perms[moduleId];
+    } else {
+      perms[moduleId] = [...currentActions, action];
+    }
+    setCurrentRole({ ...currentRole, permissions: perms });
+  };
+
+  const toggleAllModuleActions = (moduleId) => {
+    const perms = { ...currentRole.permissions };
+    const allActions = ['view', 'create', 'edit', 'delete'];
+    const currentActions = perms[moduleId] || [];
+
+    if (currentActions.length === allActions.length) {
       delete perms[moduleId];
     } else {
-      perms[moduleId] = ['view', 'create', 'edit', 'delete'];
+      perms[moduleId] = allActions;
     }
     setCurrentRole({ ...currentRole, permissions: perms });
   };
@@ -100,19 +119,47 @@ const RoleManagement = () => {
             />
           </div>
           <div className="input-group">
-            <label>Module Access (Check modules to grant access)</label>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: '15px', marginTop: '10px' }}>
-              {AVAILABLE_MODULES.map((module) => (
-                <label key={module.id} style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', background: 'rgba(255,255,255,0.05)', padding: '10px', borderRadius: '8px' }}>
-                  <input 
-                    type="checkbox" 
-                    checked={!!currentRole.permissions[module.id]}
-                    onChange={() => togglePermission(module.id)}
-                    style={{ width: '18px', height: '18px', accentColor: 'var(--primary)' }}
-                  />
-                  <span>{module.name}</span>
-                </label>
-              ))}
+            <label style={{ display: 'block', marginBottom: '15px', fontWeight: 'bold', fontSize: '1rem' }}>Module Permissions</label>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '20px' }}>
+              {AVAILABLE_MODULES.map((module) => {
+                const modulePerms = currentRole.permissions[module.id] || [];
+                const isAll = modulePerms.length === 4;
+                
+                return (
+                  <div key={module.id} className="glass-card" style={{ padding: '20px', border: '1px solid var(--border)' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px', borderBottom: '1px solid var(--border)', paddingBottom: '10px' }}>
+                      <h4 style={{ color: 'var(--primary)' }}>{module.name}</h4>
+                      <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.8rem', cursor: 'pointer' }}>
+                        <input 
+                          type="checkbox" 
+                          checked={isAll}
+                          onChange={() => toggleAllModuleActions(module.id)}
+                          style={{ accentColor: 'var(--primary)' }}
+                        />
+                        Select All
+                      </label>
+                    </div>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                      {[
+                        { id: 'view', label: 'View' },
+                        { id: 'create', label: 'Add' },
+                        { id: 'edit', label: 'Edit' },
+                        { id: 'delete', label: 'Delete' }
+                      ].map((action) => (
+                        <label key={action.id} style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', fontSize: '0.9rem' }}>
+                          <input 
+                            type="checkbox" 
+                            checked={modulePerms.includes(action.id)}
+                            onChange={() => toggleAction(module.id, action.id)}
+                            style={{ width: '16px', height: '16px', accentColor: 'var(--primary)' }}
+                          />
+                          {module.name} {action.label}
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
 
