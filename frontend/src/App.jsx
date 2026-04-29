@@ -12,6 +12,10 @@ import PurchaseEntry from './purchase/PurchaseEntry';
 import PurchaseOrder from './purchase/PurchaseOrder';
 import PurchaseReturn from './purchase/PurchaseReturn';
 
+import SaleEntry from './sales/SaleEntry';
+import Quotation from './sales/Quotation';
+import SaleReturn from './sales/SaleReturn';
+
 const AppRoutes = () => {
   return (
     <Routes>
@@ -26,8 +30,14 @@ const AppRoutes = () => {
         <Route path="products" element={<ModulePage title="Products" module="product" />} />
         <Route path="customers" element={<ModulePage title="Customers" module="customer" />} />
         <Route path="suppliers" element={<ModulePage title="Suppliers" module="supplier" />} />
-        <Route path="sales" element={<ModulePage title="Sales" module="sale" />} />
         <Route path="tax" element={<ModulePage title="Tax" module="tax" />} />
+        
+        {/* Sales Routes */}
+        <Route path="sales">
+          <Route path="entry" element={<SaleEntry />} />
+          <Route path="quotations" element={<Quotation />} />
+          <Route path="returns" element={<SaleReturn />} />
+        </Route>
         
         {/* Purchase Routes */}
         <Route path="purchase">
