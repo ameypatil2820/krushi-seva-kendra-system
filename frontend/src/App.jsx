@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider } from './adminauth/context/AuthContext';
 import Layout from './adminauth/components/Layout';
 import ProtectedRoute from './adminauth/components/ProtectedRoute';
 import Login from './adminauth/pages/auth/Login';
@@ -8,9 +9,7 @@ import Dashboard from './adminauth/pages/dashboard/Dashboard';
 import RoleManagement from './adminauth/pages/dashboard/RoleManagement';
 import UserManagement from './adminauth/pages/dashboard/UserManagement';
 import ModulePage from './adminauth/pages/dashboard/ModulePage';
-import PurchaseEntry from './purchase/PurchaseEntry';
-import PurchaseOrder from './purchase/PurchaseOrder';
-import PurchaseReturn from './purchase/PurchaseReturn';
+import { Suppliers, Customers, Categories, Taxes, Products } from './mastermodel/pages';
 
 const AppRoutes = () => {
   return (
@@ -22,19 +21,16 @@ const AppRoutes = () => {
         <Route index element={<Navigate to="/dashboard" />} />
         <Route path="dashboard" element={<Dashboard />} />
 
-        <Route path="categories" element={<ModulePage title="Categories" module="category" />} />
-        <Route path="products" element={<ModulePage title="Products" module="product" />} />
-        <Route path="customers" element={<ModulePage title="Customers" module="customer" />} />
-        <Route path="suppliers" element={<ModulePage title="Suppliers" module="supplier" />} />
-        <Route path="sales" element={<ModulePage title="Sales" module="sale" />} />
-        <Route path="tax" element={<ModulePage title="Tax" module="tax" />} />
+        <Route path="products" element={<Products />} />
+        <Route path="customers" element={<Customers />} />
+        <Route path="suppliers" element={<Suppliers />} />
+        <Route path="categories" element={<Categories />} />
+        <Route path="taxes" element={<Taxes />} />
+        <Route path="tax" element={<Taxes />} />
         
-        {/* Purchase Routes */}
-        <Route path="purchase">
-          <Route path="entry" element={<PurchaseEntry />} />
-          <Route path="orders" element={<PurchaseOrder />} />
-          <Route path="returns" element={<PurchaseReturn />} />
-        </Route>
+        <Route path="sales" element={<ModulePage title="Sales" module="sale" />} />
+        <Route path="purchases" element={<ModulePage title="Purchases" module="purchase" />} />
+        
         <Route path="roles" element={
           <ProtectedRoute module="roles" action="manage">
             <RoleManagement />
@@ -55,9 +51,11 @@ const AppRoutes = () => {
 
 function App() {
   return (
-    <Router>
-      <AppRoutes />
-    </Router>
+    <AuthProvider>
+      <Router>
+        <AppRoutes />
+      </Router>
+    </AuthProvider>
   );
 }
 
