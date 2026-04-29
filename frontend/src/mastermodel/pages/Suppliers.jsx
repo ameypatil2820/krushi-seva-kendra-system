@@ -4,12 +4,16 @@ import { useCRUD } from '../hooks/useCRUD';
 import DataTable from '../components/DataTable';
 import AdminModal from '../components/AdminModal';
 import FormField from '../components/FormField';
+import ConfirmModal from '../components/ConfirmModal';
+import ViewDetailsModal from '../components/ViewDetailsModal';
 import '../styles/MasterModel.css';
 
 const Suppliers = () => {
   const { 
     data, loading, isModalOpen, setIsModalOpen, 
-    currentItem, handleAdd, handleEdit, handleDelete, handleSave 
+    isViewOpen, setIsViewOpen, isDeleteOpen, setIsDeleteOpen,
+    currentItem, handleAdd, handleEdit, handleView, 
+    handleDeleteClick, handleConfirmDelete, handleSave 
   } = useCRUD('suppliers');
 
   const [formData, setFormData] = useState({
@@ -18,9 +22,9 @@ const Suppliers = () => {
   });
 
   useEffect(() => {
-    if (currentItem) {
+    if (currentItem && isModalOpen) {
       setFormData(currentItem);
-    } else {
+    } else if (!isModalOpen) {
       setFormData({
         name: '', mobile: '', contactPerson: '', email: '', 
         city: '', address: '', gstNo: '', isActive: true
@@ -48,6 +52,24 @@ const Suppliers = () => {
     }
   ];
 
+  const supplierFields = [
+    { label: 'Supplier Name', accessor: 'name' },
+    { label: 'Mobile Number', accessor: 'mobile' },
+    { label: 'Contact Person', accessor: 'contactPerson' },
+    { label: 'Email', accessor: 'email' },
+    { label: 'GST Number', accessor: 'gstNo' },
+    { label: 'City', accessor: 'city' },
+    { label: 'Address', accessor: 'address' },
+    { 
+      label: 'Status', 
+      render: (row) => row.isActive ? 'Active' : 'Inactive' 
+    },
+    { 
+      label: 'Created Date', 
+      render: (row) => new Date(row.createdAt).toLocaleDateString() 
+    }
+  ];
+
   return (
     <div className="agro-container">
       <div className="page-header">
@@ -65,10 +87,11 @@ const Suppliers = () => {
         columns={columns} 
         data={data} 
         onEdit={handleEdit} 
-        onDelete={(item) => handleDelete(item.id)}
-        onView={(item) => alert(JSON.stringify(item, null, 2))}
+        onDelete={handleDeleteClick}
+        onView={handleView}
       />
 
+      {/* Add/Edit Modal */}
       <AdminModal 
         isOpen={isModalOpen} 
         onClose={() => setIsModalOpen(false)} 
@@ -88,10 +111,30 @@ const Suppliers = () => {
           
           <div style={{ display: 'flex', gap: '12px', marginTop: '24px', justifyContent: 'flex-end' }}>
             <button type="button" className="btn-agro btn-outline" onClick={() => setIsModalOpen(false)}>Cancel</button>
-            <button type="submit" className="btn-agro btn-primary">Save Supplier</button>
+            <button type="submit" className="btn-agro btn-primary">
+              {currentItem ? 'Update Supplier' : 'Save Supplier'}
+            </button>
           </div>
         </form>
       </AdminModal>
+
+      {/* View Modal */}
+      <ViewDetailsModal 
+        isOpen={isViewOpen} 
+        onClose={() => setIsViewOpen(false)} 
+        title="Supplier Details" 
+        data={currentItem} 
+        fields={supplierFields} 
+      />
+
+      {/* Delete Confirmation Modal */}
+      <ConfirmModal 
+        isOpen={isDeleteOpen} 
+        onClose={() => setIsDeleteOpen(false)} 
+        onConfirm={handleConfirmDelete} 
+        title="Delete Supplier?" 
+        message={`Are you sure you want to delete ${currentItem?.name}? This action cannot be undone.`} 
+      />
     </div>
   );
 };

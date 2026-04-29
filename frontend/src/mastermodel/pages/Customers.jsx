@@ -4,12 +4,16 @@ import { useCRUD } from '../hooks/useCRUD';
 import DataTable from '../components/DataTable';
 import AdminModal from '../components/AdminModal';
 import FormField from '../components/FormField';
+import ConfirmModal from '../components/ConfirmModal';
+import ViewDetailsModal from '../components/ViewDetailsModal';
 import '../styles/MasterModel.css';
 
 const Customers = () => {
   const { 
     data, loading, isModalOpen, setIsModalOpen, 
-    currentItem, handleAdd, handleEdit, handleDelete, handleSave 
+    isViewOpen, setIsViewOpen, isDeleteOpen, setIsDeleteOpen,
+    currentItem, handleAdd, handleEdit, handleView, 
+    handleDeleteClick, handleConfirmDelete, handleSave 
   } = useCRUD('customers');
 
   const [formData, setFormData] = useState({
@@ -18,9 +22,9 @@ const Customers = () => {
   });
 
   useEffect(() => {
-    if (currentItem) {
+    if (currentItem && isModalOpen) {
       setFormData(currentItem);
-    } else {
+    } else if (!isModalOpen) {
       setFormData({
         name: '', mobile: '', alternateMobile: '', 
         village: '', city: '', address: '', isActive: true
@@ -48,6 +52,23 @@ const Customers = () => {
     }
   ];
 
+  const customerFields = [
+    { label: 'Customer Name', accessor: 'name' },
+    { label: 'Mobile Number', accessor: 'mobile' },
+    { label: 'Alternate Mobile', accessor: 'alternateMobile' },
+    { label: 'Village', accessor: 'village' },
+    { label: 'City', accessor: 'city' },
+    { label: 'Address', accessor: 'address' },
+    { 
+      label: 'Status', 
+      render: (row) => row.isActive ? 'Active' : 'Inactive' 
+    },
+    { 
+      label: 'Member Since', 
+      render: (row) => new Date(row.createdAt).toLocaleDateString() 
+    }
+  ];
+
   return (
     <div className="agro-container">
       <div className="page-header">
@@ -65,10 +86,11 @@ const Customers = () => {
         columns={columns} 
         data={data} 
         onEdit={handleEdit} 
-        onDelete={(item) => handleDelete(item.id)}
-        onView={(item) => alert(JSON.stringify(item, null, 2))}
+        onDelete={handleDeleteClick}
+        onView={handleView}
       />
 
+      {/* Add/Edit Modal */}
       <AdminModal 
         isOpen={isModalOpen} 
         onClose={() => setIsModalOpen(false)} 
@@ -87,10 +109,30 @@ const Customers = () => {
           
           <div style={{ display: 'flex', gap: '12px', marginTop: '24px', justifyContent: 'flex-end' }}>
             <button type="button" className="btn-agro btn-outline" onClick={() => setIsModalOpen(false)}>Cancel</button>
-            <button type="submit" className="btn-agro btn-primary">Save Customer</button>
+            <button type="submit" className="btn-agro btn-primary">
+              {currentItem ? 'Update Customer' : 'Save Customer'}
+            </button>
           </div>
         </form>
       </AdminModal>
+
+      {/* View Modal */}
+      <ViewDetailsModal 
+        isOpen={isViewOpen} 
+        onClose={() => setIsViewOpen(false)} 
+        title="Customer Details" 
+        data={currentItem} 
+        fields={customerFields} 
+      />
+
+      {/* Delete Confirmation Modal */}
+      <ConfirmModal 
+        isOpen={isDeleteOpen} 
+        onClose={() => setIsDeleteOpen(false)} 
+        onConfirm={handleConfirmDelete} 
+        title="Delete Customer?" 
+        message={`Are you sure you want to delete ${currentItem?.name}? All records for this customer will be removed.`} 
+      />
     </div>
   );
 };

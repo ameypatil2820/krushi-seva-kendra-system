@@ -4,12 +4,16 @@ import { useCRUD } from '../hooks/useCRUD';
 import DataTable from '../components/DataTable';
 import AdminModal from '../components/AdminModal';
 import FormField from '../components/FormField';
+import ConfirmModal from '../components/ConfirmModal';
+import ViewDetailsModal from '../components/ViewDetailsModal';
 import '../styles/MasterModel.css';
 
 const Taxes = () => {
   const { 
     data, loading, isModalOpen, setIsModalOpen, 
-    currentItem, handleAdd, handleEdit, handleDelete, handleSave 
+    isViewOpen, setIsViewOpen, isDeleteOpen, setIsDeleteOpen,
+    currentItem, handleAdd, handleEdit, handleView, 
+    handleDeleteClick, handleConfirmDelete, handleSave 
   } = useCRUD('taxes');
 
   const [formData, setFormData] = useState({
@@ -17,9 +21,9 @@ const Taxes = () => {
   });
 
   useEffect(() => {
-    if (currentItem) {
+    if (currentItem && isModalOpen) {
       setFormData(currentItem);
-    } else {
+    } else if (!isModalOpen) {
       setFormData({
         name: '', percentage: '', isActive: true
       });
@@ -47,6 +51,19 @@ const Taxes = () => {
     }
   ];
 
+  const taxFields = [
+    { label: 'Tax Name', accessor: 'name' },
+    { label: 'Percentage', render: (row) => `${row.percentage}%` },
+    { 
+      label: 'Status', 
+      render: (row) => row.isActive ? 'Active' : 'Inactive' 
+    },
+    { 
+      label: 'Created Date', 
+      render: (row) => new Date(row.createdAt).toLocaleDateString() 
+    }
+  ];
+
   return (
     <div className="agro-container">
       <div className="page-header">
@@ -64,10 +81,11 @@ const Taxes = () => {
         columns={columns} 
         data={data} 
         onEdit={handleEdit} 
-        onDelete={(item) => handleDelete(item.id)}
-        onView={(item) => alert(JSON.stringify(item, null, 2))}
+        onDelete={handleDeleteClick}
+        onView={handleView}
       />
 
+      {/* Add/Edit Modal */}
       <AdminModal 
         isOpen={isModalOpen} 
         onClose={() => setIsModalOpen(false)} 
@@ -82,10 +100,30 @@ const Taxes = () => {
           
           <div style={{ display: 'flex', gap: '12px', marginTop: '24px', justifyContent: 'flex-end' }}>
             <button type="button" className="btn-agro btn-outline" onClick={() => setIsModalOpen(false)}>Cancel</button>
-            <button type="submit" className="btn-agro btn-primary">Save Tax</button>
+            <button type="submit" className="btn-agro btn-primary">
+              {currentItem ? 'Update Tax' : 'Save Tax'}
+            </button>
           </div>
         </form>
       </AdminModal>
+
+      {/* View Modal */}
+      <ViewDetailsModal 
+        isOpen={isViewOpen} 
+        onClose={() => setIsViewOpen(false)} 
+        title="Tax Details" 
+        data={currentItem} 
+        fields={taxFields} 
+      />
+
+      {/* Delete Confirmation Modal */}
+      <ConfirmModal 
+        isOpen={isDeleteOpen} 
+        onClose={() => setIsDeleteOpen(false)} 
+        onConfirm={handleConfirmDelete} 
+        title="Delete Tax?" 
+        message={`Are you sure you want to delete ${currentItem?.name}? This may affect products using this tax rate.`} 
+      />
     </div>
   );
 };

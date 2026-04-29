@@ -2,6 +2,14 @@ import React from 'react';
 import { FiEdit2, FiTrash2, FiEye, FiSearch } from 'react-icons/fi';
 
 const DataTable = ({ columns, data, onEdit, onDelete, onView, title }) => {
+  const [searchTerm, setSearchTerm] = React.useState('');
+
+  const filteredData = data.filter(item => 
+    Object.values(item).some(val => 
+      String(val).toLowerCase().includes(searchTerm.toLowerCase())
+    )
+  );
+
   return (
     <div className="agro-card">
       <div className="page-header" style={{ marginBottom: '20px' }}>
@@ -12,6 +20,8 @@ const DataTable = ({ columns, data, onEdit, onDelete, onView, title }) => {
             placeholder={`Search ${title}...`} 
             className="form-control" 
             style={{ paddingLeft: '38px' }}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
       </div>
@@ -27,8 +37,8 @@ const DataTable = ({ columns, data, onEdit, onDelete, onView, title }) => {
             </tr>
           </thead>
           <tbody>
-            {data.length > 0 ? (
-              data.map((row, rowIndex) => (
+            {filteredData.length > 0 ? (
+              filteredData.map((row, rowIndex) => (
                 <tr key={rowIndex}>
                   {columns.map((col, colIndex) => (
                     <td key={colIndex}>
@@ -53,7 +63,7 @@ const DataTable = ({ columns, data, onEdit, onDelete, onView, title }) => {
             ) : (
               <tr>
                 <td colSpan={columns.length + 1} style={{ textAlign: 'center', padding: '40px', color: '#6b7280' }}>
-                  No data found.
+                  No data found matching your search.
                 </td>
               </tr>
             )}

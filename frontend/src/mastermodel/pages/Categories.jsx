@@ -4,12 +4,16 @@ import { useCRUD } from '../hooks/useCRUD';
 import DataTable from '../components/DataTable';
 import AdminModal from '../components/AdminModal';
 import FormField from '../components/FormField';
+import ConfirmModal from '../components/ConfirmModal';
+import ViewDetailsModal from '../components/ViewDetailsModal';
 import '../styles/MasterModel.css';
 
 const Categories = () => {
   const { 
     data, loading, isModalOpen, setIsModalOpen, 
-    currentItem, handleAdd, handleEdit, handleDelete, handleSave 
+    isViewOpen, setIsViewOpen, isDeleteOpen, setIsDeleteOpen,
+    currentItem, handleAdd, handleEdit, handleView, 
+    handleDeleteClick, handleConfirmDelete, handleSave 
   } = useCRUD('categories');
 
   const [formData, setFormData] = useState({
@@ -17,9 +21,9 @@ const Categories = () => {
   });
 
   useEffect(() => {
-    if (currentItem) {
+    if (currentItem && isModalOpen) {
       setFormData(currentItem);
-    } else {
+    } else if (!isModalOpen) {
       setFormData({
         name: '', description: '', isActive: true
       });
@@ -41,10 +45,19 @@ const Categories = () => {
           {row.isActive ? 'Active' : 'Inactive'}
         </span>
       ) 
+    }
+  ];
+
+  const categoryFields = [
+    { label: 'Category Name', accessor: 'name' },
+    { label: 'Description', accessor: 'description' },
+    { 
+      label: 'Status', 
+      render: (row) => row.isActive ? 'Active' : 'Inactive' 
     },
     { 
-      header: 'Created At', 
-      render: (row) => new Date(row.createdAt).toLocaleDateString()
+      label: 'Created Date', 
+      render: (row) => new Date(row.createdAt).toLocaleDateString() 
     }
   ];
 
@@ -65,10 +78,11 @@ const Categories = () => {
         columns={columns} 
         data={data} 
         onEdit={handleEdit} 
-        onDelete={(item) => handleDelete(item.id)}
-        onView={(item) => alert(JSON.stringify(item, null, 2))}
+        onDelete={handleDeleteClick}
+        onView={handleView}
       />
 
+      {/* Add/Edit Modal */}
       <AdminModal 
         isOpen={isModalOpen} 
         onClose={() => setIsModalOpen(false)} 
@@ -81,10 +95,30 @@ const Categories = () => {
           
           <div style={{ display: 'flex', gap: '12px', marginTop: '24px', justifyContent: 'flex-end' }}>
             <button type="button" className="btn-agro btn-outline" onClick={() => setIsModalOpen(false)}>Cancel</button>
-            <button type="submit" className="btn-agro btn-primary">Save Category</button>
+            <button type="submit" className="btn-agro btn-primary">
+              {currentItem ? 'Update Category' : 'Save Category'}
+            </button>
           </div>
         </form>
       </AdminModal>
+
+      {/* View Modal */}
+      <ViewDetailsModal 
+        isOpen={isViewOpen} 
+        onClose={() => setIsViewOpen(false)} 
+        title="Category Details" 
+        data={currentItem} 
+        fields={categoryFields} 
+      />
+
+      {/* Delete Confirmation Modal */}
+      <ConfirmModal 
+        isOpen={isDeleteOpen} 
+        onClose={() => setIsDeleteOpen(false)} 
+        onConfirm={handleConfirmDelete} 
+        title="Delete Category?" 
+        message={`Are you sure you want to delete the ${currentItem?.name} category? This may affect products linked to it.`} 
+      />
     </div>
   );
 };
