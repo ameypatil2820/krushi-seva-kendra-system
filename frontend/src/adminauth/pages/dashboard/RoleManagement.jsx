@@ -1,0 +1,178 @@
+import React, { useState, useEffect } from 'react';
+import { STORAGE_KEYS, getFromStorage, setToStorage } from '../../utils/storage';
+import { ShieldCheck, Plus, Trash2, Edit3, Save, X } from 'lucide-react';
+
+const AVAILABLE_MODULES = [
+  { id: 'product', name: 'Product' },
+  { id: 'customer', name: 'Customer' },
+  { id: 'sale', name: 'Sale' },
+  { id: 'purchase', name: 'Purchase' },
+  { id: 'users', name: 'Users' },
+  { id: 'roles', name: 'Roles' }
+];
+
+const RoleManagement = () => {
+  const [roles, setRoles] = useState([]);
+  const [isEditing, setIsEditing] = useState(false);
+  const [currentRole, setCurrentRole] = useState({ roleName: '', permissions: {} });
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    const savedRoles = getFromStorage(STORAGE_KEYS.ROLES) || [];
+    setRoles(savedRoles);
+  }, []);
+
+  const handleAddRole = () => {
+    setIsEditing(true);
+    setCurrentRole({ roleName: '', permissions: {} });
+    setError('');
+  };
+
+  const handleEditRole = (role) => {
+    setIsEditing(true);
+    setCurrentRole(role);
+    setError('');
+  };
+
+  const togglePermission = (moduleId) => {
+    const perms = { ...currentRole.permissions };
+    if (perms[moduleId]) {
+      delete perms[moduleId];
+    } else {
+      perms[moduleId] = ['view', 'create', 'edit', 'delete'];
+    }
+    setCurrentRole({ ...currentRole, permissions: perms });
+  };
+
+  const handleSave = () => {
+    if (!currentRole.roleName) {
+      setError('Role name is required');
+      return;
+    }
+
+    let updatedRoles;
+    if (currentRole.id) {
+      updatedRoles = roles.map(r => r.id === currentRole.id ? currentRole : r);
+    } else {
+      const newRole = { ...currentRole, id: Date.now().toString() };
+      updatedRoles = [...roles, newRole];
+    }
+
+    setRoles(updatedRoles);
+    setToStorage(STORAGE_KEYS.ROLES, updatedRoles);
+    setIsEditing(false);
+  };
+
+  const handleDelete = (id) => {
+    if (window.confirm('Are you sure you want to delete this role?')) {
+      const updatedRoles = roles.filter(r => r.id !== id);
+      setRoles(updatedRoles);
+      setToStorage(STORAGE_KEYS.ROLES, updatedRoles);
+    }
+  };
+
+  return (
+    <div className="animate-fade">
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' }}>
+        <div>
+          <h1 style={{ fontSize: '1.8rem', color: 'var(--primary)' }}>Role Management</h1>
+          <p style={{ color: 'var(--text-secondary)' }}>Define access control levels and permissions</p>
+        </div>
+        {!isEditing && (
+          <button className="btn btn-primary" onClick={handleAddRole}>
+            <Plus size={18} />
+            Create New Role
+          </button>
+        )}
+      </div>
+
+      {isEditing ? (
+        <div className="glass-card" style={{ padding: '30px' }}>
+          <h3 style={{ marginBottom: '20px' }}>{currentRole.id ? 'Edit Role' : 'New Role'}</h3>
+          <div className="input-group">
+            <label>Role Name</label>
+            <input 
+              type="text" 
+              className="input-field" 
+              placeholder="e.g. Sales Manager"
+              value={currentRole.roleName}
+              onChange={(e) => setCurrentRole({...currentRole, roleName: e.target.value})}
+            />
+          </div>
+          <div className="input-group">
+            <label>Module Access (Check modules to grant access)</label>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: '15px', marginTop: '10px' }}>
+              {AVAILABLE_MODULES.map((module) => (
+                <label key={module.id} style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', background: 'rgba(255,255,255,0.05)', padding: '10px', borderRadius: '8px' }}>
+                  <input 
+                    type="checkbox" 
+                    checked={!!currentRole.permissions[module.id]}
+                    onChange={() => togglePermission(module.id)}
+                    style={{ width: '18px', height: '18px', accentColor: 'var(--primary)' }}
+                  />
+                  <span>{module.name}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+
+          {error && <p style={{ color: '#ef4444', fontSize: '0.8rem', marginBottom: '15px' }}>{error}</p>}
+
+          <div style={{ display: 'flex', gap: '10px' }}>
+            <button className="btn btn-primary" onClick={handleSave}>
+              <Save size={18} />
+              Save Role
+            </button>
+            <button className="btn btn-secondary" onClick={() => setIsEditing(false)}>
+              <X size={18} />
+              Cancel
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '20px' }}>
+          {roles.map((role) => (
+            <div key={role.id} className="glass-card" style={{ padding: '20px', display: 'flex', flexDirection: 'column' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '15px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <ShieldCheck size={24} color="var(--primary)" />
+                  <h4 style={{ fontSize: '1.2rem' }}>{role.roleName}</h4>
+                </div>
+                {role.roleName !== 'Admin' && (
+                  <div style={{ display: 'flex', gap: '8px' }}>
+                    <button 
+                      onClick={() => handleEditRole(role)}
+                      style={{ background: 'transparent', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer' }}
+                    >
+                      <Edit3 size={18} />
+                    </button>
+                    <button 
+                      onClick={() => handleDelete(role.id)}
+                      style={{ background: 'transparent', border: 'none', color: '#ef4444', cursor: 'pointer' }}
+                    >
+                      <Trash2 size={18} />
+                    </button>
+                  </div>
+                )}
+              </div>
+              
+              <div style={{ flex: 1 }}>
+                <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginBottom: '10px' }}>Permissions:</p>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px' }}>
+                  {Object.entries(role.permissions).map(([module, actions]) => (
+                    <div key={module} style={{ display: 'flex', alignItems: 'center', gap: '5px', background: 'rgba(255,255,255,0.05)', padding: '4px 8px', borderRadius: '4px' }}>
+                      <span style={{ fontWeight: '600', fontSize: '0.7rem' }}>{module.toUpperCase()}:</span>
+                      <span style={{ fontSize: '0.7rem' }}>{actions.join(', ')}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default RoleManagement;
