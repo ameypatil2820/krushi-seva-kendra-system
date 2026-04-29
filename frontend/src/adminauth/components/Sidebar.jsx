@@ -1,18 +1,20 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { 
-  LayoutDashboard, 
-  Package, 
-  ShoppingCart, 
-  Truck, 
-  Users, 
-  ShieldCheck, 
+import {
+  LayoutDashboard,
+  Package,
+  ShoppingCart,
+  Truck,
+  Users,
+  ShieldCheck,
   LogOut,
   Tags,
   UserCheck,
   Percent,
-  UserPlus
+  UserPlus,
+  FileText,
+  RotateCcw
 } from 'lucide-react';
 
 import logo from '../../assets/logo.png';
@@ -27,7 +29,9 @@ const Sidebar = () => {
     { name: 'Customers', icon: <UserCheck size={20} />, path: '/customers', module: 'customer', action: 'view' },
     { name: 'Suppliers', icon: <Truck size={20} />, path: '/suppliers', module: 'supplier', action: 'view' },
     { name: 'Sales', icon: <ShoppingCart size={20} />, path: '/sales', module: 'sale', action: 'view' },
-    { name: 'Purchases', icon: <Truck size={20} />, path: '/purchases', module: 'purchase', action: 'view' },
+    { name: 'Purchase Bill', icon: <FileText size={20} />, path: '/purchase/entry', module: 'purchase', action: 'view' },
+    { name: 'Purchase Order', icon: <ShoppingCart size={20} />, path: '/purchase/orders', module: 'purchase', action: 'view' },
+    { name: 'Purchase Return', icon: <RotateCcw size={20} />, path: '/purchase/returns', module: 'purchase', action: 'view' },
     { name: 'Tax', icon: <Percent size={20} />, path: '/tax', module: 'tax', action: 'view' },
     { name: 'Users', icon: <UserPlus size={20} />, path: '/users', module: 'users', action: 'manage' },
     { name: 'Roles', icon: <ShieldCheck size={20} />, path: '/roles', module: 'roles', action: 'manage' },
@@ -76,9 +80,9 @@ const Sidebar = () => {
             <p style={{ fontWeight: '600' }}>{user?.name}</p>
             <span className="badge badge-success" style={{ fontSize: '0.6rem' }}>{user?.role}</span>
           </div>
-          <button 
+          <button
             onClick={logout}
-            className="btn btn-secondary" 
+            className="btn btn-secondary"
             style={{ width: '100%', justifyContent: 'flex-start', border: 'none', color: '#ef4444' }}
           >
             <LogOut size={20} />
