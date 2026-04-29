@@ -179,7 +179,21 @@ const RoleManagement = () => {
       ) : (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '20px' }}>
           {roles.map((role) => (
-            <div key={role.id} className="glass-card" style={{ padding: '20px', display: 'flex', flexDirection: 'column' }}>
+            <div 
+              key={role.id} 
+              className="glass-card" 
+              style={{ 
+                padding: '20px', 
+                display: 'flex', 
+                flexDirection: 'column',
+                cursor: role.roleName !== 'Admin' ? 'pointer' : 'default',
+                transition: 'transform 0.2s',
+                border: '1px solid var(--border)'
+              }}
+              onClick={() => role.roleName !== 'Admin' && handleEditRole(role)}
+              onMouseEnter={(e) => role.roleName !== 'Admin' && (e.currentTarget.style.transform = 'translateY(-5px)')}
+              onMouseLeave={(e) => role.roleName !== 'Admin' && (e.currentTarget.style.transform = 'translateY(0)')}
+            >
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '15px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                   <ShieldCheck size={24} color="var(--primary)" />
@@ -188,13 +202,10 @@ const RoleManagement = () => {
                 {role.roleName !== 'Admin' && (
                   <div style={{ display: 'flex', gap: '8px' }}>
                     <button 
-                      onClick={() => handleEditRole(role)}
-                      style={{ background: 'transparent', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer' }}
-                    >
-                      <Edit3 size={18} />
-                    </button>
-                    <button 
-                      onClick={() => handleDelete(role.id)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDelete(role.id);
+                      }}
                       style={{ background: 'transparent', border: 'none', color: '#ef4444', cursor: 'pointer' }}
                     >
                       <Trash2 size={18} />
