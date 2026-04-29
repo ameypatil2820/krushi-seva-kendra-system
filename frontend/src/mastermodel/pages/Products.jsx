@@ -107,34 +107,14 @@ const Products = () => {
   ];
 
   return (
-    <div className="agro-container" style={{ padding: '40px' }}>
-      <div className="page-header" style={{ 
-        background: '#ffffff', 
-        padding: '24px', 
-        borderRadius: '16px', 
-        boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
-        marginBottom: '30px',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        borderLeft: '8px solid #16a34a'
-      }}>
+    <div className="agro-container">
+      <div className="page-header">
         <div className="page-title">
-          <h1 style={{ fontSize: '28px', color: '#111827', margin: 0 }}>Product Inventory</h1>
-          <p style={{ margin: '5px 0 0', color: '#6b7280' }}>Manage your stocks, pricing and categories</p>
+          <h1>Product Inventory</h1>
+          <p>Manage your stocks, pricing and categories</p>
         </div>
-        <button 
-          className="btn-agro btn-primary" 
-          onClick={() => { console.log("Add Button Clicked"); handleAdd(); }}
-          style={{ 
-            padding: '14px 28px', 
-            fontSize: '16px', 
-            borderRadius: '12px',
-            boxShadow: '0 4px 6px rgba(22, 163, 74, 0.3)',
-            border: '2px solid #ffffff'
-          }}
-        >
-          <FiPlus size={24} /> Add New Product
+        <button className="btn-agro btn-primary" onClick={handleAdd}>
+          <FiPlus size={20} /> Add Product
         </button>
       </div>
 
