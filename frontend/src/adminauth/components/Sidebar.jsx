@@ -8,7 +8,11 @@ import {
   Truck, 
   Users, 
   ShieldCheck, 
-  LogOut 
+  LogOut,
+  Tags,
+  UserCheck,
+  Percent,
+  UserPlus
 } from 'lucide-react';
 
 import logo from '../../assets/logo.png';
@@ -18,11 +22,14 @@ const Sidebar = () => {
 
   const menuItems = [
     { name: 'Dashboard', icon: <LayoutDashboard size={20} />, path: '/dashboard' },
-    { name: 'Users', icon: <Users size={20} />, path: '/users', module: 'users', action: 'manage' },
+    { name: 'Category', icon: <Tags size={20} />, path: '/categories', module: 'category', action: 'view' },
     { name: 'Products', icon: <Package size={20} />, path: '/products', module: 'product', action: 'view' },
-    { name: 'Customers', icon: <Users size={20} />, path: '/customers', module: 'customer', action: 'view' },
+    { name: 'Customers', icon: <UserCheck size={20} />, path: '/customers', module: 'customer', action: 'view' },
+    { name: 'Suppliers', icon: <Truck size={20} />, path: '/suppliers', module: 'supplier', action: 'view' },
     { name: 'Sales', icon: <ShoppingCart size={20} />, path: '/sales', module: 'sale', action: 'view' },
     { name: 'Purchases', icon: <Truck size={20} />, path: '/purchases', module: 'purchase', action: 'view' },
+    { name: 'Tax', icon: <Percent size={20} />, path: '/tax', module: 'tax', action: 'view' },
+    { name: 'Users', icon: <UserPlus size={20} />, path: '/users', module: 'users', action: 'manage' },
     { name: 'Roles', icon: <ShieldCheck size={20} />, path: '/roles', module: 'roles', action: 'manage' },
   ];
 

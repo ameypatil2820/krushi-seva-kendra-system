@@ -21,9 +21,12 @@ export const initializeStorage = () => {
         roleName: 'Admin',
         permissions: {
           product: ['view', 'create', 'edit', 'delete'],
+          category: ['view', 'create', 'edit', 'delete'],
           customer: ['view', 'create', 'edit', 'delete'],
+          supplier: ['view', 'create', 'edit', 'delete'],
           sale: ['view', 'create', 'edit', 'delete'],
           purchase: ['view', 'create', 'edit', 'delete'],
+          tax: ['view', 'create', 'edit', 'delete'],
           users: ['manage'],
           roles: ['manage']
         }

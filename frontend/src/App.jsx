@@ -20,10 +20,13 @@ const AppRoutes = () => {
         <Route index element={<Navigate to="/dashboard" />} />
         <Route path="dashboard" element={<Dashboard />} />
         
+        <Route path="categories" element={<ModulePage title="Categories" module="category" />} />
         <Route path="products" element={<ModulePage title="Products" module="product" />} />
         <Route path="customers" element={<ModulePage title="Customers" module="customer" />} />
+        <Route path="suppliers" element={<ModulePage title="Suppliers" module="supplier" />} />
         <Route path="sales" element={<ModulePage title="Sales" module="sale" />} />
         <Route path="purchases" element={<ModulePage title="Purchases" module="purchase" />} />
+        <Route path="tax" element={<ModulePage title="Tax" module="tax" />} />
         
         <Route path="roles" element={
           <ProtectedRoute module="roles" action="manage">
