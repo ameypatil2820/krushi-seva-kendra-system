@@ -21,7 +21,7 @@ const AdminRegister = () => {
     e.preventDefault();
     const res = registerAdmin(formData);
     if (res.success) {
-      navigate('/dashboard');
+      navigate('/login');
     } else {
       setError(res.message);
     }

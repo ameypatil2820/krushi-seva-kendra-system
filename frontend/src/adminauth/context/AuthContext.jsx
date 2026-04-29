@@ -42,12 +42,6 @@ export const AuthProvider = ({ children }) => {
     const updatedUsers = [...users, newAdmin];
     setToStorage(STORAGE_KEYS.USERS, updatedUsers);
     
-    const roles = getFromStorage(STORAGE_KEYS.ROLES) || [];
-    const adminRole = roles.find(r => r.roleName === 'Admin');
-    const adminWithPerms = { ...newAdmin, permissions: adminRole?.permissions || {} };
-    
-    setUser(adminWithPerms);
-    setToStorage(STORAGE_KEYS.CURRENT_USER, adminWithPerms);
     return { success: true };
   };
 
