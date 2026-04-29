@@ -4,6 +4,8 @@ import { useAuth } from '../../context/AuthContext';
 import { LogIn } from 'lucide-react';
 import { STORAGE_KEYS, getFromStorage } from '../../utils/storage';
 
+import logo from '../../../assets/logo.png';
+
 const Login = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [error, setError] = useState('');
@@ -33,6 +35,7 @@ const Login = () => {
     <div className="flex-center" style={{ height: '100vh', padding: '20px' }}>
       <div className="glass-card animate-fade" style={{ width: '100%', maxWidth: '400px', padding: '40px' }}>
         <div style={{ textAlign: 'center', marginBottom: '30px' }}>
+          <img src={logo} alt="Krushi Seva Logo" style={{ width: '100px', height: '100px', marginBottom: '20px', borderRadius: '20px' }} />
           <h2 style={{ color: 'var(--primary)', marginBottom: '10px' }}>Welcome Back</h2>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Sign in to manage your Krushi Seva Kendra</p>
         </div>
