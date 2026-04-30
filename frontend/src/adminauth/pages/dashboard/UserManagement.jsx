@@ -55,14 +55,14 @@ const UserManagement = () => {
   };
 
   return (
-    <div className="animate-fade">
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' }}>
+    <div className="agro-container">
+      <div className="agro-card-header">
         <div>
-          <h1 style={{ fontSize: '1.8rem', color: 'var(--primary)' }}>User Management</h1>
-          <p style={{ color: 'var(--text-secondary)' }}>Manage accounts and assign access roles</p>
+          <h2 style={{ color: 'var(--primary)' }}>User Management</h2>
+          <p>Manage accounts and assign access roles</p>
         </div>
         {!isAdding && (
-          <button className="btn btn-primary" onClick={() => setIsAdding(true)}>
+          <button className="btn-agro btn-primary" onClick={() => setIsAdding(true)}>
             <UserPlus size={18} />
             Create New User
           </button>
@@ -70,105 +70,134 @@ const UserManagement = () => {
       </div>
 
       {isAdding ? (
-        <div className="glass-card" style={{ padding: '30px', maxWidth: '600px' }}>
-          <h3 style={{ marginBottom: '20px' }}>Create New User</h3>
+        <div className="agro-card" style={{ maxWidth: '600px', margin: '0 auto' }}>
+          <div className="agro-card-header">
+            <h3>Create New User</h3>
+          </div>
           <form onSubmit={handleAddUser}>
-            <div className="input-group">
+            <div className="form-group">
               <label>Full Name</label>
               <input
                 type="text"
-                className="input-field"
+                className="form-control"
+                placeholder="Enter full name"
                 required
                 value={newUser.name}
                 onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
               />
             </div>
-            <div className="input-group">
+            <div className="form-group">
               <label>Email Address</label>
               <input
                 type="email"
-                className="input-field"
+                className="form-control"
+                placeholder="Enter email address"
                 required
                 value={newUser.email}
                 onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
               />
             </div>
-            <div className="input-group">
+            <div className="form-group">
               <label>Password</label>
               <input
                 type="password"
-                className="input-field"
+                className="form-control"
+                placeholder="Set a secure password"
                 required
                 value={newUser.password}
                 onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
               />
             </div>
-            <div className="input-group">
+            <div className="form-group">
               <label>Assign Role</label>
               <select
-                className="input-field"
-                style={{ background: '#0f172a' }}
+                className="form-control"
+                style={{ appearance: 'none', background: 'var(--background)' }}
                 required
                 value={newUser.role}
                 onChange={(e) => setNewUser({ ...newUser, role: e.target.value })}
               >
-                <option value="">Select a Role</option>
+                <option value="" style={{ background: 'var(--surface)' }}>Select a Role</option>
                 {roles.filter(r => r.roleName !== 'Admin').map(role => (
-                  <option key={role.id} value={role.roleName}>{role.roleName}</option>
+                  <option key={role.id} value={role.roleName} style={{ background: 'var(--surface)' }}>
+                    {role.roleName}
+                  </option>
                 ))}
               </select>
             </div>
 
-            {error && <p style={{ color: '#ef4444', fontSize: '0.8rem', marginBottom: '15px' }}>{error}</p>}
+            {error && <p style={{ color: 'var(--danger)', fontSize: '13px', marginBottom: '15px', fontWeight: '600' }}>{error}</p>}
 
-            <div style={{ display: 'flex', gap: '10px' }}>
-              <button type="submit" className="btn btn-primary">
+            <div style={{ display: 'flex', gap: '15px', marginTop: '30px' }}>
+              <button type="submit" className="btn-agro btn-primary" style={{ flex: 1 }}>
                 <UserPlus size={18} />
                 Create User
               </button>
-              <button type="button" className="btn btn-secondary" onClick={() => setIsAdding(false)}>
+              <button type="button" className="btn-agro btn-outline" style={{ flex: 1 }} onClick={() => setIsAdding(false)}>
                 Cancel
               </button>
             </div>
           </form>
         </div>
       ) : (
-        <div className="glass-card" style={{ overflow: 'hidden' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+        <div className="agro-table-container">
+          <table className="agro-table">
             <thead>
-              <tr style={{ background: 'rgba(255,255,255,0.05)' }}>
-                <th style={{ padding: '15px 20px', color: 'var(--text-secondary)' }}>User</th>
-                <th style={{ padding: '15px 20px', color: 'var(--text-secondary)' }}>Email</th>
-                <th style={{ padding: '15px 20px', color: 'var(--text-secondary)' }}>Role</th>
-                <th style={{ padding: '15px 20px', color: 'var(--text-secondary)', textAlign: 'right' }}>Actions</th>
+              <tr>
+                <th>User Details</th>
+                <th>Email Address</th>
+                <th>Access Role</th>
+                <th style={{ textAlign: 'right' }}>Actions</th>
               </tr>
             </thead>
             <tbody>
               {users.map((u) => (
-                <tr key={u.id} style={{ borderBottom: '1px solid var(--border)' }}>
-                  <td style={{ padding: '15px 20px' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                      <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: 'var(--primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold' }}>
+                <tr key={u.id}>
+                  <td>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+                      <div style={{ 
+                        width: '38px', 
+                        height: '38px', 
+                        borderRadius: '12px', 
+                        background: 'var(--primary-soft)', 
+                        color: 'var(--primary)',
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        justifyContent: 'center', 
+                        fontWeight: '800',
+                        fontSize: '16px'
+                      }}>
                         {u.name.charAt(0)}
                       </div>
-                      {u.name}
+                      <span style={{ fontWeight: '600' }}>{u.name}</span>
                     </div>
                   </td>
-                  <td style={{ padding: '15px 20px', color: 'var(--text-secondary)' }}>{u.email}</td>
-                  <td style={{ padding: '15px 20px' }}>
-                    <span className={`badge ${u.role === 'Admin' ? 'badge-warning' : 'badge-success'}`}>
+                  <td style={{ color: 'var(--text-muted)', fontWeight: '500' }}>{u.email}</td>
+                  <td>
+                    <span style={{ 
+                      padding: '6px 12px', 
+                      borderRadius: '8px', 
+                      fontSize: '12px', 
+                      fontWeight: '800',
+                      background: u.role === 'Admin' ? 'rgba(251, 191, 36, 0.1)' : 'var(--primary-soft)',
+                      color: u.role === 'Admin' ? '#fbbf24' : 'var(--primary)',
+                      border: `1px solid ${u.role === 'Admin' ? 'rgba(251, 191, 36, 0.2)' : 'var(--primary-soft)'}`
+                    }}>
                       {u.role}
                     </span>
                   </td>
-                  <td style={{ padding: '15px 20px', textAlign: 'right' }}>
-                    {u.role !== 'Admin' && (
-                      <button
-                        onClick={() => handleDelete(u.id)}
-                        style={{ background: 'transparent', border: 'none', color: '#ef4444', cursor: 'pointer' }}
-                      >
-                        <Trash2 size={18} />
-                      </button>
-                    )}
+                  <td>
+                    <div className="action-icons">
+                      {u.role !== 'Admin' && (
+                        <button
+                          className="action-btn btn-delete"
+                          onClick={() => handleDelete(u.id)}
+                          title="Delete User"
+                        >
+                          <Trash2 size={18} />
+                        </button>
+                      )}
+                    </div>
                   </td>
                 </tr>
               ))}

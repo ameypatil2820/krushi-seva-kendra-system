@@ -91,14 +91,14 @@ const RoleManagement = () => {
   };
 
   return (
-    <div className="animate-fade">
+    <div className="animate-fade" style={{ padding: '20px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' }}>
         <div>
           <h1 style={{ fontSize: '1.8rem', color: 'var(--primary)' }}>Role Management</h1>
-          <p style={{ color: 'var(--text-secondary)' }}>Define access control levels and permissions</p>
+          <p style={{ color: 'var(--text-muted)' }}>Define access control levels and permissions</p>
         </div>
         {!isEditing && (
-          <button className="btn btn-primary" onClick={handleAddRole}>
+          <button className="btn-agro btn-primary" onClick={handleAddRole}>
             <Plus size={18} />
             Create New Role
           </button>
@@ -165,12 +165,12 @@ const RoleManagement = () => {
 
           {error && <p style={{ color: '#ef4444', fontSize: '0.8rem', marginBottom: '15px' }}>{error}</p>}
 
-          <div style={{ display: 'flex', gap: '10px' }}>
-            <button className="btn btn-primary" onClick={handleSave}>
+          <div style={{ display: 'flex', gap: '15px', marginTop: '20px' }}>
+            <button className="btn-agro btn-primary" onClick={handleSave}>
               <Save size={18} />
               Save Role
             </button>
-            <button className="btn btn-secondary" onClick={() => setIsEditing(false)}>
+            <button className="btn-agro btn-outline" onClick={() => setIsEditing(false)}>
               <X size={18} />
               Cancel
             </button>
