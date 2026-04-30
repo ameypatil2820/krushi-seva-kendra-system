@@ -84,13 +84,22 @@ const SaleEntry = () => {
     let totalTax = 0;
 
     currentChildren.forEach(child => {
-      totalQty += parseFloat(child.quantity) || 0;
-      subtotal += (parseFloat(child.quantity) || 0) * (parseFloat(child.saleRate) || 0);
-      totalTax += parseFloat(child.taxAmount) || 0;
+      const qty = parseFloat(child.quantity) || 0;
+      const rate = parseFloat(child.saleRate) || 0;
+      const taxP = parseFloat(child.taxPercent) || 0;
+      
+      const rowSubtotal = qty * rate;
+      const rowTax = (rowSubtotal * taxP) / 100;
+      
+      totalQty += qty;
+      subtotal += rowSubtotal;
+      totalTax += rowTax;
     });
 
-    const grandTotal = subtotal + totalTax - (parseFloat(discount) || 0);
-    const dueAmount = grandTotal - (parseFloat(master.paidAmount) || 0);
+    const disc = parseFloat(discount) || 0;
+    const paid = parseFloat(master.paidAmount) || 0;
+    const grandTotal = Math.max(0, subtotal + totalTax - disc);
+    const dueAmount = grandTotal - paid;
 
     setMaster(prev => ({
       ...prev,
@@ -99,16 +108,18 @@ const SaleEntry = () => {
       taxAmount: totalTax,
       grandTotal,
       dueAmount,
-      discount
+      discount: disc
     }));
   };
 
   const handleMasterChange = (field, value) => {
-    const updatedMaster = { ...master, [field]: value };
+    const val = field === 'discount' || field === 'paidAmount' ? (parseFloat(value) || 0) : value;
+    const updatedMaster = { ...master, [field]: val };
+    
     if (field === 'discount' || field === 'paidAmount') {
-      const disc = field === 'discount' ? parseFloat(value) || 0 : master.discount;
-      const paid = field === 'paidAmount' ? parseFloat(value) || 0 : master.paidAmount;
-      updatedMaster.grandTotal = updatedMaster.subtotal + updatedMaster.taxAmount - disc;
+      const disc = field === 'discount' ? val : master.discount;
+      const paid = field === 'paidAmount' ? val : master.paidAmount;
+      updatedMaster.grandTotal = Math.max(0, updatedMaster.subtotal + updatedMaster.taxAmount - disc);
       updatedMaster.dueAmount = updatedMaster.grandTotal - paid;
     }
     setMaster(updatedMaster);

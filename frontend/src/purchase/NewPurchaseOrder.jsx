@@ -132,6 +132,11 @@ const NewPurchaseOrder = () => {
             ))}
           </tbody>
         </table>
+
+        <div style={{ marginTop: '20px', textAlign: 'right' }}>
+          <p style={{ color: 'var(--text-secondary)', marginBottom: '5px' }}>Estimated Total</p>
+          <h2 style={{ color: 'var(--primary)', margin: 0 }}>₹{items.reduce((sum, item) => sum + (parseFloat(item.quantity) || 0) * (parseFloat(item.expectedPrice) || 0), 0).toFixed(2)}</h2>
+        </div>
       </div>
 
       <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '15px' }}>
