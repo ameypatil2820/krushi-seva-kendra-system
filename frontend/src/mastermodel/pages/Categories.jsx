@@ -1,9 +1,5 @@
 import React, { useState, useEffect } from 'react';
-<<<<<<< HEAD
-import { FiPlus, FiArrowLeft, FiSave, FiX, FiLayers, FiCheckCircle } from 'react-icons/fi';
-=======
-import { Plus } from 'lucide-react';
->>>>>>> 9f1c9438dd26883529e4fc1f585163a0c4e6f6bc
+import { FiPlus, FiArrowLeft, FiSave, FiX, FiLayers } from 'react-icons/fi';
 import { useCRUD } from '../hooks/useCRUD';
 import DataTable from '../components/DataTable';
 import FormField from '../components/FormField';
@@ -58,7 +54,6 @@ const Categories = () => {
     }
   ];
 
-<<<<<<< HEAD
   if (viewMode === 'list') {
     return (
       <div className="agro-container">
@@ -66,58 +61,6 @@ const Categories = () => {
           <div className="page-title">
             <h1>Categories</h1>
             <p>Manage product groupings and classifications</p>
-=======
-  const categoryFields = [
-    { label: 'Category Name', accessor: 'name' },
-    { label: 'Description', accessor: 'description' },
-    { 
-      label: 'Status', 
-      render: (row) => row.isActive ? 'Active' : 'Inactive' 
-    },
-    { 
-      label: 'Created Date', 
-      render: (row) => new Date(row.createdAt).toLocaleDateString() 
-    }
-  ];
-
-  return (
-    <div className="agro-container">
-      <div className="page-header">
-        <div className="page-title">
-          <h1>Category Management</h1>
-          <p>Organize your products into logical categories</p>
-        </div>
-        <button className="btn-agro btn-primary" onClick={handleAdd}>
-          <Plus size={20} /> Add Category
-        </button>
-      </div>
-
-      <DataTable 
-        title="Categories"
-        columns={columns} 
-        data={data} 
-        onEdit={handleEdit} 
-        onDelete={handleDeleteClick}
-        onView={handleView}
-      />
-
-      {/* Add/Edit Modal */}
-      <AdminModal 
-        isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)} 
-        title={currentItem ? 'Edit Category' : 'Add New Category'}
-      >
-        <form onSubmit={(e) => { e.preventDefault(); handleSave(formData); }}>
-          <FormField label="Category Name" name="name" value={formData.name} onChange={handleChange} required placeholder="Enter category name (e.g. Fertilizers)" />
-          <FormField label="Description" name="description" type="textarea" value={formData.description} onChange={handleChange} placeholder="Brief description of this category" />
-          <FormField label="Active Status" name="isActive" isToggle value={formData.isActive} onChange={handleChange} />
-          
-          <div style={{ display: 'flex', gap: '12px', marginTop: '24px', justifyContent: 'flex-end' }}>
-            <button type="button" className="btn-agro btn-outline" onClick={() => setIsModalOpen(false)}>Cancel</button>
-            <button type="submit" className="btn-agro btn-primary">
-              {currentItem ? 'Update Category' : 'Save Category'}
-            </button>
->>>>>>> 9f1c9438dd26883529e4fc1f585163a0c4e6f6bc
           </div>
           <button className="btn-agro btn-primary" onClick={handleActionAdd}>
             <FiPlus size={20} /> Add Category

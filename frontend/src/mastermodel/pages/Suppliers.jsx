@@ -1,9 +1,5 @@
 import React, { useState, useEffect } from 'react';
-<<<<<<< HEAD
-import { FiPlus, FiArrowLeft, FiSave, FiX, FiInfo, FiUser, FiPhone, FiMapPin, FiMail, FiGlobe } from 'react-icons/fi';
-=======
-import { Plus } from 'lucide-react';
->>>>>>> 9f1c9438dd26883529e4fc1f585163a0c4e6f6bc
+import { FiPlus, FiArrowLeft, FiSave, FiX, FiInfo, FiUser, FiPhone, FiMapPin, FiMail } from 'react-icons/fi';
 import { useCRUD } from '../hooks/useCRUD';
 import DataTable from '../components/DataTable';
 import FormField from '../components/FormField';
@@ -81,7 +77,6 @@ const Suppliers = () => {
     }
   ];
 
-<<<<<<< HEAD
   // --- RENDERING LIST VIEW ---
   if (viewMode === 'list') {
     return (
@@ -90,61 +85,6 @@ const Suppliers = () => {
           <div className="page-title">
             <h1>Supplier Management</h1>
             <p>Manage your product suppliers and vendors</p>
-=======
-  const supplierFields = [
-    { label: 'Supplier Name', accessor: 'name' },
-    { label: 'Mobile Number', accessor: 'mobile' },
-    { label: 'Contact Person', accessor: 'contactPerson' },
-    { label: 'Email', accessor: 'email' },
-    { label: 'GST Number', accessor: 'gstNo' },
-    { label: 'City', accessor: 'city' },
-    { label: 'Address', accessor: 'address' },
-    { 
-      label: 'Status', 
-      render: (row) => row.isActive ? 'Active' : 'Inactive' 
-    },
-    { 
-      label: 'Created Date', 
-      render: (row) => new Date(row.createdAt).toLocaleDateString() 
-    }
-  ];
-
-  return (
-    <div className="agro-container">
-      <div className="page-header">
-        <div className="page-title">
-          <h1>Supplier Management</h1>
-          <p>Manage your product suppliers and vendors</p>
-        </div>
-        <button className="btn-agro btn-primary" onClick={handleAdd}>
-          <Plus size={20} /> Add Supplier
-        </button>
-      </div>
-
-      <DataTable 
-        title="Suppliers"
-        columns={columns} 
-        data={data} 
-        onEdit={handleEdit} 
-        onDelete={handleDeleteClick}
-        onView={handleView}
-      />
-
-      {/* Add/Edit Modal */}
-      <AdminModal 
-        isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)} 
-        title={currentItem ? 'Edit Supplier' : 'Add New Supplier'}
-      >
-        <form onSubmit={(e) => { e.preventDefault(); handleSave(formData); }}>
-          <div className="form-grid">
-            <FormField label="Supplier Name" name="name" value={formData.name} onChange={handleChange} required placeholder="Enter supplier name" />
-            <FormField label="Mobile Number" name="mobile" value={formData.mobile} onChange={handleChange} required placeholder="Enter mobile number" />
-            <FormField label="Contact Person" name="contactPerson" value={formData.contactPerson} onChange={handleChange} placeholder="Optional" />
-            <FormField label="Email Address" name="email" type="email" value={formData.email} onChange={handleChange} placeholder="Optional" />
-            <FormField label="City" name="city" value={formData.city} onChange={handleChange} required placeholder="Enter city" />
-            <FormField label="GST Number" name="gstNo" value={formData.gstNo} onChange={handleChange} placeholder="Enter GSTIN" />
->>>>>>> 9f1c9438dd26883529e4fc1f585163a0c4e6f6bc
           </div>
           <button className="btn-agro btn-primary" onClick={handleActionAdd}>
             <FiPlus size={20} /> Add Supplier

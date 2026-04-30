@@ -1,9 +1,5 @@
 import React, { useState, useEffect } from 'react';
-<<<<<<< HEAD
 import { FiPlus, FiArrowLeft, FiSave, FiX, FiInfo, FiUser, FiPhone, FiMapPin, FiMail } from 'react-icons/fi';
-=======
-import { Plus } from 'lucide-react';
->>>>>>> 9f1c9438dd26883529e4fc1f585163a0c4e6f6bc
 import { useCRUD } from '../hooks/useCRUD';
 import DataTable from '../components/DataTable';
 import FormField from '../components/FormField';
@@ -80,7 +76,6 @@ const Customers = () => {
     }
   ];
 
-<<<<<<< HEAD
   if (viewMode === 'list') {
     return (
       <div className="agro-container">
@@ -88,59 +83,6 @@ const Customers = () => {
           <div className="page-title">
             <h1>Customer Management</h1>
             <p>Maintain your customer records and information</p>
-=======
-  const customerFields = [
-    { label: 'Customer Name', accessor: 'name' },
-    { label: 'Mobile Number', accessor: 'mobile' },
-    { label: 'Alternate Mobile', accessor: 'alternateMobile' },
-    { label: 'Village', accessor: 'village' },
-    { label: 'City', accessor: 'city' },
-    { label: 'Address', accessor: 'address' },
-    { 
-      label: 'Status', 
-      render: (row) => row.isActive ? 'Active' : 'Inactive' 
-    },
-    { 
-      label: 'Member Since', 
-      render: (row) => new Date(row.createdAt).toLocaleDateString() 
-    }
-  ];
-
-  return (
-    <div className="agro-container">
-      <div className="page-header">
-        <div className="page-title">
-          <h1>Customer Management</h1>
-          <p>Maintain your customer records and information</p>
-        </div>
-        <button className="btn-agro btn-primary" onClick={handleAdd}>
-          <Plus size={20} /> Add Customer
-        </button>
-      </div>
-
-      <DataTable 
-        title="Customers"
-        columns={columns} 
-        data={data} 
-        onEdit={handleEdit} 
-        onDelete={handleDeleteClick}
-        onView={handleView}
-      />
-
-      {/* Add/Edit Modal */}
-      <AdminModal 
-        isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)} 
-        title={currentItem ? 'Edit Customer' : 'Add New Customer'}
-      >
-        <form onSubmit={(e) => { e.preventDefault(); handleSave(formData); }}>
-          <div className="form-grid">
-            <FormField label="Customer Name" name="name" value={formData.name} onChange={handleChange} required placeholder="Enter customer name" />
-            <FormField label="Mobile Number" name="mobile" value={formData.mobile} onChange={handleChange} required placeholder="Enter mobile number" />
-            <FormField label="Alt Mobile" name="alternateMobile" value={formData.alternateMobile} onChange={handleChange} placeholder="Optional" />
-            <FormField label="Village" name="village" value={formData.village} onChange={handleChange} required placeholder="Enter village" />
-            <FormField label="City" name="city" value={formData.city} onChange={handleChange} required placeholder="Enter city" />
->>>>>>> 9f1c9438dd26883529e4fc1f585163a0c4e6f6bc
           </div>
           <button className="btn-agro btn-primary" onClick={handleActionAdd}>
             <FiPlus size={20} /> Add Customer

@@ -1,9 +1,5 @@
 import React, { useState, useEffect } from 'react';
-<<<<<<< HEAD
-import { FiPlus, FiArrowLeft, FiSave, FiX, FiPercent, FiInfo } from 'react-icons/fi';
-=======
-import { Plus } from 'lucide-react';
->>>>>>> 9f1c9438dd26883529e4fc1f585163a0c4e6f6bc
+import { FiPlus, FiArrowLeft, FiSave, FiX, FiPercent } from 'react-icons/fi';
 import { useCRUD } from '../hooks/useCRUD';
 import DataTable from '../components/DataTable';
 import FormField from '../components/FormField';
@@ -70,14 +66,8 @@ const Taxes = () => {
             <FiPlus size={20} /> Add Tax
           </button>
         </div>
-<<<<<<< HEAD
         <DataTable title="Taxes" columns={columns} data={data} onEdit={handleActionEdit} onDelete={handleDeleteClick} onView={handleActionView} />
         <ConfirmModal isOpen={isDeleteOpen} onClose={() => setIsDeleteOpen(false)} onConfirm={handleConfirmDelete} title="Delete Tax?" message={`Delete ${currentItem?.name}?`} />
-=======
-        <button className="btn-agro btn-primary" onClick={handleAdd}>
-          <Plus size={20} /> Add Tax
-        </button>
->>>>>>> 9f1c9438dd26883529e4fc1f585163a0c4e6f6bc
       </div>
     );
   }
