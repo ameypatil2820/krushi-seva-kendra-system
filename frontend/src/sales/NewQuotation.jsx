@@ -1,15 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Save, ArrowLeft, Plus, Trash2, User, Calendar, FileText, IndianRupee } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { MockService } from '../mastermodel/services/MockService';
 
 const NewQuotation = () => {
   const navigate = useNavigate();
+  const [customers, setCustomers] = useState([]);
   const [master, setMaster] = useState({
     customerId: '',
     date: new Date().toISOString().split('T')[0],
     validUntil: '',
     notes: ''
   });
+
+  useEffect(() => {
+    MockService.getAll('customers').then(data => setCustomers(data));
+  }, []);
 
   const [items, setItems] = useState([
     { id: Date.now(), productId: '', quantity: 1, rate: 0, taxPercent: 0, amount: 0 }
@@ -61,14 +67,18 @@ const NewQuotation = () => {
       <div className="glass-card" style={{ padding: '25px', marginBottom: '25px' }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px' }}>
           <div className="input-group">
-            <label><User size={14} /> Customer</label>
-            <input 
-              type="text" 
+            <label><User size={14} /> Select Customer</label>
+            <select 
               className="input-field" 
-              placeholder="Enter Customer ID or Name"
-              value={master.customerId}
+              value={master.customerId} 
               onChange={(e) => setMaster({...master, customerId: e.target.value})}
-            />
+              required
+            >
+              <option value="">-- Select Customer --</option>
+              {customers.map(c => (
+                <option key={c.id} value={c.id}>{c.name} ({c.city})</option>
+              ))}
+            </select>
           </div>
           <div className="input-group">
             <label><Calendar size={14} /> Quotation Date</label>
@@ -77,6 +87,7 @@ const NewQuotation = () => {
               className="input-field"
               value={master.date}
               onChange={(e) => setMaster({...master, date: e.target.value})}
+              style={{ colorScheme: 'dark' }}
             />
           </div>
           <div className="input-group">
@@ -86,6 +97,7 @@ const NewQuotation = () => {
               className="input-field"
               value={master.validUntil}
               onChange={(e) => setMaster({...master, validUntil: e.target.value})}
+              style={{ colorScheme: 'dark' }}
             />
           </div>
         </div>
@@ -102,7 +114,7 @@ const NewQuotation = () => {
         <table style={{ width: '100%', borderCollapse: 'collapse' }}>
           <thead>
             <tr style={{ textAlign: 'left', borderBottom: '1px solid var(--border)' }}>
-              <th style={{ padding: '12px' }}>Product</th>
+              <th style={{ padding: '12px' }}>Product Name</th>
               <th style={{ padding: '12px' }}>Quantity</th>
               <th style={{ padding: '12px' }}>Rate</th>
               <th style={{ padding: '12px' }}>Tax %</th>

@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Save, ArrowLeft, Plus, Trash2, Truck, Calendar, FileText, RotateCcw } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { MockService } from '../mastermodel/services/MockService';
 
 const NewPurchaseReturn = () => {
   const navigate = useNavigate();
+  const [suppliers, setSuppliers] = useState([]);
   const [master, setMaster] = useState({
     purchaseId: '',
     supplierId: '',
@@ -11,6 +13,10 @@ const NewPurchaseReturn = () => {
     reason: '',
     totalAmount: 0
   });
+
+  useEffect(() => {
+    MockService.getAll('suppliers').then(data => setSuppliers(data));
+  }, []);
 
   const [items, setItems] = useState([
     { id: Date.now(), productId: '', quantity: 1, purchasePrice: 0, amount: 0 }
@@ -55,14 +61,18 @@ const NewPurchaseReturn = () => {
             />
           </div>
           <div className="input-group">
-            <label><Truck size={14} /> Supplier</label>
-            <input 
-              type="text" 
+            <label><Truck size={14} /> Select Supplier</label>
+            <select 
               className="input-field" 
-              placeholder="Supplier Name/ID"
-              value={master.supplierId}
+              value={master.supplierId} 
               onChange={(e) => setMaster({...master, supplierId: e.target.value})}
-            />
+              required
+            >
+              <option value="">-- Select Supplier --</option>
+              {suppliers.map(s => (
+                <option key={s.id} value={s.id}>{s.name} ({s.city})</option>
+              ))}
+            </select>
           </div>
           <div className="input-group">
             <label><Calendar size={14} /> Return Date</label>
@@ -71,6 +81,7 @@ const NewPurchaseReturn = () => {
               className="input-field"
               value={master.returnDate}
               onChange={(e) => setMaster({...master, returnDate: e.target.value})}
+              style={{ colorScheme: 'dark' }}
             />
           </div>
         </div>
@@ -91,7 +102,7 @@ const NewPurchaseReturn = () => {
         <table style={{ width: '100%', borderCollapse: 'collapse' }}>
           <thead>
             <tr style={{ textAlign: 'left', borderBottom: '1px solid var(--border)' }}>
-              <th style={{ padding: '12px' }}>Product</th>
+              <th style={{ padding: '12px' }}>Product Name</th>
               <th style={{ padding: '12px' }}>Quantity</th>
               <th style={{ padding: '12px' }}>Purchase Price</th>
               <th style={{ padding: '12px' }}>Amount</th>

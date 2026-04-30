@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Plus, Trash2, Save, ArrowLeft, Calendar, User, FileText, CreditCard, IndianRupee } from 'lucide-react';
+import { MockService } from '../mastermodel/services/MockService';
 
 const SaleEntry = () => {
+  const [customers, setCustomers] = useState([]);
   const [master, setMaster] = useState({
     customerId: '',
     billNo: '',
@@ -15,6 +17,10 @@ const SaleEntry = () => {
     paidAmount: 0,
     dueAmount: 0
   });
+
+  useEffect(() => {
+    MockService.getAll('customers').then(data => setCustomers(data));
+  }, []);
 
   const [children, setChildren] = useState([
     { 
@@ -123,14 +129,18 @@ const SaleEntry = () => {
         <h4 style={{ marginBottom: '20px', borderBottom: '1px solid var(--border)', paddingBottom: '10px' }}>Invoice Details (Master)</h4>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px' }}>
           <div className="input-group">
-            <label><User size={14} /> Customer ID</label>
-            <input 
-              type="text" 
+            <label><User size={14} /> Select Customer</label>
+            <select 
               className="input-field" 
               value={master.customerId} 
               onChange={(e) => handleMasterChange('customerId', e.target.value)}
-              placeholder="CUS-001"
-            />
+              required
+            >
+              <option value="">-- Select Customer --</option>
+              {customers.map(c => (
+                <option key={c.id} value={c.id}>{c.name} ({c.city})</option>
+              ))}
+            </select>
           </div>
           <div className="input-group">
             <label><FileText size={14} /> Bill No</label>
@@ -149,6 +159,7 @@ const SaleEntry = () => {
               className="input-field" 
               value={master.billDate} 
               onChange={(e) => handleMasterChange('billDate', e.target.value)}
+              style={{ colorScheme: 'dark' }}
             />
           </div>
           <div className="input-group">
@@ -179,7 +190,7 @@ const SaleEntry = () => {
         <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '800px' }}>
           <thead>
             <tr style={{ textAlign: 'left', borderBottom: '1px solid var(--border)' }}>
-              <th style={{ padding: '12px' }}>Product ID</th>
+              <th style={{ padding: '12px' }}>Product Name</th>
               <th style={{ padding: '12px' }}>Batch</th>
               <th style={{ padding: '12px' }}>Qty</th>
               <th style={{ padding: '12px' }}>Sale Rate</th>

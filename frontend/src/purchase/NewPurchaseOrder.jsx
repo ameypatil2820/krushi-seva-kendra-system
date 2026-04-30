@@ -1,15 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Save, ArrowLeft, Plus, Trash2, Truck, Calendar, ShoppingBag } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { MockService } from '../mastermodel/services/MockService';
 
 const NewPurchaseOrder = () => {
   const navigate = useNavigate();
+  const [suppliers, setSuppliers] = useState([]);
   const [master, setMaster] = useState({
     supplierId: '',
     orderDate: new Date().toISOString().split('T')[0],
     expiryDate: '',
     status: 'Pending'
   });
+
+  useEffect(() => {
+    MockService.getAll('suppliers').then(data => setSuppliers(data));
+  }, []);
 
   const [items, setItems] = useState([
     { id: Date.now(), productId: '', quantity: 1, expectedPrice: 0 }
@@ -50,14 +56,18 @@ const NewPurchaseOrder = () => {
       <div className="glass-card" style={{ padding: '25px', marginBottom: '25px' }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px' }}>
           <div className="input-group">
-            <label><Truck size={14} /> Supplier</label>
-            <input 
-              type="text" 
+            <label><Truck size={14} /> Select Supplier</label>
+            <select 
               className="input-field" 
-              placeholder="Supplier ID or Name"
-              value={master.supplierId}
+              value={master.supplierId} 
               onChange={(e) => setMaster({...master, supplierId: e.target.value})}
-            />
+              required
+            >
+              <option value="">-- Select Supplier --</option>
+              {suppliers.map(s => (
+                <option key={s.id} value={s.id}>{s.name} ({s.city})</option>
+              ))}
+            </select>
           </div>
           <div className="input-group">
             <label><Calendar size={14} /> Order Date</label>
@@ -66,6 +76,7 @@ const NewPurchaseOrder = () => {
               className="input-field"
               value={master.orderDate}
               onChange={(e) => setMaster({...master, orderDate: e.target.value})}
+              style={{ colorScheme: 'dark' }}
             />
           </div>
           <div className="input-group">
@@ -75,6 +86,7 @@ const NewPurchaseOrder = () => {
               className="input-field"
               value={master.expiryDate}
               onChange={(e) => setMaster({...master, expiryDate: e.target.value})}
+              style={{ colorScheme: 'dark' }}
             />
           </div>
         </div>
@@ -91,7 +103,7 @@ const NewPurchaseOrder = () => {
         <table style={{ width: '100%', borderCollapse: 'collapse' }}>
           <thead>
             <tr style={{ textAlign: 'left', borderBottom: '1px solid var(--border)' }}>
-              <th style={{ padding: '12px' }}>Product</th>
+              <th style={{ padding: '12px' }}>Product Name</th>
               <th style={{ padding: '12px' }}>Quantity</th>
               <th style={{ padding: '12px' }}>Expected Rate</th>
               <th style={{ padding: '12px' }}>Total Est.</th>
