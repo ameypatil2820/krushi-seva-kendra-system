@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FiPlus, FiArrowLeft, FiSave, FiX, FiTag, FiDollarSign, FiPackage, FiLayers } from 'react-icons/fi';
+import { Plus, ArrowLeft, Save, X, Tag, IndianRupee, Package, Layers } from 'lucide-react';
 import { useCRUD } from '../hooks/useCRUD';
 import DataTable from '../components/DataTable';
 import FormField from '../components/FormField';
@@ -90,7 +90,7 @@ const Products = () => {
             <p>Manage your stocks, pricing and categories</p>
           </div>
           <button className="btn-agro btn-primary" onClick={handleActionAdd}>
-            <FiPlus size={20} /> Add Product
+            <Plus size={20} /> Add Product
           </button>
         </div>
 
@@ -120,7 +120,7 @@ const Products = () => {
         <div className="page-header">
           <div className="page-title">
             <button className="btn-agro btn-outline" onClick={onBack} style={{ marginBottom: '15px', border: 'none', padding: '0', background: 'transparent' }}>
-              <FiArrowLeft size={18} /> Back to Products
+              <ArrowLeft size={18} /> Back to Products
             </button>
             <h1>{viewMode === 'edit' ? 'Edit Product' : 'Add New Product'}</h1>
           </div>
@@ -130,7 +130,7 @@ const Products = () => {
           <form onSubmit={handleFinalSave}>
             {/* Section 1: Basic Info */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '25px', color: '#16a34a', borderBottom: '1px solid #f3f4f6', paddingBottom: '10px' }}>
-              <FiTag size={20} />
+              <Tag size={20} />
               <h3 style={{ margin: 0, fontSize: '18px' }}>Basic Information</h3>
             </div>
             <div className="form-grid">
@@ -144,7 +144,7 @@ const Products = () => {
 
             {/* Section 2: Unit & Packing */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '25px', marginTop: '40px', color: '#16a34a', borderBottom: '1px solid #f3f4f6', paddingBottom: '10px' }}>
-              <FiPackage size={20} />
+              <Package size={20} />
               <h3 style={{ margin: 0, fontSize: '18px' }}>Unit & Packing</h3>
             </div>
             <div className="form-grid">
@@ -154,7 +154,7 @@ const Products = () => {
 
             {/* Section 3: Pricing & Stock */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '25px', marginTop: '40px', color: '#16a34a', borderBottom: '1px solid #f3f4f6', paddingBottom: '10px' }}>
-              <FiDollarSign size={20} />
+              <IndianRupee size={20} />
               <h3 style={{ margin: 0, fontSize: '18px' }}>Pricing & Stock</h3>
             </div>
             <div className="form-grid">
@@ -177,10 +177,10 @@ const Products = () => {
             
             <div style={{ display: 'flex', gap: '12px', marginTop: '40px', justifyContent: 'flex-end', borderTop: '1px solid #f3f4f6', paddingTop: '25px' }}>
               <button type="button" className="btn-agro btn-outline" onClick={onBack} style={{ padding: '12px 25px' }}>
-                <FiX size={18} /> Cancel
+                <X size={18} /> Cancel
               </button>
               <button type="submit" className="btn-agro btn-primary" style={{ padding: '12px 35px' }}>
-                <FiSave size={18} /> {viewMode === 'edit' ? 'Update Product' : 'Save Product'}
+                <Save size={18} /> {viewMode === 'edit' ? 'Update Product' : 'Save Product'}
               </button>
             </div>
           </form>
@@ -195,7 +195,7 @@ const Products = () => {
         <div className="page-header">
           <div className="page-title">
             <button className="btn-agro btn-outline" onClick={onBack} style={{ marginBottom: '15px', border: 'none', padding: '0', background: 'transparent' }}>
-              <FiArrowLeft size={18} /> Back to Products
+              <ArrowLeft size={18} /> Back to Products
             </button>
             <h1>Product Details</h1>
           </div>
@@ -205,7 +205,7 @@ const Products = () => {
         <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 2fr', gap: '25px' }}>
           <div className="agro-card" style={{ textAlign: 'center' }}>
             <div style={{ width: '120px', height: '120px', background: '#f0fdf4', color: '#16a34a', borderRadius: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px', fontSize: '48px', fontWeight: 'bold' }}>
-              <FiPackage />
+              <Package />
             </div>
             <h2 style={{ marginBottom: '10px', color: '#111827' }}>{formData.name}</h2>
             <p style={{ color: '#6b7280', fontSize: '16px', marginBottom: '15px' }}>Code: {formData.code}</p>
@@ -227,7 +227,7 @@ const Products = () => {
 
           <div className="agro-card">
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '30px', paddingBottom: '15px', borderBottom: '1px solid #f3f4f6' }}>
-              <FiLayers size={22} color="#16a34a" />
+              <Layers size={22} color="#16a34a" />
               <h3 style={{ margin: 0, color: '#111827', fontSize: '20px' }}>Specifications & Stock</h3>
             </div>
 

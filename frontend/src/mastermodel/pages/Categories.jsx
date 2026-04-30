@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FiPlus, FiArrowLeft, FiSave, FiX, FiLayers } from 'react-icons/fi';
+import { Plus, ArrowLeft, Save, X, Layers } from 'lucide-react';
 import { useCRUD } from '../hooks/useCRUD';
 import DataTable from '../components/DataTable';
 import FormField from '../components/FormField';
@@ -63,7 +63,7 @@ const Categories = () => {
             <p>Manage product groupings and classifications</p>
           </div>
           <button className="btn-agro btn-primary" onClick={handleActionAdd}>
-            <FiPlus size={20} /> Add Category
+            <Plus size={20} /> Add Category
           </button>
         </div>
         <DataTable title="Categories" columns={columns} data={data} onEdit={handleActionEdit} onDelete={handleDeleteClick} onView={handleActionView} />
@@ -78,7 +78,7 @@ const Categories = () => {
         <div className="page-header">
           <div className="page-title">
             <button className="btn-agro btn-outline" onClick={onBack} style={{ marginBottom: '15px', border: 'none', padding: '0', background: 'transparent' }}>
-              <FiArrowLeft size={18} /> Back to Categories
+              <ArrowLeft size={18} /> Back to Categories
             </button>
             <h1>{viewMode === 'edit' ? 'Edit Category' : 'Add Category'}</h1>
           </div>
@@ -94,8 +94,8 @@ const Categories = () => {
               </div>
             </div>
             <div style={{ display: 'flex', gap: '12px', marginTop: '30px', justifyContent: 'flex-end' }}>
-              <button type="button" className="btn-agro btn-outline" onClick={onBack}><FiX /> Cancel</button>
-              <button type="submit" className="btn-agro btn-primary"><FiSave /> Save Category</button>
+              <button type="button" className="btn-agro btn-outline" onClick={onBack}><X /> Cancel</button>
+              <button type="submit" className="btn-agro btn-primary"><Save /> Save Category</button>
             </div>
           </form>
         </div>
@@ -109,7 +109,7 @@ const Categories = () => {
         <div className="page-header">
           <div className="page-title">
             <button className="btn-agro btn-outline" onClick={onBack} style={{ marginBottom: '15px', border: 'none', padding: '0', background: 'transparent' }}>
-              <FiArrowLeft size={18} /> Back to Categories
+              <ArrowLeft size={18} /> Back to Categories
             </button>
             <h1>Category Details</h1>
           </div>
@@ -118,7 +118,7 @@ const Categories = () => {
         <div className="agro-card" style={{ maxWidth: '800px', margin: '0 auto' }}>
           <div style={{ display: 'flex', gap: '30px', alignItems: 'flex-start' }}>
             <div style={{ width: '80px', height: '80px', background: '#f0fdf4', color: '#16a34a', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '30px' }}>
-              <FiLayers />
+              <Layers />
             </div>
             <div style={{ flex: 1 }}>
               <h2 style={{ color: '#111827', marginBottom: '10px' }}>{formData.name}</h2>

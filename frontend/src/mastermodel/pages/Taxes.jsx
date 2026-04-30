@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FiPlus, FiArrowLeft, FiSave, FiX, FiPercent } from 'react-icons/fi';
+import { Plus, ArrowLeft, Save, X, Percent } from 'lucide-react';
 import { useCRUD } from '../hooks/useCRUD';
 import DataTable from '../components/DataTable';
 import FormField from '../components/FormField';
@@ -63,7 +63,7 @@ const Taxes = () => {
             <p>Configure GST rates and other taxes</p>
           </div>
           <button className="btn-agro btn-primary" onClick={handleActionAdd}>
-            <FiPlus size={20} /> Add Tax
+            <Plus size={20} /> Add Tax
           </button>
         </div>
         <DataTable title="Taxes" columns={columns} data={data} onEdit={handleActionEdit} onDelete={handleDeleteClick} onView={handleActionView} />
@@ -78,7 +78,7 @@ const Taxes = () => {
         <div className="page-header">
           <div className="page-title">
             <button className="btn-agro btn-outline" onClick={onBack} style={{ marginBottom: '15px', border: 'none', padding: '0', background: 'transparent' }}>
-              <FiArrowLeft size={18} /> Back to Taxes
+              <ArrowLeft size={18} /> Back to Taxes
             </button>
             <h1>{viewMode === 'edit' ? 'Edit Tax Rate' : 'Add New Tax'}</h1>
           </div>
@@ -94,8 +94,8 @@ const Taxes = () => {
               </div>
             </div>
             <div style={{ display: 'flex', gap: '12px', marginTop: '30px', justifyContent: 'flex-end' }}>
-              <button type="button" className="btn-agro btn-outline" onClick={onBack}><FiX /> Cancel</button>
-              <button type="submit" className="btn-agro btn-primary"><FiSave /> Save Tax</button>
+              <button type="button" className="btn-agro btn-outline" onClick={onBack}><X /> Cancel</button>
+              <button type="submit" className="btn-agro btn-primary"><Save /> Save Tax</button>
             </div>
           </form>
         </div>
@@ -109,7 +109,7 @@ const Taxes = () => {
         <div className="page-header">
           <div className="page-title">
             <button className="btn-agro btn-outline" onClick={onBack} style={{ marginBottom: '15px', border: 'none', padding: '0', background: 'transparent' }}>
-              <FiArrowLeft size={18} /> Back to Taxes
+              <ArrowLeft size={18} /> Back to Taxes
             </button>
             <h1>Tax Configuration Details</h1>
           </div>
@@ -118,7 +118,7 @@ const Taxes = () => {
         <div className="agro-card" style={{ maxWidth: '700px', margin: '0 auto' }}>
           <div style={{ display: 'flex', gap: '30px', alignItems: 'center' }}>
             <div style={{ width: '80px', height: '80px', background: '#f0fdf4', color: '#16a34a', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '30px' }}>
-              <FiPercent />
+              <Percent />
             </div>
             <div style={{ flex: 1 }}>
               <h2 style={{ color: '#111827', marginBottom: '5px' }}>{formData.name}</h2>

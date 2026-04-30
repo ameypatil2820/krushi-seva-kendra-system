@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FiPlus, FiArrowLeft, FiSave, FiX, FiInfo, FiUser, FiPhone, FiMapPin, FiMail } from 'react-icons/fi';
+import { Plus, ArrowLeft, Save, X, Info, User, Phone, MapPin, Mail } from 'lucide-react';
 import { useCRUD } from '../hooks/useCRUD';
 import DataTable from '../components/DataTable';
 import FormField from '../components/FormField';
@@ -87,7 +87,7 @@ const Suppliers = () => {
             <p>Manage your product suppliers and vendors</p>
           </div>
           <button className="btn-agro btn-primary" onClick={handleActionAdd}>
-            <FiPlus size={20} /> Add Supplier
+            <Plus size={20} /> Add Supplier
           </button>
         </div>
 
@@ -118,7 +118,7 @@ const Suppliers = () => {
         <div className="page-header">
           <div className="page-title">
             <button className="btn-agro btn-outline" onClick={onBack} style={{ marginBottom: '15px', border: 'none', padding: '0', background: 'transparent' }}>
-              <FiArrowLeft size={18} /> Back to Suppliers
+              <ArrowLeft size={18} /> Back to Suppliers
             </button>
             <h1>{viewMode === 'edit' ? 'Edit Supplier' : 'Add New Supplier'}</h1>
           </div>
@@ -127,7 +127,7 @@ const Suppliers = () => {
         <div className="agro-card" style={{ maxWidth: '900px', margin: '0 auto' }}>
           <form onSubmit={handleFinalSave}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '25px', color: '#16a34a' }}>
-              <FiInfo size={20} />
+              <Info size={20} />
               <h3 style={{ margin: 0, fontSize: '18px' }}>Supplier Basic Information</h3>
             </div>
             
@@ -160,10 +160,10 @@ const Suppliers = () => {
             
             <div style={{ display: 'flex', gap: '12px', marginTop: '40px', justifyContent: 'flex-end', borderTop: '1px solid #f3f4f6', paddingTop: '25px' }}>
               <button type="button" className="btn-agro btn-outline" onClick={onBack} style={{ padding: '12px 25px' }}>
-                <FiX size={18} /> Cancel
+                <X size={18} /> Cancel
               </button>
               <button type="submit" className="btn-agro btn-primary" style={{ padding: '12px 35px' }}>
-                <FiSave size={18} /> {viewMode === 'edit' ? 'Update Supplier' : 'Save Supplier'}
+                <Save size={18} /> {viewMode === 'edit' ? 'Update Supplier' : 'Save Supplier'}
               </button>
             </div>
           </form>
@@ -179,7 +179,7 @@ const Suppliers = () => {
         <div className="page-header">
           <div className="page-title">
             <button className="btn-agro btn-outline" onClick={onBack} style={{ marginBottom: '15px', border: 'none', padding: '0', background: 'transparent' }}>
-              <FiArrowLeft size={18} /> Back to Suppliers
+              <ArrowLeft size={18} /> Back to Suppliers
             </button>
             <h1>Supplier Profile</h1>
           </div>
@@ -205,15 +205,15 @@ const Suppliers = () => {
             
             <div style={{ marginTop: '30px', textAlign: 'left' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '18px', color: '#374151' }}>
-                <FiPhone size={18} color="#16a34a" />
+                <Phone size={18} color="#16a34a" />
                 <span style={{ fontSize: '15px', fontWeight: '500' }}>{formData.mobile}</span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '18px', color: '#374151' }}>
-                <FiMail size={18} color="#16a34a" />
+                <Mail size={18} color="#16a34a" />
                 <span style={{ fontSize: '15px', fontWeight: '500' }}>{formData.email || 'No email provided'}</span>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px', color: '#374151' }}>
-                <FiMapPin size={18} color="#16a34a" />
+                <MapPin size={18} color="#16a34a" />
                 <span style={{ fontSize: '15px', fontWeight: '500' }}>{formData.city}</span>
               </div>
             </div>
@@ -222,7 +222,7 @@ const Suppliers = () => {
           {/* Main Details */}
           <div className="agro-card">
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '25px', paddingBottom: '15px', borderBottom: '1px solid #f3f4f6' }}>
-              <FiUser size={22} color="#16a34a" />
+              <User size={22} color="#16a34a" />
               <h3 style={{ margin: 0, color: '#111827', fontSize: '20px' }}>Business Information</h3>
             </div>
             
