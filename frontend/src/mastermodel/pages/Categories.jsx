@@ -7,10 +7,10 @@ import ConfirmModal from '../components/ConfirmModal';
 import '../styles/MasterModel.css';
 
 const Categories = () => {
-  const { 
+  const {
     data, loading, isDeleteOpen, setIsDeleteOpen,
-    currentItem, handleAdd, handleEdit, handleView, 
-    handleDeleteClick, handleConfirmDelete, handleSave 
+    currentItem, handleAdd, handleEdit, handleView,
+    handleDeleteClick, handleConfirmDelete, handleSave
   } = useCRUD('categories');
 
   const [viewMode, setViewMode] = useState('list');
@@ -44,13 +44,13 @@ const Categories = () => {
   const columns = [
     { header: 'Category Name', accessor: 'name' },
     { header: 'Description', accessor: 'description' },
-    { 
-      header: 'Status', 
+    {
+      header: 'Status',
       render: (row) => (
         <span className={`badge ${row.isActive ? 'badge-success' : 'badge-danger'}`}>
           {row.isActive ? 'Active' : 'Inactive'}
         </span>
-      ) 
+      )
     }
   ];
 

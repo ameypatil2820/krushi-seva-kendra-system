@@ -10,20 +10,20 @@ import '../styles/MasterModel.css';
 import { MockService } from '../services/MockService';
 
 const Products = () => {
-  const { 
+  const {
     data, loading, isDeleteOpen, setIsDeleteOpen,
-    currentItem, handleAdd, handleEdit, handleView, 
-    handleDeleteClick, handleConfirmDelete, handleSave 
+    currentItem, handleAdd, handleEdit, handleView,
+    handleDeleteClick, handleConfirmDelete, handleSave
   } = useCRUD('products');
 
   const [viewMode, setViewMode] = useState('list');
   const [categories, setCategories] = useState([]);
   const [taxes, setTaxes] = useState([]);
-  
+
   const [formData, setFormData] = useState({
-    name: '', code: '', category: '', tax: '', brand: '', 
-    company: '', unit: '', packing: '', purchasePrice: '', 
-    salePrice: '', mrp: '', minStock: '', 
+    name: '', code: '', category: '', tax: '', brand: '',
+    company: '', unit: '', packing: '', purchasePrice: '',
+    salePrice: '', mrp: '', minStock: '',
     mfgDate: '', expDate: '',
     expiryRequired: false, isActive: true
   });
@@ -36,7 +36,7 @@ const Products = () => {
           MockService.getAll('categories'),
           MockService.getAll('taxes')
         ]);
-        
+
         setCategories(catData.filter(c => c.isActive).map(c => c.name));
         setTaxes(taxData.filter(t => t.isActive).map(t => t.rate.toString()));
       } catch (error) {
@@ -51,9 +51,9 @@ const Products = () => {
       setFormData(currentItem);
     } else if (viewMode === 'add') {
       setFormData({
-        name: '', code: '', category: '', tax: '', brand: '', 
-        company: '', unit: '', packing: '', purchasePrice: '', 
-        salePrice: '', mrp: '', minStock: '', 
+        name: '', code: '', category: '', tax: '', brand: '',
+        company: '', unit: '', packing: '', purchasePrice: '',
+        salePrice: '', mrp: '', minStock: '',
         mfgDate: '', expDate: '',
         expiryRequired: false, isActive: true
       });
@@ -62,9 +62,9 @@ const Products = () => {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData(prev => ({ 
-      ...prev, 
-      [name]: type === 'checkbox' ? checked : value 
+    setFormData(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value
     }));
   };
 
@@ -84,17 +84,17 @@ const Products = () => {
     { header: 'Product Name', accessor: 'name' },
     { header: 'Code', accessor: 'code' },
     { header: 'Category', accessor: 'category' },
-    { 
-      header: 'Sale Price', 
+    {
+      header: 'Sale Price',
       render: (row) => `₹${row.salePrice}`
     },
-    { 
-      header: 'Status', 
+    {
+      header: 'Status',
       render: (row) => (
         <span className={`badge ${row.isActive ? 'badge-success' : 'badge-danger'}`}>
           {row.isActive ? 'Active' : 'Inactive'}
         </span>
-      ) 
+      )
     }
   ];
 
@@ -140,21 +140,21 @@ const Products = () => {
             <div className="form-grid">
               <FormField label="Product Name" name="name" value={formData.name} onChange={handleChange} required placeholder="Enter product name" />
               <FormField label="Product Code" name="code" value={formData.code} onChange={handleChange} required placeholder="e.g. PRD001" />
-              
-              <SearchableSelect 
-                label="Category" 
-                options={categories} 
-                value={formData.category} 
-                onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value }))} 
-                required 
+
+              <SearchableSelect
+                label="Category"
+                options={categories}
+                value={formData.category}
+                onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value }))}
+                required
               />
 
-              <SearchableSelect 
-                label="Tax" 
-                options={taxes} 
-                value={formData.tax} 
-                onChange={(e) => setFormData(prev => ({ ...prev, tax: e.target.value }))} 
-                required 
+              <SearchableSelect
+                label="Tax"
+                options={taxes}
+                value={formData.tax}
+                onChange={(e) => setFormData(prev => ({ ...prev, tax: e.target.value }))}
+                required
                 placeholder="Select Tax %"
               />
 
@@ -168,12 +168,12 @@ const Products = () => {
               <h3 style={{ margin: 0, fontSize: '18px' }}>Unit & Packing</h3>
             </div>
             <div className="form-grid">
-              <SearchableSelect 
-                label="Unit" 
-                options={['Kg', 'Ltr', 'Ml', 'Gm', 'Pcs', 'Bag', 'Packet', 'Box', 'Bundle', 'Drum']} 
-                value={formData.unit} 
-                onChange={(e) => setFormData(prev => ({ ...prev, unit: e.target.value }))} 
-                required 
+              <SearchableSelect
+                label="Unit"
+                options={['Kg', 'Ltr', 'Ml', 'Gm', 'Pcs', 'Bag', 'Packet', 'Box', 'Bundle', 'Drum']}
+                value={formData.unit}
+                onChange={(e) => setFormData(prev => ({ ...prev, unit: e.target.value }))}
+                required
               />
               <FormField label="Packing" name="packing" value={formData.packing} onChange={handleChange} placeholder="e.g. 500ml, 1kg" />
             </div>
@@ -210,7 +210,7 @@ const Products = () => {
                 <label htmlFor="isActive" style={{ marginBottom: 0 }}>Active Status</label>
               </div>
             </div>
-            
+
             <div style={{ display: 'flex', gap: '12px', marginTop: '40px', justifyContent: 'flex-end', borderTop: '1px solid #f3f4f6', paddingTop: '25px' }}>
               <button type="button" className="btn-agro btn-outline" onClick={onBack} style={{ padding: '12px 25px' }}>
                 <X size={18} /> Cancel
