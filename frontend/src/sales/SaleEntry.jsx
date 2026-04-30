@@ -1,23 +1,26 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Plus, Trash2, Save, ArrowLeft, Calendar, User, FileText, CreditCard, IndianRupee, Package, Search as SearchIcon } from 'lucide-react';
 import { MockService } from '../mastermodel/services/MockService';
 import SearchableSelect from './SearchableSelect';
 
 const SaleEntry = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [customers, setCustomers] = useState([]);
   const [products, setProducts] = useState([]);
   const [master, setMaster] = useState({
-    customerId: '',
+    customerId: location.state?.quotationData?.customerId || '',
     billNo: '',
     billDate: new Date().toISOString().split('T')[0],
     totalQuantity: 0,
-    subtotal: 0,
+    subtotal: location.state?.quotationData?.totalAmount || 0,
     discount: 0,
     taxAmount: 0,
-    grandTotal: 0,
+    grandTotal: location.state?.quotationData?.totalAmount || 0,
     paymentType: 'Cash',
     paidAmount: 0,
-    dueAmount: 0
+    dueAmount: location.state?.quotationData?.totalAmount || 0
   });
 
   useEffect(() => {
@@ -139,7 +142,12 @@ const SaleEntry = () => {
           <h2 style={{ color: 'var(--primary)', margin: 0 }}>New Sale Entry</h2>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Create a new sales invoice</p>
         </div>
-        <button className="btn btn-secondary"><ArrowLeft size={18} /> Back to List</button>
+        <button 
+          className="btn btn-secondary" 
+          onClick={() => navigate(location.state?.quotationData ? '/sales/quotations' : '/sales')}
+        >
+          <ArrowLeft size={18} /> Back to List
+        </button>
       </div>
 
       {/* Master Section */}

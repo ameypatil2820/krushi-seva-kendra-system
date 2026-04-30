@@ -112,7 +112,13 @@ const Quotation = () => {
                 </td>
                 <td style={{ padding: '15px 20px' }}>{getStatusBadge(item.status)}</td>
                 <td style={{ padding: '15px 20px' }}>
-                  <button className="btn btn-secondary" style={{ padding: '5px 12px', fontSize: '0.8rem' }}>Convert to Bill</button>
+                  <button 
+                    className="btn btn-secondary" 
+                    style={{ padding: '5px 12px', fontSize: '0.8rem' }}
+                    onClick={() => navigate('/sales/entry', { state: { quotationData: item } })}
+                  >
+                    Convert to Bill
+                  </button>
                 </td>
               </tr>
             ))}
