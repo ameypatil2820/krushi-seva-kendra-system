@@ -81,33 +81,35 @@ const Suppliers = () => {
   if (viewMode === 'list') {
     return (
       <div className="agro-container">
-        <div className="page-header">
-          <div className="page-title-area">
-            <div className="page-title">
-              <h1>Supplier Management</h1>
+        <div className="agro-card" style={{ padding: '0', overflow: 'hidden' }}>
+          <div className="agro-card-header" style={{ padding: '24px 30px', marginBottom: 0 }}>
+            <div>
+              <h2>Supplier Management</h2>
               <p>Manage your product suppliers and vendors</p>
             </div>
             <button className="btn-agro btn-primary" onClick={handleActionAdd}>
               <Plus size={20} /> Add Supplier
             </button>
           </div>
+          
+          <div style={{ padding: '30px' }}>
+            <DataTable 
+              title="Suppliers"
+              columns={columns} 
+              data={data} 
+              onEdit={handleActionEdit} 
+              onDelete={handleDeleteClick} 
+              onView={handleActionView} 
+            />
+          </div>
         </div>
 
-        <DataTable
-          title="Suppliers"
-          columns={columns}
-          data={data}
-          onEdit={handleActionEdit}
-          onDelete={handleDeleteClick}
-          onView={handleActionView}
-        />
-
-        <ConfirmModal
-          isOpen={isDeleteOpen}
-          onClose={() => setIsDeleteOpen(false)}
-          onConfirm={handleConfirmDelete}
-          title="Delete Supplier?"
-          message={`Are you sure you want to delete ${currentItem?.name}? This action cannot be undone.`}
+        <ConfirmModal 
+          isOpen={isDeleteOpen} 
+          onClose={() => setIsDeleteOpen(false)} 
+          onConfirm={handleConfirmDelete} 
+          title="Delete Supplier?" 
+          message={`Are you sure you want to delete ${currentItem?.name}?`} 
         />
       </div>
     );
@@ -116,49 +118,64 @@ const Suppliers = () => {
   if (viewMode === 'add' || viewMode === 'edit') {
     return (
       <div className="agro-container">
-        <div style={{ maxWidth: '900px', margin: '40px auto 0' }}>
-          <form onSubmit={handleFinalSave} className="agro-card">
-            <div className="agro-card-header">
-              <h2>{viewMode === 'edit' ? 'Update Supplier Profile' : 'Add New Supplier'}</h2>
-              <p>Manage details for your vendor or product supplier</p>
-            </div>
-            <div className="form-section-title">
-              <User size={18} />
-              <h3>Supplier Basic Information</h3>
-            </div>
-
-            <div className="form-grid">
-              <FormField label="Supplier Name" name="name" value={formData.name} onChange={handleChange} required placeholder="Enter supplier name" />
-              <FormField label="Mobile Number" name="mobile" value={formData.mobile} onChange={handleChange} required placeholder="Enter mobile number" />
-              <FormField label="Contact Person" name="contactPerson" value={formData.contactPerson} onChange={handleChange} placeholder="Person to contact" />
-              <FormField label="Email Address" name="email" type="email" value={formData.email} onChange={handleChange} placeholder="e.g. supplier@example.com" />
-              <FormField label="City" name="city" value={formData.city} onChange={handleChange} required placeholder="e.g. Kolhapur" />
-              <FormField label="GST Number" name="gstNo" value={formData.gstNo} onChange={handleChange} placeholder="15-digit GSTIN" />
+        <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
+          <form onSubmit={handleFinalSave} className="agro-card" style={{ padding: 0, overflow: 'hidden' }}>
+            <div className="agro-card-header" style={{ padding: '30px', background: 'white' }}>
+              <div>
+                <h2 style={{ fontSize: '24px' }}>{viewMode === 'edit' ? 'Update Supplier Profile' : 'Add New Supplier'}</h2>
+                <p>Manage details for your vendor or product supplier</p>
+              </div>
+              <button type="button" className="btn-agro btn-outline" onClick={onBack}>
+                <ArrowLeft size={18} /> Back to List
+              </button>
             </div>
 
-            <div style={{ marginTop: '16px' }}>
-              <FormField label="Full Address" name="address" type="textarea" value={formData.address} onChange={handleChange} required placeholder="Enter complete business address" />
-            </div>
+            <div style={{ padding: '40px' }}>
+              <div className="form-section-title" style={{ marginBottom: '25px' }}>
+                <User size={18} />
+                <h3 style={{ fontSize: '14px', margin: 0 }}>Business Information</h3>
+              </div>
 
-            <div style={{ marginTop: '16px', padding: '12px 16px', background: '#f9fafb', borderRadius: '10px', border: '1px solid #f3f4f6' }}>
-              <div className="form-group" style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: 0 }}>
-                <input
-                  type="checkbox"
-                  name="isActive"
-                  id="isActive"
-                  checked={formData.isActive}
-                  onChange={handleChange}
-                  style={{ width: '18px', height: '18px', cursor: 'pointer', accentColor: '#16a34a' }}
-                />
-                <label htmlFor="isActive" style={{ marginBottom: 0, cursor: 'pointer', fontWeight: '600', textTransform: 'none' }}>Set as Active Supplier</label>
+              <div className="form-grid">
+                <FormField label="Supplier Name" name="name" value={formData.name} onChange={handleChange} required placeholder="Enter supplier name" />
+                <FormField label="Mobile Number" name="mobile" value={formData.mobile} onChange={handleChange} required placeholder="Enter mobile number" />
+                <FormField label="Contact Person" name="contactPerson" value={formData.contactPerson} onChange={handleChange} placeholder="Person to contact" />
+                <FormField label="Email Address" name="email" type="email" value={formData.email} onChange={handleChange} placeholder="e.g. supplier@example.com" />
+                <FormField label="City" name="city" value={formData.city} onChange={handleChange} required placeholder="e.g. Kolhapur" />
+                <FormField label="GST Number" name="gstNo" value={formData.gstNo} onChange={handleChange} placeholder="15-digit GSTIN" />
+              </div>
+
+              <div style={{ marginTop: '25px' }}>
+                <FormField label="Full Business Address" name="address" type="textarea" value={formData.address} onChange={handleChange} required placeholder="Enter complete business address" />
+              </div>
+
+              <div style={{ marginTop: '25px', padding: '20px', background: 'var(--primary-soft)', borderRadius: '15px', border: '1px solid #dcfce7' }}>
+                <div className="form-group" style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: 0 }}>
+                  <input
+                    type="checkbox"
+                    name="isActive"
+                    id="isActive"
+                    checked={formData.isActive}
+                    onChange={handleChange}
+                    style={{ width: '20px', height: '20px', cursor: 'pointer', accentColor: 'var(--primary)' }}
+                  />
+                  <label htmlFor="isActive" style={{ marginBottom: 0, cursor: 'pointer', fontWeight: '700', fontSize: '14px', textTransform: 'none', color: 'var(--primary)' }}>Set as Active Supplier</label>
+                </div>
               </div>
             </div>
 
-            <div className="form-footer">
-              <button type="button" className="btn-agro btn-outline" onClick={onBack} style={{ padding: '10px 25px' }}>
+            <div style={{ 
+              padding: '25px 40px', 
+              background: '#f9fafb', 
+              borderTop: '1px solid var(--border-light)', 
+              display: 'flex', 
+              justifyContent: 'flex-end', 
+              gap: '15px' 
+            }}>
+              <button type="button" className="btn-agro btn-outline" onClick={onBack} style={{ minWidth: '120px' }}>
                 <X size={18} /> Cancel
               </button>
-              <button type="submit" className="btn-agro btn-primary" style={{ padding: '10px 35px' }}>
+              <button type="submit" className="btn-agro btn-primary" style={{ minWidth: '180px' }}>
                 <Save size={18} /> {viewMode === 'edit' ? 'Update Supplier' : 'Save Supplier'}
               </button>
             </div>

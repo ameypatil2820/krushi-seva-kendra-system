@@ -64,7 +64,7 @@ const SearchableSelect = ({ label, options, value, onChange, placeholder, requir
   return (
     <div className="form-group" style={{ position: 'relative', marginBottom: '20px' }} ref={wrapperRef}>
       <label style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <span>{label} {required && <span style={{ color: 'red' }}>*</span>}</span>
+        <span>{label} {required && <span style={{ color: 'var(--danger)' }}>*</span>}</span>
       </label>
       
       <div 
@@ -90,10 +90,11 @@ const SearchableSelect = ({ label, options, value, onChange, placeholder, requir
           required={required}
           style={{ 
             paddingRight: '60px', 
-            height: '45px', 
-            borderRadius: '10px',
-            border: isOpen ? '2px solid #16a34a' : '1px solid #e5e7eb',
-            transition: 'all 0.2s',
+            borderRadius: '12px',
+            borderColor: isOpen ? 'var(--primary)' : 'var(--border)',
+            boxShadow: isOpen ? '0 0 0 4px var(--primary-soft)' : 'none',
+            background: '#f9fafb',
+            transition: 'all 0.3s',
             cursor: 'text'
           }}
         />
@@ -102,33 +103,34 @@ const SearchableSelect = ({ label, options, value, onChange, placeholder, requir
           onClick={() => setIsOpen(!isOpen)}
           style={{ 
             position: 'absolute', 
-            right: '12px', 
+            right: '15px', 
             display: 'flex', 
-            gap: '8px', 
+            gap: '10px', 
             alignItems: 'center', 
-            color: isOpen ? '#16a34a' : '#9ca3af',
+            color: isOpen ? 'var(--primary)' : 'var(--text-muted)',
             cursor: 'pointer'
           }}
         >
           {searchTerm && <X size={16} onClick={(e) => { e.stopPropagation(); handleClear(); }} style={{ cursor: 'pointer' }} />}
-          <ChevronDown size={20} style={{ transform: isOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }} />
+          <ChevronDown size={18} style={{ transform: isOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.3s' }} />
         </div>
       </div>
 
       {isOpen && (
         <div style={{
           position: 'absolute',
-          top: 'calc(100% + 4px)',
+          top: 'calc(100% + 8px)',
           left: 0,
           right: 0,
           zIndex: 1000,
           background: 'white',
-          border: '1px solid #e5e7eb',
-          borderRadius: '10px',
-          boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
-          maxHeight: '220px',
+          border: '1px solid var(--border-light)',
+          borderRadius: '16px',
+          boxShadow: 'var(--shadow-lg)',
+          maxHeight: '250px',
           overflowY: 'auto',
-          animation: 'fadeIn 0.2s ease-out'
+          animation: 'slideUp 0.3s ease-out',
+          padding: '8px'
         }}>
           {filteredOptions.length > 0 ? (
             filteredOptions.map((opt, i) => (
@@ -138,23 +140,30 @@ const SearchableSelect = ({ label, options, value, onChange, placeholder, requir
                 style={{
                   padding: '12px 16px',
                   cursor: 'pointer',
-                  borderBottom: i === filteredOptions.length - 1 ? 'none' : '1px solid #f9fafb',
-                  background: selectedIndex === i ? '#f0fdf4' : (value === opt ? '#f9fafb' : 'transparent'),
-                  color: selectedIndex === i || value === opt ? '#16a34a' : '#374151',
-                  fontWeight: selectedIndex === i || value === opt ? '600' : '400',
+                  borderRadius: '10px',
+                  marginBottom: '2px',
+                  background: selectedIndex === i ? 'var(--primary-soft)' : (value === opt ? '#f8fafc' : 'transparent'),
+                  color: selectedIndex === i || value === opt ? 'var(--primary)' : 'var(--text-main)',
+                  fontWeight: selectedIndex === i || value === opt ? '700' : '500',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '10px'
+                  gap: '12px',
+                  transition: 'all 0.2s'
                 }}
                 onMouseEnter={() => setSelectedIndex(i)}
               >
-                <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: value === opt ? '#16a34a' : 'transparent' }}></div>
-                {opt}
+                <div style={{ 
+                  width: '6px', 
+                  height: '6px', 
+                  borderRadius: '50%', 
+                  background: value === opt ? 'var(--primary)' : (selectedIndex === i ? 'var(--primary-soft)' : '#e2e8f0') 
+                }}></div>
+                <span style={{ fontSize: '14px' }}>{opt}</span>
               </div>
             ))
           ) : (
-            <div style={{ padding: '20px', textAlign: 'center', color: '#9ca3af', fontSize: '14px' }}>
-              <Search size={20} style={{ display: 'block', margin: '0 auto 8px', opacity: 0.5 }} />
+            <div style={{ padding: '30px 20px', textAlign: 'center', color: 'var(--text-muted)', fontSize: '14px' }}>
+              <Search size={24} style={{ display: 'block', margin: '0 auto 12px', opacity: 0.2 }} />
               No results found for "{searchTerm}"
             </div>
           )}

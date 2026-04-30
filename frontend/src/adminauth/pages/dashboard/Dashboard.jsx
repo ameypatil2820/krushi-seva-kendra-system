@@ -74,61 +74,114 @@ const Dashboard = () => {
 
   return (
     <div className="animate-fade">
-      <div style={{ marginBottom: '30px' }}>
-        <h1 style={{ fontSize: '1.8rem', color: 'var(--primary)' }}>Welcome, {user?.name}!</h1>
-        <p style={{ color: 'var(--text-secondary)' }}>Here's an overview of your Krushi Seva Kendra today.</p>
+      <div style={{ marginBottom: '40px' }}>
+        <h1 style={{ fontSize: '28px', fontWeight: '800', color: 'var(--text-main)', marginBottom: '8px' }}>
+          Namaste, {user?.name}! 👋
+        </h1>
+        <p style={{ color: 'var(--text-muted)', fontSize: '16px' }}>
+          Welcome back to Agro Seva. Here is what's happening with your center today.
+        </p>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '20px', marginBottom: '40px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '25px', marginBottom: '40px' }}>
         {stats.map((stat, i) => (
-          <div key={i} className="glass-card" style={{ padding: '25px', display: 'flex', alignItems: 'center', gap: '20px' }}>
-            <div style={{ background: `${stat.color}20`, color: stat.color, padding: '15px', borderRadius: '12px' }}>
+          <div key={i} className="agro-card" style={{ display: 'flex', alignItems: 'center', gap: '20px', padding: '30px', transition: 'transform 0.3s' }}>
+            <div style={{ 
+              background: `${stat.color}15`, 
+              color: stat.color, 
+              width: '60px', 
+              height: '60px', 
+              borderRadius: '16px', 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'center',
+              boxShadow: `0 8px 16px -4px ${stat.color}20`
+            }}>
               {stat.icon}
             </div>
             <div>
-              <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>{stat.label}</p>
-              <h3 style={{ fontSize: '1.5rem', fontWeight: '800' }}>{stat.value}</h3>
+              <p style={{ color: 'var(--text-muted)', fontSize: '14px', fontWeight: '600', marginBottom: '4px' }}>{stat.label}</p>
+              <h3 style={{ fontSize: '24px', fontWeight: '800', color: 'var(--text-main)', margin: 0 }}>{stat.value}</h3>
             </div>
           </div>
         ))}
       </div>
 
-      <div className="glass-card" style={{ padding: '30px', minHeight: '300px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-          <h3>Recent Activity</h3>
-          <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '5px' }}>
-            <Clock size={14} /> Updated just now
+      <div className="agro-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div className="agro-card-header" style={{ padding: '25px 30px', background: 'white' }}>
+          <div>
+            <h3 style={{ fontSize: '18px', fontWeight: '800', margin: 0 }}>Recent Business Activity</h3>
+            <p style={{ fontSize: '13px', color: 'var(--text-muted)', margin: '4px 0 0 0' }}>Latest 5 transactions from sales and purchases</p>
+          </div>
+          <span style={{ fontSize: '12px', color: 'var(--primary)', fontWeight: '700', background: 'var(--primary-soft)', padding: '6px 12px', borderRadius: '20px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <Clock size={14} /> Live Updates
           </span>
         </div>
         
-        {recentActivity.length > 0 ? (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-            {recentActivity.map((activity, index) => (
-              <div key={index} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '15px', background: 'rgba(255,255,255,0.02)', borderRadius: '10px', border: '1px solid var(--glass-border)' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-                  <div style={{ background: `${activity.color}20`, color: activity.color, padding: '10px', borderRadius: '8px' }}>
-                    {activity.icon}
+        <div style={{ padding: '20px 30px 40px' }}>
+          {recentActivity.length > 0 ? (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              {recentActivity.map((activity, index) => (
+                <div key={index} style={{ 
+                  display: 'flex', 
+                  justifyContent: 'space-between', 
+                  alignItems: 'center', 
+                  padding: '18px 25px', 
+                  background: '#f9fafb', 
+                  borderRadius: '16px', 
+                  border: '1px solid #f1f5f9',
+                  transition: 'all 0.2s'
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+                    <div style={{ 
+                      background: 'white', 
+                      color: activity.color, 
+                      width: '45px', 
+                      height: '45px', 
+                      borderRadius: '12px', 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      justifyContent: 'center',
+                      boxShadow: '0 2px 4px rgba(0,0,0,0.02)'
+                    }}>
+                      {activity.icon}
+                    </div>
+                    <div>
+                      <h4 style={{ margin: 0, fontSize: '15px', fontWeight: '700' }}>{activity.type} Entry</h4>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '2px' }}>
+                        <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>Bill: {activity.billNo || 'N/A'}</span>
+                        <span style={{ width: '4px', height: '4px', borderRadius: '50%', background: '#cbd5e1' }}></span>
+                        <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>{activity.billDate}</span>
+                      </div>
+                    </div>
                   </div>
-                  <div>
-                    <h4 style={{ margin: 0, fontSize: '1rem' }}>{activity.type} Entry</h4>
-                    <p style={{ margin: 0, fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Bill: {activity.billNo || 'N/A'} • {activity.billDate}</p>
+                  <div style={{ textAlign: 'right' }}>
+                    <p style={{ margin: 0, fontSize: '16px', fontWeight: '800', color: activity.type === 'Sale' ? '#16a34a' : '#ea580c' }}>
+                      {activity.type === 'Sale' ? '+' : '-'} ₹{(activity.grandTotal || 0).toLocaleString()}
+                    </p>
+                    <span style={{ 
+                      fontSize: '11px', 
+                      fontWeight: '700', 
+                      textTransform: 'uppercase', 
+                      color: 'var(--text-muted)',
+                      letterSpacing: '0.5px'
+                    }}>
+                      {activity.paymentType}
+                    </span>
                   </div>
                 </div>
-                <div style={{ textAlign: 'right' }}>
-                  <p style={{ margin: 0, fontWeight: '700', color: activity.type === 'Sale' ? '#10b981' : '#f59e0b' }}>
-                    {activity.type === 'Sale' ? '+' : '-'} ₹{(activity.grandTotal || 0).toLocaleString()}
-                  </p>
-                  <p style={{ margin: 0, fontSize: '0.75rem', color: 'var(--text-secondary)' }}>{activity.paymentType}</p>
-                </div>
+              ))}
+            </div>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '60px 0', color: 'var(--text-muted)' }}>
+              <div style={{ width: '80px', height: '80px', background: '#f8fafc', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '20px' }}>
+                <Clock size={32} style={{ opacity: 0.2 }} />
               </div>
-            ))}
-          </div>
-        ) : (
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '40px', color: 'var(--text-secondary)' }}>
-            <Clock size={40} style={{ marginBottom: '15px', opacity: 0.2 }} />
-            <p>No recent activity to display.</p>
-          </div>
-        )}
+              <p style={{ fontWeight: '600' }}>No recent activity to display.</p>
+              <p style={{ fontSize: '13px' }}>Transactions will appear here once you start billing.</p>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

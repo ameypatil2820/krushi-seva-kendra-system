@@ -30,7 +30,7 @@ const UserManagement = () => {
 
     const userToAdd = { ...newUser, id: Date.now().toString() };
     const updatedUsers = [...currentUsers, userToAdd];
-    
+
     setUsers(updatedUsers);
     setToStorage(STORAGE_KEYS.USERS, updatedUsers);
     setIsAdding(false);
@@ -42,7 +42,7 @@ const UserManagement = () => {
     if (window.confirm('Are you sure you want to delete this user?')) {
       const currentUsers = getFromStorage(STORAGE_KEYS.USERS) || [];
       const userToDelete = currentUsers.find(u => u.id === id);
-      
+
       if (userToDelete?.role === 'Admin') {
         alert('Cannot delete Admin account');
         return;
@@ -75,42 +75,42 @@ const UserManagement = () => {
           <form onSubmit={handleAddUser}>
             <div className="input-group">
               <label>Full Name</label>
-              <input 
-                type="text" 
-                className="input-field" 
-                required 
+              <input
+                type="text"
+                className="input-field"
+                required
                 value={newUser.name}
-                onChange={(e) => setNewUser({...newUser, name: e.target.value})}
+                onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
               />
             </div>
             <div className="input-group">
               <label>Email Address</label>
-              <input 
-                type="email" 
-                className="input-field" 
-                required 
+              <input
+                type="email"
+                className="input-field"
+                required
                 value={newUser.email}
-                onChange={(e) => setNewUser({...newUser, email: e.target.value})}
+                onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
               />
             </div>
             <div className="input-group">
               <label>Password</label>
-              <input 
-                type="password" 
-                className="input-field" 
-                required 
+              <input
+                type="password"
+                className="input-field"
+                required
                 value={newUser.password}
-                onChange={(e) => setNewUser({...newUser, password: e.target.value})}
+                onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
               />
             </div>
             <div className="input-group">
               <label>Assign Role</label>
-              <select 
-                className="input-field" 
+              <select
+                className="input-field"
                 style={{ background: '#0f172a' }}
-                required 
+                required
                 value={newUser.role}
-                onChange={(e) => setNewUser({...newUser, role: e.target.value})}
+                onChange={(e) => setNewUser({ ...newUser, role: e.target.value })}
               >
                 <option value="">Select a Role</option>
                 {roles.filter(r => r.roleName !== 'Admin').map(role => (
@@ -162,7 +162,7 @@ const UserManagement = () => {
                   </td>
                   <td style={{ padding: '15px 20px', textAlign: 'right' }}>
                     {u.role !== 'Admin' && (
-                      <button 
+                      <button
                         onClick={() => handleDelete(u.id)}
                         style={{ background: 'transparent', border: 'none', color: '#ef4444', cursor: 'pointer' }}
                       >

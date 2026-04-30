@@ -101,21 +101,36 @@ const Products = () => {
   if (viewMode === 'list') {
     return (
       <div className="agro-container">
-        <div className="page-header">
-          <div className="page-title-area">
-            <div className="page-title">
-              <h1>Product Inventory</h1>
+        <div className="agro-card" style={{ padding: '0', overflow: 'hidden' }}>
+          <div className="agro-card-header" style={{ padding: '24px 30px', marginBottom: 0 }}>
+            <div>
+              <h2>Product Inventory</h2>
               <p>Manage your stocks, pricing and categories</p>
             </div>
             <button className="btn-agro btn-primary" onClick={handleActionAdd}>
               <Plus size={20} /> Add Product
             </button>
           </div>
+          
+          <div style={{ padding: '30px' }}>
+            <DataTable 
+              title="Products" 
+              columns={columns} 
+              data={data} 
+              onEdit={handleActionEdit} 
+              onDelete={handleDeleteClick} 
+              onView={handleActionView} 
+            />
+          </div>
         </div>
 
-        <DataTable title="Products" columns={columns} data={data} onEdit={handleActionEdit} onDelete={handleDeleteClick} onView={handleActionView} />
-
-        <ConfirmModal isOpen={isDeleteOpen} onClose={() => setIsDeleteOpen(false)} onConfirm={handleConfirmDelete} title="Delete Product?" message={`Are you sure you want to delete ${currentItem?.name}?`} />
+        <ConfirmModal 
+          isOpen={isDeleteOpen} 
+          onClose={() => setIsDeleteOpen(false)} 
+          onConfirm={handleConfirmDelete} 
+          title="Delete Product?" 
+          message={`Are you sure you want to delete ${currentItem?.name}?`} 
+        />
       </div>
     );
   }
@@ -123,96 +138,107 @@ const Products = () => {
   if (viewMode === 'add' || viewMode === 'edit') {
     return (
       <div className="agro-container">
-        <div style={{ maxWidth: '1000px', margin: '40px auto 0' }}>
-          <form onSubmit={handleFinalSave} className="agro-card">
-            <div className="agro-card-header">
-              <h2>{viewMode === 'edit' ? 'Edit Product Details' : 'Register New Product'}</h2>
-              <p>Manage your stocks, pricing and categories for the inventory</p>
-            </div>
-            {/* Section 1: Basic Info */}
-            <div className="form-section-title">
-              <Tag size={18} />
-              <h3>Basic Information</h3>
-            </div>
-            <div className="form-grid">
-              <FormField label="Product Name" name="name" value={formData.name} onChange={handleChange} required placeholder="Enter product name" />
-              <FormField label="Product Code" name="code" value={formData.code} onChange={handleChange} required placeholder="e.g. PRD001" />
-
-              <SearchableSelect
-                label="Category"
-                options={categories}
-                value={formData.category}
-                onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value }))}
-                required
-              />
-
-              <SearchableSelect
-                label="Tax"
-                options={taxes}
-                value={formData.tax}
-                onChange={(e) => setFormData(prev => ({ ...prev, tax: e.target.value }))}
-                required
-                placeholder="Select Tax %"
-              />
-
-              <FormField label="Brand" name="brand" value={formData.brand} onChange={handleChange} placeholder="e.g. Bayer" />
-              <FormField label="Company" name="company" value={formData.company} onChange={handleChange} placeholder="e.g. ABC Ltd" />
-            </div>
-
-            {/* Section 2: Unit & Packing */}
-            <div className="form-section-title" style={{ marginTop: '32px' }}>
-              <Package size={18} />
-              <h3>Unit & Packing</h3>
-            </div>
-            <div className="form-grid">
-              <SearchableSelect
-                label="Unit"
-                options={['Kg', 'Ltr', 'Ml', 'Gm', 'Pcs', 'Bag', 'Packet', 'Box', 'Bundle', 'Drum']}
-                value={formData.unit}
-                onChange={(e) => setFormData(prev => ({ ...prev, unit: e.target.value }))}
-                required
-              />
-              <FormField label="Packing" name="packing" value={formData.packing} onChange={handleChange} placeholder="e.g. 500ml, 1kg" />
-            </div>
-
-            {/* Section 3: Manufacturing & Expiry */}
-            <div className="form-section-title" style={{ marginTop: '32px' }}>
-              <Calendar size={18} />
-              <h3>Shelf Life & Dates</h3>
-            </div>
-            <div className="form-grid">
-              <FormField label="Manufacturing Date" name="mfgDate" type="date" value={formData.mfgDate} onChange={handleChange} />
-              <FormField label="Expiry Date" name="expDate" type="date" value={formData.expDate} onChange={handleChange} />
-            </div>
-
-            {/* Section 4: Pricing & Stock */}
-            <div className="form-section-title" style={{ marginTop: '32px' }}>
-              <DollarSign size={18} />
-              <h3>Pricing & Stock</h3>
-            </div>
-            <div className="form-grid">
-              <FormField label="Purchase Price" name="purchasePrice" type="number" value={formData.purchasePrice} onChange={handleChange} required />
-              <FormField label="Sale Price" name="salePrice" type="number" value={formData.salePrice} onChange={handleChange} required />
-              <FormField label="MRP" name="mrp" type="number" value={formData.mrp} onChange={handleChange} required />
-              <FormField label="Min Stock Level" name="minStock" type="number" value={formData.minStock} onChange={handleChange} required />
-            </div>
-
-            <div style={{ display: 'flex', gap: '30px', marginTop: '32px', padding: '16px 20px', background: '#f9fafb', borderRadius: '12px', border: '1px solid #f3f4f6' }}>
-              <div className="form-group" style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: 0 }}>
-                <input type="checkbox" name="expiryRequired" id="expiryRequired" checked={formData.expiryRequired} onChange={handleChange} style={{ width: '18px', height: '18px', cursor: 'pointer', accentColor: '#16a34a' }} />
-                <label htmlFor="expiryRequired" style={{ marginBottom: 0, cursor: 'pointer', textTransform: 'none', fontWeight: '600' }}>Expiry Alert Required?</label>
+        <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+          <form onSubmit={handleFinalSave} className="agro-card" style={{ padding: 0, overflow: 'hidden' }}>
+            <div className="agro-card-header" style={{ padding: '30px', background: 'white' }}>
+              <div>
+                <h2 style={{ fontSize: '24px' }}>{viewMode === 'edit' ? 'Edit Product Details' : 'Register New Product'}</h2>
+                <p>Manage your stocks, pricing and categories for the inventory</p>
               </div>
-              <div className="form-group" style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: 0 }}>
-                <input type="checkbox" name="isActive" id="isActive" checked={formData.isActive} onChange={handleChange} style={{ width: '18px', height: '18px', cursor: 'pointer', accentColor: '#16a34a' }} />
-                <label htmlFor="isActive" style={{ marginBottom: 0, cursor: 'pointer', textTransform: 'none', fontWeight: '600' }}>Active Status</label>
+              <button type="button" className="btn-agro btn-outline" onClick={onBack}>
+                <ArrowLeft size={18} /> Back to List
+              </button>
+            </div>
+
+            <div style={{ padding: '40px' }}>
+              <div className="form-grid" style={{ gap: '40px' }}>
+                {/* Column 1: Basic & Unit */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '25px' }}>
+                  <div>
+                    <div className="form-section-title" style={{ marginBottom: '15px' }}>
+                      <Tag size={18} />
+                      <h3 style={{ fontSize: '14px', margin: 0 }}>Basic Information</h3>
+                    </div>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+                      <FormField label="Product Name" name="name" value={formData.name} onChange={handleChange} required placeholder="Enter product name" />
+                      <FormField label="Product Code" name="code" value={formData.code} onChange={handleChange} required placeholder="e.g. PRD001" />
+                      
+                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
+                        <SearchableSelect label="Category" options={categories} value={formData.category} onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value }))} required />
+                        <SearchableSelect label="Tax" options={taxes} value={formData.tax} onChange={(e) => setFormData(prev => ({ ...prev, tax: e.target.value }))} required placeholder="Select Tax %" />
+                      </div>
+                      
+                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
+                        <FormField label="Brand" name="brand" value={formData.brand} onChange={handleChange} placeholder="e.g. Bayer" />
+                        <FormField label="Company" name="company" value={formData.company} onChange={handleChange} placeholder="e.g. ABC Ltd" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <div className="form-section-title" style={{ marginBottom: '15px' }}>
+                      <Package size={18} />
+                      <h3 style={{ fontSize: '14px', margin: 0 }}>Unit & Packing</h3>
+                    </div>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
+                      <SearchableSelect label="Unit" options={['Kg', 'Ltr', 'Ml', 'Gm', 'Pcs', 'Bag', 'Packet', 'Box', 'Bundle', 'Drum']} value={formData.unit} onChange={(e) => setFormData(prev => ({ ...prev, unit: e.target.value }))} required />
+                      <FormField label="Packing" name="packing" value={formData.packing} onChange={handleChange} placeholder="e.g. 500ml, 1kg" />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Column 2: Pricing & Stock */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '25px' }}>
+                  <div>
+                    <div className="form-section-title" style={{ marginBottom: '15px' }}>
+                      <DollarSign size={18} />
+                      <h3 style={{ fontSize: '14px', margin: 0 }}>Pricing & Stock</h3>
+                    </div>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
+                      <FormField label="Purchase Price" name="purchasePrice" type="number" value={formData.purchasePrice} onChange={handleChange} required />
+                      <FormField label="Sale Price" name="salePrice" type="number" value={formData.salePrice} onChange={handleChange} required />
+                      <FormField label="MRP" name="mrp" type="number" value={formData.mrp} onChange={handleChange} required />
+                      <FormField label="Min Stock Level" name="minStock" type="number" value={formData.minStock} onChange={handleChange} required />
+                    </div>
+                  </div>
+
+                  <div>
+                    <div className="form-section-title" style={{ marginBottom: '15px' }}>
+                      <Calendar size={18} />
+                      <h3 style={{ fontSize: '14px', margin: 0 }}>Shelf Life & Status</h3>
+                    </div>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
+                      <FormField label="Manufacturing Date" name="mfgDate" type="date" value={formData.mfgDate} onChange={handleChange} />
+                      <FormField label="Expiry Date" name="expDate" type="date" value={formData.expDate} onChange={handleChange} />
+                    </div>
+
+                    <div style={{ marginTop: '20px', padding: '20px', background: 'var(--primary-soft)', borderRadius: '15px', border: '1px solid #dcfce7', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                      <div className="form-group" style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: 0 }}>
+                        <input type="checkbox" name="expiryRequired" id="expiryRequired" checked={formData.expiryRequired} onChange={handleChange} style={{ width: '18px', height: '18px', cursor: 'pointer', accentColor: 'var(--primary)' }} />
+                        <label htmlFor="expiryRequired" style={{ marginBottom: 0, cursor: 'pointer', textTransform: 'none', fontWeight: '700', fontSize: '13px', color: 'var(--primary)' }}>Enable Expiry Alerts</label>
+                      </div>
+                      <div className="form-group" style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: 0 }}>
+                        <input type="checkbox" name="isActive" id="isActive" checked={formData.isActive} onChange={handleChange} style={{ width: '18px', height: '18px', cursor: 'pointer', accentColor: 'var(--primary)' }} />
+                        <label htmlFor="isActive" style={{ marginBottom: 0, cursor: 'pointer', textTransform: 'none', fontWeight: '700', fontSize: '13px', color: 'var(--primary)' }}>Active Inventory Status</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 
-            <div className="form-footer">
-              <button type="button" className="btn-agro btn-outline" onClick={onBack} style={{ padding: '10px 25px' }}>
+            <div style={{ 
+              padding: '25px 40px', 
+              background: '#f9fafb', 
+              borderTop: '1px solid var(--border-light)', 
+              display: 'flex', 
+              justifyContent: 'flex-end', 
+              gap: '15px' 
+            }}>
+              <button type="button" className="btn-agro btn-outline" onClick={onBack} style={{ minWidth: '120px' }}>
                 <X size={18} /> Cancel
               </button>
-              <button type="submit" className="btn-agro btn-primary" style={{ padding: '10px 35px' }}>
+              <button type="submit" className="btn-agro btn-primary" style={{ minWidth: '180px' }}>
                 <Save size={18} /> {viewMode === 'edit' ? 'Update Product' : 'Save Product'}
               </button>
             </div>

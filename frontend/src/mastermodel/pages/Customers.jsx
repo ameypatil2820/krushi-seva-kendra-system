@@ -128,21 +128,35 @@ const Customers = () => {
   if (viewMode === 'list') {
     return (
       <div className="agro-container">
-        <div className="page-header">
-          <div className="page-title-area">
-            <div className="page-title">
-              <h1>Customer Directory</h1>
+        <div className="agro-card" style={{ padding: '0', overflow: 'hidden' }}>
+          <div className="agro-card-header" style={{ padding: '24px 30px', marginBottom: 0 }}>
+            <div>
+              <h2>Customer Directory</h2>
               <p>Maintain detailed records of your farmers and customers</p>
             </div>
             <button className="btn-agro btn-primary" onClick={handleActionAdd}>
               <FiPlus size={20} /> Add Customer
             </button>
           </div>
+          
+          <div style={{ padding: '30px' }}>
+            <DataTable 
+              columns={columns} 
+              data={data} 
+              onEdit={handleActionEdit} 
+              onDelete={handleDeleteClick} 
+              onView={handleActionView} 
+            />
+          </div>
         </div>
 
-        <DataTable title="Customers" columns={columns} data={data} onEdit={handleActionEdit} onDelete={handleDeleteClick} onView={handleActionView} />
-
-        <ConfirmModal isOpen={isDeleteOpen} onClose={() => setIsDeleteOpen(false)} onConfirm={handleConfirmDelete} title="Delete Customer?" message={`Are you sure you want to delete ${currentItem?.name}?`} />
+        <ConfirmModal 
+          isOpen={isDeleteOpen} 
+          onClose={() => setIsDeleteOpen(false)} 
+          onConfirm={handleConfirmDelete} 
+          title="Delete Customer?" 
+          message={`Are you sure you want to delete ${currentItem?.name}?`} 
+        />
       </div>
     );
   }
@@ -150,86 +164,90 @@ const Customers = () => {
   if (viewMode === 'add' || viewMode === 'edit') {
     return (
       <div className="agro-container">
-        <div style={{ maxWidth: '1000px', margin: '40px auto 0' }}>
-          <form onSubmit={handleFinalSave} className="agro-card">
-            <div className="agro-card-header">
-              <h2>{viewMode === 'edit' ? 'Update Customer Profile' : 'New Customer Registration'}</h2>
-              <p>Fill in the details to {viewMode === 'edit' ? 'update' : 'register'} a customer record in your directory</p>
-            </div>
-            <div className="form-grid">
-              {/* Column 1: Personal Info */}
+        <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
+          <form onSubmit={handleFinalSave} className="agro-card" style={{ padding: 0, overflow: 'hidden' }}>
+            <div className="agro-card-header" style={{ padding: '30px', background: 'white' }}>
               <div>
-                <div className="form-section-title">
-                  <FiUser size={18} />
-                  <h3>Personal Information</h3>
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <h2 style={{ fontSize: '24px' }}>{viewMode === 'edit' ? 'Update Customer Profile' : 'New Customer Registration'}</h2>
+                <p>Fill in the details to {viewMode === 'edit' ? 'update' : 'register'} a customer record</p>
+              </div>
+              <button type="button" className="btn-agro btn-outline" onClick={onBack}>
+                <FiArrowLeft size={18} /> Back to List
+              </button>
+            </div>
+
+            <div style={{ padding: '40px' }}>
+              <div className="form-grid">
+                {/* Column 1: Personal Info */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                  <div className="form-section-title" style={{ marginBottom: '10px' }}>
+                    <FiUser size={18} />
+                    <h3 style={{ fontSize: '14px', margin: 0 }}>Personal Information</h3>
+                  </div>
+                  
                   <FormField label="Full Name" name="name" value={formData.name} onChange={handleChange} required placeholder="Enter customer name" />
                   <FormField label="Mobile Number" name="mobile" value={formData.mobile} onChange={handleChange} required placeholder="10 digit number" />
                   <FormField label="Email Address" name="email" type="email" value={formData.email} onChange={handleChange} placeholder="Optional" />
                   <FormField label="GST Number" name="gstNo" value={formData.gstNo} onChange={handleChange} placeholder="Optional GSTIN" />
                   
-                  <div style={{ marginTop: '8px', padding: '12px 16px', background: '#f9fafb', borderRadius: '10px', border: '1px solid #f3f4f6' }}>
-                    <div className="form-group" style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: 0 }}>
+                  <div style={{ marginTop: '10px', padding: '20px', background: 'var(--primary-soft)', borderRadius: '15px', border: '1px solid #dcfce7' }}>
+                    <div className="form-group" style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: 0 }}>
                       <input 
                         type="checkbox" 
                         name="isActive" 
                         id="isActive" 
                         checked={formData.isActive} 
                         onChange={handleChange} 
-                        style={{ width: '18px', height: '18px', cursor: 'pointer', accentColor: '#16a34a' }}
+                        style={{ width: '20px', height: '20px', cursor: 'pointer', accentColor: 'var(--primary)' }}
                       />
-                      <label htmlFor="isActive" style={{ marginBottom: 0, fontWeight: '600', fontSize: '13px', cursor: 'pointer', textTransform: 'none' }}>Active Customer Status</label>
+                      <label htmlFor="isActive" style={{ marginBottom: 0, fontWeight: '700', fontSize: '14px', cursor: 'pointer', textTransform: 'none', color: 'var(--primary)' }}>Active Member Account</label>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              {/* Column 2: Location Details */}
-              <div>
-                <div className="form-section-title">
-                  <FiMapPin size={18} />
-                  <h3>Location Details</h3>
-                </div>
-                
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                {/* Column 2: Location Details */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                  <div className="form-section-title" style={{ marginBottom: '10px' }}>
+                    <FiMapPin size={18} />
+                    <h3 style={{ fontSize: '14px', margin: 0 }}>Location Details</h3>
+                  </div>
+                  
                   <div style={{ position: 'relative' }}>
                     <FormField label="Pin Code" name="pinCode" value={formData.pinCode} onChange={handleChange} required placeholder="6 digit code" />
-                    <div style={{ position: 'absolute', right: '12px', top: '32px', display: 'flex', alignItems: 'center' }}>
-                      {isFetchingPin && <FiLoader className="animate-spin" color="#16a34a" />}
-                      {pinSuccess && <FiCheckCircle color="#16a34a" size={18} />}
+                    <div style={{ position: 'absolute', right: '15px', top: '38px' }}>
+                      {isFetchingPin && <FiLoader className="animate-spin" color="var(--primary)" size={18} />}
+                      {pinSuccess && <FiCheckCircle color="var(--primary)" size={18} />}
                     </div>
                   </div>
 
                   {villageList.length > 1 ? (
-                    <FormField 
-                      label="Village / City" 
-                      name="city" 
-                      type="select" 
-                      options={villageList} 
-                      value={formData.city} 
-                      onChange={handleChange} 
-                      required 
-                    />
+                    <FormField label="Village / City" name="city" type="select" options={villageList} value={formData.city} onChange={handleChange} required />
                   ) : (
                     <FormField label="Village / City" name="city" value={formData.city} onChange={handleChange} required placeholder="Auto-filled" />
                   )}
 
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
                     <FormField label="District" name="district" value={formData.district} onChange={handleChange} required placeholder="District" />
                     <FormField label="State" name="state" value={formData.state} onChange={handleChange} required placeholder="State" />
                   </div>
 
-                  <FormField label="Full Address / Landmark" name="address" type="textarea" value={formData.address} onChange={handleChange} placeholder="Optional address" />
+                  <FormField label="Full Address" name="address" type="textarea" value={formData.address} onChange={handleChange} placeholder="Optional detailed address" />
                 </div>
               </div>
             </div>
 
-            <div className="form-footer">
-              <button type="button" className="btn-agro btn-outline" onClick={onBack} style={{ padding: '10px 25px' }}>
+            <div style={{ 
+              padding: '25px 40px', 
+              background: '#f9fafb', 
+              borderTop: '1px solid var(--border-light)', 
+              display: 'flex', 
+              justifyContent: 'flex-end', 
+              gap: '15px' 
+            }}>
+              <button type="button" className="btn-agro btn-outline" onClick={onBack} style={{ minWidth: '120px' }}>
                 <FiX size={18} /> Cancel
               </button>
-              <button type="submit" className="btn-agro btn-primary" style={{ padding: '10px 40px', fontWeight: '600' }}>
+              <button type="submit" className="btn-agro btn-primary" style={{ minWidth: '180px' }}>
                 <FiSave size={18} /> {viewMode === 'edit' ? 'Update Record' : 'Save Customer'}
               </button>
             </div>

@@ -81,14 +81,31 @@ const Sidebar = () => {
   const filteredMenu = menuItems.map(filterItem).filter(Boolean);
 
   return (
-    <aside className="sidebar glass-card" style={{ width: '260px', height: '100vh', padding: '20px', borderRadius: '0', overflowY: 'auto', flexShrink: 0 }}>
-      <div className="brand" style={{ marginBottom: '40px', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <img src={logo} alt="Krushi Seva Logo" style={{ width: '80px', height: '80px', marginBottom: '10px', borderRadius: '12px' }} />
-        <h2 style={{ color: 'var(--primary)', fontWeight: '800', letterSpacing: '1px', fontSize: '1.2rem', margin: '0' }}>KRUSHI SEVA</h2>
-        <p style={{ fontSize: '0.7rem', color: 'var(--text-secondary)', margin: '0' }}>SYSTEM</p>
+    <aside className="sidebar" style={{ 
+      width: '280px', 
+      height: '100vh', 
+      background: 'linear-gradient(180deg, #064e3b 0%, #065f46 100%)', 
+      padding: '30px 20px', 
+      display: 'flex', 
+      flexDirection: 'column',
+      color: 'white',
+      boxShadow: '4px 0 24px rgba(0,0,0,0.1)',
+      zIndex: 100,
+      position: 'relative'
+    }}>
+      <div className="brand" style={{ marginBottom: '50px', textAlign: 'left', padding: '0 10px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+          <div style={{ width: '50px', height: '50px', background: 'rgba(255,255,255,0.1)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', backdropFilter: 'blur(10px)' }}>
+            <img src={logo} alt="Logo" style={{ width: '35px', height: '35px' }} />
+          </div>
+          <div>
+            <h2 style={{ fontSize: '20px', fontWeight: '800', letterSpacing: '0.5px', margin: 0 }}>AGRO SEVA</h2>
+            <p style={{ fontSize: '10px', color: '#34d399', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '1px' }}>Management System</p>
+          </div>
+        </div>
       </div>
 
-      <nav style={{ display: 'flex', flexDirection: 'column', gap: '4px', height: 'calc(100% - 140px)' }}>
+      <nav style={{ display: 'flex', flexDirection: 'column', gap: '8px', flex: 1, overflowY: 'auto', paddingRight: '5px' }}>
         {filteredMenu.map((item) => (
           <div key={item.name + (item.path || '')}>
             {item.children ? (
@@ -99,23 +116,25 @@ const Sidebar = () => {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
-                    padding: '12px 16px',
-                    borderRadius: '8px',
-                    color: location.pathname.startsWith(`/${item.id}`) ? 'white' : 'var(--text-secondary)',
+                    padding: '14px 16px',
+                    borderRadius: '12px',
+                    color: location.pathname.startsWith(`/${item.id}`) ? 'white' : 'rgba(255,255,255,0.7)',
                     cursor: 'pointer',
-                    transition: 'all 0.3s ease',
-                    background: location.pathname.startsWith(`/${item.id}`) ? 'rgba(16, 185, 129, 0.1)' : 'transparent'
+                    transition: 'all 0.3s',
+                    background: location.pathname.startsWith(`/${item.id}`) ? 'rgba(255,255,255,0.1)' : 'transparent'
                   }}
+                  onMouseOver={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.1)'}
+                  onMouseOut={(e) => e.currentTarget.style.background = location.pathname.startsWith(`/${item.id}`) ? 'rgba(255,255,255,0.1)' : 'transparent'}
                 >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
                     {item.icon}
-                    <span style={{ fontWeight: location.pathname.startsWith(`/${item.id}`) ? '600' : '400' }}>{item.name}</span>
+                    <span style={{ fontWeight: '600', fontSize: '15px' }}>{item.name}</span>
                   </div>
                   {openGroups[item.id] ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
                 </div>
                 
                 {openGroups[item.id] && (
-                  <div style={{ paddingLeft: '20px', marginTop: '4px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                  <div style={{ paddingLeft: '20px', marginTop: '6px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
                     {item.children.map((child) => (
                       <NavLink
                         key={child.path}
@@ -125,14 +144,14 @@ const Sidebar = () => {
                           display: 'flex',
                           alignItems: 'center',
                           gap: '12px',
-                          padding: '10px 16px',
-                          borderRadius: '8px',
-                          color: isActive ? 'white' : 'var(--text-secondary)',
-                          background: isActive ? 'var(--primary)' : 'transparent',
+                          padding: '12px 16px',
+                          borderRadius: '10px',
+                          color: isActive ? 'white' : 'rgba(255,255,255,0.6)',
+                          background: isActive ? '#10b981' : 'transparent',
                           textDecoration: 'none',
-                          transition: 'all 0.3s ease',
-                          fontSize: '0.9rem',
-                          fontWeight: isActive ? '600' : '400'
+                          transition: 'all 0.3s',
+                          fontSize: '14px',
+                          fontWeight: isActive ? '700' : '500'
                         })}
                       >
                         {child.icon}
@@ -149,14 +168,15 @@ const Sidebar = () => {
                 style={({ isActive }) => ({
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '12px',
-                  padding: '12px 16px',
-                  borderRadius: '8px',
-                  color: isActive ? 'white' : 'var(--text-secondary)',
-                  background: isActive ? 'var(--primary)' : 'transparent',
+                  gap: '15px',
+                  padding: '14px 16px',
+                  borderRadius: '12px',
+                  color: isActive ? 'white' : 'rgba(255,255,255,0.7)',
+                  background: isActive ? '#10b981' : 'transparent',
                   textDecoration: 'none',
-                  transition: 'all 0.3s ease',
-                  fontWeight: isActive ? '600' : '400'
+                  transition: 'all 0.3s',
+                  fontWeight: isActive ? '700' : '500',
+                  fontSize: '15px'
                 })}
               >
                 {item.icon}
@@ -165,23 +185,42 @@ const Sidebar = () => {
             )}
           </div>
         ))}
-
-        <div style={{ marginTop: 'auto', borderTop: '1px solid var(--border)', paddingTop: '20px', marginBottom: '20px' }}>
-          <div style={{ marginBottom: '15px', padding: '0 10px' }}>
-            <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Logged in as:</p>
-            <p style={{ fontWeight: '600' }}>{user?.name}</p>
-            <span className="badge badge-success" style={{ fontSize: '0.6rem' }}>{user?.role}</span>
-          </div>
-          <button
-            onClick={logout}
-            className="btn btn-secondary"
-            style={{ width: '100%', justifyContent: 'flex-start', border: 'none', color: '#ef4444' }}
-          >
-            <LogOut size={20} />
-            <span>Logout</span>
-          </button>
-        </div>
       </nav>
+
+      <div style={{ marginTop: 'auto', paddingTop: '30px', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
+        <div style={{ padding: '0 15px', marginBottom: '25px', display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: '#10b981', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '800', fontSize: '18px' }}>
+            {user?.name?.charAt(0)}
+          </div>
+          <div style={{ overflow: 'hidden' }}>
+            <p style={{ fontWeight: '700', fontSize: '14px', margin: 0, whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>{user?.name}</p>
+            <p style={{ fontSize: '11px', color: '#34d399', margin: 0, fontWeight: '600' }}>{user?.role?.toUpperCase()}</p>
+          </div>
+        </div>
+        <button
+          onClick={logout}
+          style={{ 
+            width: '100%', 
+            padding: '12px', 
+            borderRadius: '10px', 
+            background: 'rgba(239, 68, 68, 0.1)', 
+            border: '1px solid rgba(239, 68, 68, 0.2)', 
+            color: '#fca5a5',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '10px',
+            cursor: 'pointer',
+            fontWeight: '700',
+            transition: 'all 0.3s'
+          }}
+          onMouseOver={(e) => { e.currentTarget.style.background = '#ef4444'; e.currentTarget.style.color = 'white'; }}
+          onMouseOut={(e) => { e.currentTarget.style.background = 'rgba(239, 68, 68, 0.1)'; e.currentTarget.style.color = '#fca5a5'; }}
+        >
+          <LogOut size={18} />
+          <span>Logout</span>
+        </button>
+      </div>
     </aside>
   );
 };

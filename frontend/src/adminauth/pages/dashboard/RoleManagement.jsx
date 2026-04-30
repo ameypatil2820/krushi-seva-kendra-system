@@ -40,7 +40,7 @@ const RoleManagement = () => {
   const toggleAction = (moduleId, action) => {
     const perms = { ...currentRole.permissions };
     const currentActions = perms[moduleId] || [];
-    
+
     if (currentActions.includes(action)) {
       perms[moduleId] = currentActions.filter(a => a !== action);
       if (perms[moduleId].length === 0) delete perms[moduleId];
@@ -110,12 +110,12 @@ const RoleManagement = () => {
           <h3 style={{ marginBottom: '20px' }}>{currentRole.id ? 'Edit Role' : 'New Role'}</h3>
           <div className="input-group">
             <label>Role Name</label>
-            <input 
-              type="text" 
-              className="input-field" 
+            <input
+              type="text"
+              className="input-field"
               placeholder="e.g. Sales Manager"
               value={currentRole.roleName}
-              onChange={(e) => setCurrentRole({...currentRole, roleName: e.target.value})}
+              onChange={(e) => setCurrentRole({ ...currentRole, roleName: e.target.value })}
             />
           </div>
           <div className="input-group">
@@ -124,14 +124,14 @@ const RoleManagement = () => {
               {AVAILABLE_MODULES.map((module) => {
                 const modulePerms = currentRole.permissions[module.id] || [];
                 const isAll = modulePerms.length === 4;
-                
+
                 return (
                   <div key={module.id} className="glass-card" style={{ padding: '20px', border: '1px solid var(--border)' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px', borderBottom: '1px solid var(--border)', paddingBottom: '10px' }}>
                       <h4 style={{ color: 'var(--primary)' }}>{module.name}</h4>
                       <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.8rem', cursor: 'pointer' }}>
-                        <input 
-                          type="checkbox" 
+                        <input
+                          type="checkbox"
                           checked={isAll}
                           onChange={() => toggleAllModuleActions(module.id)}
                           style={{ accentColor: 'var(--primary)' }}
@@ -147,8 +147,8 @@ const RoleManagement = () => {
                         { id: 'delete', label: 'Delete' }
                       ].map((action) => (
                         <label key={action.id} style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', fontSize: '0.9rem' }}>
-                          <input 
-                            type="checkbox" 
+                          <input
+                            type="checkbox"
                             checked={modulePerms.includes(action.id)}
                             onChange={() => toggleAction(module.id, action.id)}
                             style={{ width: '16px', height: '16px', accentColor: 'var(--primary)' }}
@@ -179,12 +179,12 @@ const RoleManagement = () => {
       ) : (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '20px' }}>
           {roles.map((role) => (
-            <div 
-              key={role.id} 
-              className="glass-card" 
-              style={{ 
-                padding: '20px', 
-                display: 'flex', 
+            <div
+              key={role.id}
+              className="glass-card"
+              style={{
+                padding: '20px',
+                display: 'flex',
                 flexDirection: 'column',
                 cursor: role.roleName !== 'Admin' ? 'pointer' : 'default',
                 transition: 'transform 0.2s',
@@ -201,7 +201,7 @@ const RoleManagement = () => {
                 </div>
                 {role.roleName !== 'Admin' && (
                   <div style={{ display: 'flex', gap: '8px' }}>
-                    <button 
+                    <button
                       onClick={(e) => {
                         e.stopPropagation();
                         handleDelete(role.id);
@@ -213,7 +213,7 @@ const RoleManagement = () => {
                   </div>
                 )}
               </div>
-              
+
               <div style={{ flex: 1 }}>
                 <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginBottom: '10px' }}>Permissions:</p>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px' }}>

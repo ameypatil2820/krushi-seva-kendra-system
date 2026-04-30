@@ -18,26 +18,25 @@ const DataTable = ({ columns, data, onEdit, onDelete, onView, title }) => {
   });
 
   return (
-    <div className="agro-card">
-      <div className="page-header" style={{ marginBottom: '25px', flexWrap: 'wrap', gap: '15px' }}>
-        <div style={{ display: 'flex', gap: '12px', flex: 1, minWidth: '300px' }}>
-          <div className="search-box" style={{ position: 'relative', flex: 1, maxWidth: '450px' }}>
-            <Search style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)', color: '#9ca3af' }} />
-            <input 
-              type="text" 
-              placeholder={`Search in ${title}...`} 
-              className="form-control" 
-              style={{ paddingLeft: '42px', height: '45px', borderRadius: '10px' }}
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </div>
-          
-          <div style={{ position: 'relative', width: '180px' }}>
-            <Filter style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)', color: '#9ca3af', zIndex: 1 }} />
+    <div style={{ background: 'white', borderRadius: 'var(--radius-lg)' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '25px', gap: '20px' }}>
+        <div style={{ position: 'relative', flex: 1, maxWidth: '400px' }}>
+          <Search size={18} style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
+          <input 
+            type="text" 
+            placeholder={`Search ${title || 'data'}...`} 
+            className="form-control" 
+            style={{ paddingLeft: '48px', borderRadius: '12px' }}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
+        
+        <div style={{ display: 'flex', gap: '12px' }}>
+          <div style={{ position: 'relative', width: '160px' }}>
             <select 
               className="form-control" 
-              style={{ paddingLeft: '42px', height: '45px', borderRadius: '10px', appearance: 'none', cursor: 'pointer' }}
+              style={{ paddingLeft: '15px', borderRadius: '12px', appearance: 'none', cursor: 'pointer', background: '#f9fafb' }}
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
             >
@@ -45,6 +44,7 @@ const DataTable = ({ columns, data, onEdit, onDelete, onView, title }) => {
               <option value="active">Active</option>
               <option value="inactive">Inactive</option>
             </select>
+            <Filter size={14} style={{ position: 'absolute', right: '15px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)', pointerEvents: 'none' }} />
           </div>
         </div>
       </div>
@@ -56,7 +56,7 @@ const DataTable = ({ columns, data, onEdit, onDelete, onView, title }) => {
               {columns.map((col, index) => (
                 <th key={index}>{col.header}</th>
               ))}
-              <th style={{ textAlign: 'right' }}>Actions</th>
+              <th style={{ textAlign: 'right', paddingRight: '30px' }}>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -68,21 +68,21 @@ const DataTable = ({ columns, data, onEdit, onDelete, onView, title }) => {
                       {col.render ? col.render(row) : row[col.accessor]}
                     </td>
                   ))}
-                  <td style={{ textAlign: 'right' }}>
-                    <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px' }}>
+                  <td style={{ textAlign: 'right', paddingRight: '20px' }}>
+                    <div className="action-icons">
                       {onView && (
-                        <button className="btn-agro btn-outline" style={{ padding: '8px', borderRadius: '8px' }} onClick={() => onView(row)} title="View">
-                          <Eye size={18} color="#3b82f6" />
+                        <button className="action-btn btn-view" onClick={() => onView(row)} title="View Details">
+                          <Eye size={18} />
                         </button>
                       )}
                       {onEdit && (
-                        <button className="btn-agro btn-outline" style={{ padding: '8px', borderRadius: '8px' }} onClick={() => onEdit(row)} title="Edit">
-                          <Edit2 size={18} color="#16a34a" />
+                        <button className="action-btn btn-edit" onClick={() => onEdit(row)} title="Edit Record">
+                          <Edit2 size={18} />
                         </button>
                       )}
                       {onDelete && (
-                        <button className="btn-agro btn-outline" style={{ padding: '8px', borderRadius: '8px' }} onClick={() => onDelete(row)} title="Delete">
-                          <Trash2 size={18} color="#ef4444" />
+                        <button className="action-btn btn-delete" onClick={() => onDelete(row)} title="Delete Record">
+                          <Trash2 size={18} />
                         </button>
                       )}
                     </div>
@@ -91,9 +91,10 @@ const DataTable = ({ columns, data, onEdit, onDelete, onView, title }) => {
               ))
             ) : (
               <tr>
-                <td colSpan={columns.length + 1} style={{ textAlign: 'center', padding: '60px', color: '#6b7280' }}>
-                  <div style={{ marginBottom: '10px' }}><Search size={32} /></div>
-                  No data found matching your search or filters.
+                <td colSpan={columns.length + 1} style={{ textAlign: 'center', padding: '80px', color: 'var(--text-muted)' }}>
+                  <div style={{ marginBottom: '15px', opacity: 0.3 }}><Search size={48} /></div>
+                  <div style={{ fontWeight: '600', fontSize: '16px' }}>No records found</div>
+                  <div style={{ fontSize: '13px' }}>Try adjusting your search or filters</div>
                 </td>
               </tr>
             )}
