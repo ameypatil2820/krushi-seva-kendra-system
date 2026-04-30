@@ -33,7 +33,6 @@ const Taxes = () => {
 
   const handleActionAdd = () => { handleAdd(); setViewMode('add'); };
   const handleActionEdit = (item) => { handleEdit(item); setViewMode('edit'); };
-  const handleActionView = (item) => { handleView(item); setViewMode('view'); };
 
   const handleFinalSave = async (e) => {
     e.preventDefault();
@@ -58,15 +57,17 @@ const Taxes = () => {
     return (
       <div className="agro-container">
         <div className="page-header">
-          <div className="page-title">
-            <h1>Tax Management</h1>
-            <p>Configure GST rates and other taxes</p>
+          <div className="page-title-area">
+            <div className="page-title">
+              <h1>Tax Management</h1>
+              <p>Configure GST rates and other taxes</p>
+            </div>
+            <button className="btn-agro btn-primary" onClick={handleActionAdd}>
+              <Plus size={20} /> Add Tax
+            </button>
           </div>
-          <button className="btn-agro btn-primary" onClick={handleActionAdd}>
-            <Plus size={20} /> Add Tax
-          </button>
         </div>
-        <DataTable title="Taxes" columns={columns} data={data} onEdit={handleActionEdit} onDelete={handleDeleteClick} onView={handleActionView} />
+        <DataTable title="Taxes" columns={columns} data={data} onEdit={handleActionEdit} onDelete={handleDeleteClick} />
         <ConfirmModal isOpen={isDeleteOpen} onClose={() => setIsDeleteOpen(false)} onConfirm={handleConfirmDelete} title="Delete Tax?" message={`Delete ${currentItem?.name}?`} />
       </div>
     );
@@ -75,27 +76,29 @@ const Taxes = () => {
   if (viewMode === 'add' || viewMode === 'edit') {
     return (
       <div className="agro-container">
-        <div className="page-header">
-          <div className="page-title">
-            <button className="btn-agro btn-outline" onClick={onBack} style={{ marginBottom: '15px', border: 'none', padding: '0', background: 'transparent' }}>
-              <ArrowLeft size={18} /> Back to Taxes
-            </button>
-            <h1>{viewMode === 'edit' ? 'Edit Tax Rate' : 'Add New Tax'}</h1>
-          </div>
-        </div>
-        <div className="agro-card" style={{ maxWidth: '600px', margin: '0 auto' }}>
-          <form onSubmit={handleFinalSave}>
+        <div style={{ maxWidth: '600px', margin: '40px auto 0' }}>
+          <form onSubmit={handleFinalSave} className="agro-card">
+            <div className="agro-card-header">
+              <h2>{viewMode === 'edit' ? 'Update Tax Configuration' : 'Register New Tax Rate'}</h2>
+              <p>Configure GST and other tax rates for billing accuracy</p>
+            </div>
+            <div className="form-section-title">
+              <Percent size={18} />
+              <h3>Tax Configuration</h3>
+            </div>
             <FormField label="Tax Name" name="name" value={formData.name} onChange={handleChange} required placeholder="e.g. GST 18%" />
             <FormField label="Rate (%)" name="rate" type="number" value={formData.rate} onChange={handleChange} required placeholder="e.g. 18" />
-            <div style={{ marginTop: '20px', padding: '15px', background: '#f9fafb', borderRadius: '10px' }}>
+            
+            <div style={{ marginTop: '16px', padding: '12px 16px', background: '#f9fafb', borderRadius: '10px', border: '1px solid #f3f4f6' }}>
               <div className="form-group" style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: 0 }}>
-                <input type="checkbox" name="isActive" id="isActive" checked={formData.isActive} onChange={handleChange} />
-                <label htmlFor="isActive" style={{ marginBottom: 0 }}>Active Tax Rate</label>
+                <input type="checkbox" name="isActive" id="isActive" checked={formData.isActive} onChange={handleChange} style={{ width: '18px', height: '18px', cursor: 'pointer', accentColor: '#16a34a' }} />
+                <label htmlFor="isActive" style={{ marginBottom: 0, fontWeight: '600', cursor: 'pointer', textTransform: 'none' }}>Active Tax Rate</label>
               </div>
             </div>
-            <div style={{ display: 'flex', gap: '12px', marginTop: '30px', justifyContent: 'flex-end' }}>
-              <button type="button" className="btn-agro btn-outline" onClick={onBack}><X /> Cancel</button>
-              <button type="submit" className="btn-agro btn-primary"><Save /> Save Tax</button>
+            
+            <div className="form-footer">
+              <button type="button" className="btn-agro btn-outline" onClick={onBack}><X size={18} /> Cancel</button>
+              <button type="submit" className="btn-agro btn-primary"><Save size={18} /> Save Tax</button>
             </div>
           </form>
         </div>
@@ -106,24 +109,33 @@ const Taxes = () => {
   if (viewMode === 'view') {
     return (
       <div className="agro-container">
-        <div className="page-header">
-          <div className="page-title">
-            <button className="btn-agro btn-outline" onClick={onBack} style={{ marginBottom: '15px', border: 'none', padding: '0', background: 'transparent' }}>
-              <ArrowLeft size={18} /> Back to Taxes
-            </button>
-            <h1>Tax Configuration Details</h1>
-          </div>
-          <button className="btn-agro btn-primary" onClick={onBack}>Done</button>
-        </div>
-        <div className="agro-card" style={{ maxWidth: '700px', margin: '0 auto' }}>
-          <div style={{ display: 'flex', gap: '30px', alignItems: 'center' }}>
-            <div style={{ width: '80px', height: '80px', background: '#f0fdf4', color: '#16a34a', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '30px' }}>
-              <Percent />
+        <div style={{ maxWidth: '700px', margin: '40px auto 0' }}>
+          <div className="agro-card" style={{ marginBottom: '24px', padding: '24px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div>
+                <h2 style={{ fontSize: '24px', fontWeight: '800', color: '#111827', margin: 0 }}>Tax Details</h2>
+                <p style={{ color: '#6b7280', margin: '4px 0 0 0' }}>Full configuration details of the tax rate</p>
+              </div>
+              <button className="btn-agro btn-primary" onClick={onBack} style={{ padding: '10px 30px' }}>Done</button>
             </div>
-            <div style={{ flex: 1 }}>
-              <h2 style={{ color: '#111827', marginBottom: '5px' }}>{formData.name}</h2>
-              <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#16a34a', marginBottom: '10px' }}>{formData.rate}%</div>
-              <span className={`badge ${formData.isActive ? 'badge-success' : 'badge-danger'}`}>{formData.isActive ? 'Active' : 'Inactive'}</span>
+          </div>
+
+          <div className="agro-card">
+            <div style={{ display: 'flex', gap: '30px', alignItems: 'center' }}>
+              <div style={{ width: '80px', height: '80px', background: '#f0fdf4', color: '#16a34a', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '30px' }}>
+                <Percent />
+              </div>
+              <div style={{ flex: 1 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div>
+                    <h2 style={{ fontSize: '24px', color: '#111827', margin: 0 }}>{formData.name}</h2>
+                    <div style={{ fontSize: '18px', fontWeight: '700', color: '#16a34a', marginTop: '4px' }}>Rate: {formData.rate}%</div>
+                  </div>
+                  <span className={`badge ${formData.isActive ? 'badge-success' : 'badge-danger'}`}>
+                    {formData.isActive ? 'Active' : 'Inactive'}
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
         </div>

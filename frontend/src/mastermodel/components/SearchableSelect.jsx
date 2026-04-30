@@ -23,9 +23,9 @@ const SearchableSelect = ({ label, options, value, onChange, placeholder, requir
     if (value) setSearchTerm(value);
   }, [value]);
 
-  const filteredOptions = options.filter(opt => 
-    String(opt).toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredOptions = searchTerm 
+    ? options.filter(opt => String(opt).toLowerCase().includes(searchTerm.toLowerCase()))
+    : options.slice(0, 4);
 
   const handleSelect = (opt) => {
     setSearchTerm(opt);
@@ -62,17 +62,17 @@ const SearchableSelect = ({ label, options, value, onChange, placeholder, requir
   };
 
   return (
-    <div className="form-group" style={{ position: 'relative' }} ref={wrapperRef}>
-      <label>{label} {required && <span style={{ color: 'red' }}>*</span>}</label>
+    <div className="form-group" style={{ position: 'relative', marginBottom: '20px' }} ref={wrapperRef}>
+      <label style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <span>{label} {required && <span style={{ color: 'red' }}>*</span>}</span>
+      </label>
       
       <div 
         style={{ 
           position: 'relative', 
           display: 'flex', 
-          alignItems: 'center',
-          cursor: 'pointer'
+          alignItems: 'center'
         }}
-        onClick={() => setIsOpen(true)}
       >
         <input
           type="text"
@@ -84,31 +84,51 @@ const SearchableSelect = ({ label, options, value, onChange, placeholder, requir
             setIsOpen(true);
             setSelectedIndex(0);
           }}
+          onFocus={() => setIsOpen(true)}
+          onClick={() => setIsOpen(true)}
           onKeyDown={handleKeyDown}
           required={required}
-          style={{ paddingRight: '60px' }}
+          style={{ 
+            paddingRight: '60px', 
+            height: '45px', 
+            borderRadius: '10px',
+            border: isOpen ? '2px solid #16a34a' : '1px solid #e5e7eb',
+            transition: 'all 0.2s',
+            cursor: 'text'
+          }}
         />
         
-        <div style={{ position: 'absolute', right: '10px', display: 'flex', gap: '8px', alignItems: 'center', color: '#9ca3af' }}>
-          {searchTerm && <X onClick={(e) => { e.stopPropagation(); handleClear(); }} style={{ cursor: 'pointer' }} />}
-          <ChevronDown />
+        <div 
+          onClick={() => setIsOpen(!isOpen)}
+          style={{ 
+            position: 'absolute', 
+            right: '12px', 
+            display: 'flex', 
+            gap: '8px', 
+            alignItems: 'center', 
+            color: isOpen ? '#16a34a' : '#9ca3af',
+            cursor: 'pointer'
+          }}
+        >
+          {searchTerm && <X size={16} onClick={(e) => { e.stopPropagation(); handleClear(); }} style={{ cursor: 'pointer' }} />}
+          <ChevronDown size={20} style={{ transform: isOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }} />
         </div>
       </div>
 
-      {isOpen && searchTerm && (
+      {isOpen && (
         <div style={{
           position: 'absolute',
-          top: '100%',
+          top: 'calc(100% + 4px)',
           left: 0,
           right: 0,
           zIndex: 1000,
           background: 'white',
           border: '1px solid #e5e7eb',
-          borderRadius: '8px',
-          marginTop: '4px',
-          boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
-          maxHeight: '200px',
-          overflowY: 'auto'
+          borderRadius: '10px',
+          boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
+          maxHeight: '220px',
+          overflowY: 'auto',
+          animation: 'fadeIn 0.2s ease-out'
         }}>
           {filteredOptions.length > 0 ? (
             filteredOptions.map((opt, i) => (
@@ -116,20 +136,25 @@ const SearchableSelect = ({ label, options, value, onChange, placeholder, requir
                 key={i}
                 onClick={() => handleSelect(opt)}
                 style={{
-                  padding: '10px 15px',
+                  padding: '12px 16px',
                   cursor: 'pointer',
-                  borderBottom: i === filteredOptions.length - 1 ? 'none' : '1px solid #f3f4f6',
+                  borderBottom: i === filteredOptions.length - 1 ? 'none' : '1px solid #f9fafb',
                   background: selectedIndex === i ? '#f0fdf4' : (value === opt ? '#f9fafb' : 'transparent'),
                   color: selectedIndex === i || value === opt ? '#16a34a' : '#374151',
-                  fontWeight: selectedIndex === i || value === opt ? '600' : '400'
+                  fontWeight: selectedIndex === i || value === opt ? '600' : '400',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '10px'
                 }}
                 onMouseEnter={() => setSelectedIndex(i)}
               >
+                <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: value === opt ? '#16a34a' : 'transparent' }}></div>
                 {opt}
               </div>
             ))
           ) : (
-            <div style={{ padding: '15px', textAlign: 'center', color: '#9ca3af', fontSize: '14px' }}>
+            <div style={{ padding: '20px', textAlign: 'center', color: '#9ca3af', fontSize: '14px' }}>
+              <Search size={20} style={{ display: 'block', margin: '0 auto 8px', opacity: 0.5 }} />
               No results found for "{searchTerm}"
             </div>
           )}

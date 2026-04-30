@@ -102,13 +102,15 @@ const Products = () => {
     return (
       <div className="agro-container">
         <div className="page-header">
-          <div className="page-title">
-            <h1>Product Inventory</h1>
-            <p>Manage your stocks, pricing and categories</p>
+          <div className="page-title-area">
+            <div className="page-title">
+              <h1>Product Inventory</h1>
+              <p>Manage your stocks, pricing and categories</p>
+            </div>
+            <button className="btn-agro btn-primary" onClick={handleActionAdd}>
+              <Plus size={20} /> Add Product
+            </button>
           </div>
-          <button className="btn-agro btn-primary" onClick={handleActionAdd}>
-            <Plus size={20} /> Add Product
-          </button>
         </div>
 
         <DataTable title="Products" columns={columns} data={data} onEdit={handleActionEdit} onDelete={handleDeleteClick} onView={handleActionView} />
@@ -121,21 +123,16 @@ const Products = () => {
   if (viewMode === 'add' || viewMode === 'edit') {
     return (
       <div className="agro-container">
-        <div className="page-header">
-          <div className="page-title">
-            <button className="btn-agro btn-outline" onClick={onBack} style={{ marginBottom: '15px', border: 'none', padding: '0', background: 'transparent' }}>
-              <ArrowLeft size={18} /> Back to Products
-            </button>
-            <h1>{viewMode === 'edit' ? 'Edit Product' : 'Add New Product'}</h1>
-          </div>
-        </div>
-
-        <div className="agro-card" style={{ maxWidth: '1000px', margin: '0 auto' }}>
-          <form onSubmit={handleFinalSave}>
+        <div style={{ maxWidth: '1000px', margin: '40px auto 0' }}>
+          <form onSubmit={handleFinalSave} className="agro-card">
+            <div className="agro-card-header">
+              <h2>{viewMode === 'edit' ? 'Edit Product Details' : 'Register New Product'}</h2>
+              <p>Manage your stocks, pricing and categories for the inventory</p>
+            </div>
             {/* Section 1: Basic Info */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '25px', color: '#16a34a', borderBottom: '1px solid #f3f4f6', paddingBottom: '10px' }}>
-              <Tag size={20} />
-              <h3 style={{ margin: 0, fontSize: '18px' }}>Basic Information</h3>
+            <div className="form-section-title">
+              <Tag size={18} />
+              <h3>Basic Information</h3>
             </div>
             <div className="form-grid">
               <FormField label="Product Name" name="name" value={formData.name} onChange={handleChange} required placeholder="Enter product name" />
@@ -163,9 +160,9 @@ const Products = () => {
             </div>
 
             {/* Section 2: Unit & Packing */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '25px', marginTop: '40px', color: '#16a34a', borderBottom: '1px solid #f3f4f6', paddingBottom: '10px' }}>
-              <Package size={20} />
-              <h3 style={{ margin: 0, fontSize: '18px' }}>Unit & Packing</h3>
+            <div className="form-section-title" style={{ marginTop: '32px' }}>
+              <Package size={18} />
+              <h3>Unit & Packing</h3>
             </div>
             <div className="form-grid">
               <SearchableSelect
@@ -179,9 +176,9 @@ const Products = () => {
             </div>
 
             {/* Section 3: Manufacturing & Expiry */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '25px', marginTop: '40px', color: '#16a34a', borderBottom: '1px solid #f3f4f6', paddingBottom: '10px' }}>
-              <Calendar size={20} />
-              <h3 style={{ margin: 0, fontSize: '18px' }}>Shelf Life & Dates</h3>
+            <div className="form-section-title" style={{ marginTop: '32px' }}>
+              <Calendar size={18} />
+              <h3>Shelf Life & Dates</h3>
             </div>
             <div className="form-grid">
               <FormField label="Manufacturing Date" name="mfgDate" type="date" value={formData.mfgDate} onChange={handleChange} />
@@ -189,9 +186,9 @@ const Products = () => {
             </div>
 
             {/* Section 4: Pricing & Stock */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '25px', marginTop: '40px', color: '#16a34a', borderBottom: '1px solid #f3f4f6', paddingBottom: '10px' }}>
-              <DollarSign size={20} />
-              <h3 style={{ margin: 0, fontSize: '18px' }}>Pricing & Stock</h3>
+            <div className="form-section-title" style={{ marginTop: '32px' }}>
+              <DollarSign size={18} />
+              <h3>Pricing & Stock</h3>
             </div>
             <div className="form-grid">
               <FormField label="Purchase Price" name="purchasePrice" type="number" value={formData.purchasePrice} onChange={handleChange} required />
@@ -200,22 +197,22 @@ const Products = () => {
               <FormField label="Min Stock Level" name="minStock" type="number" value={formData.minStock} onChange={handleChange} required />
             </div>
 
-            <div style={{ display: 'flex', gap: '40px', marginTop: '30px', padding: '20px', background: '#f9fafb', borderRadius: '12px' }}>
+            <div style={{ display: 'flex', gap: '30px', marginTop: '32px', padding: '16px 20px', background: '#f9fafb', borderRadius: '12px', border: '1px solid #f3f4f6' }}>
               <div className="form-group" style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: 0 }}>
-                <input type="checkbox" name="expiryRequired" id="expiryRequired" checked={formData.expiryRequired} onChange={handleChange} />
-                <label htmlFor="expiryRequired" style={{ marginBottom: 0 }}>Expiry Alert Required?</label>
+                <input type="checkbox" name="expiryRequired" id="expiryRequired" checked={formData.expiryRequired} onChange={handleChange} style={{ width: '18px', height: '18px', cursor: 'pointer', accentColor: '#16a34a' }} />
+                <label htmlFor="expiryRequired" style={{ marginBottom: 0, cursor: 'pointer', textTransform: 'none', fontWeight: '600' }}>Expiry Alert Required?</label>
               </div>
               <div className="form-group" style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: 0 }}>
-                <input type="checkbox" name="isActive" id="isActive" checked={formData.isActive} onChange={handleChange} />
-                <label htmlFor="isActive" style={{ marginBottom: 0 }}>Active Status</label>
+                <input type="checkbox" name="isActive" id="isActive" checked={formData.isActive} onChange={handleChange} style={{ width: '18px', height: '18px', cursor: 'pointer', accentColor: '#16a34a' }} />
+                <label htmlFor="isActive" style={{ marginBottom: 0, cursor: 'pointer', textTransform: 'none', fontWeight: '600' }}>Active Status</label>
               </div>
             </div>
 
-            <div style={{ display: 'flex', gap: '12px', marginTop: '40px', justifyContent: 'flex-end', borderTop: '1px solid #f3f4f6', paddingTop: '25px' }}>
-              <button type="button" className="btn-agro btn-outline" onClick={onBack} style={{ padding: '12px 25px' }}>
+            <div className="form-footer">
+              <button type="button" className="btn-agro btn-outline" onClick={onBack} style={{ padding: '10px 25px' }}>
                 <X size={18} /> Cancel
               </button>
-              <button type="submit" className="btn-agro btn-primary" style={{ padding: '12px 35px' }}>
+              <button type="submit" className="btn-agro btn-primary" style={{ padding: '10px 35px' }}>
                 <Save size={18} /> {viewMode === 'edit' ? 'Update Product' : 'Save Product'}
               </button>
             </div>
@@ -228,69 +225,120 @@ const Products = () => {
   if (viewMode === 'view') {
     return (
       <div className="agro-container">
-        <div className="page-header">
-          <div className="page-title">
-            <button className="btn-agro btn-outline" onClick={onBack} style={{ marginBottom: '15px', border: 'none', padding: '0', background: 'transparent' }}>
-              <ArrowLeft size={18} /> Back to Products
-            </button>
-            <h1>Product Details</h1>
-          </div>
-          <button className="btn-agro btn-primary" onClick={onBack}>Done</button>
-        </div>
-
-        <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 2fr', gap: '25px' }}>
-          <div className="agro-card" style={{ textAlign: 'center' }}>
-            <div style={{ width: '120px', height: '120px', background: '#f0fdf4', color: '#16a34a', borderRadius: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px', fontSize: '48px', fontWeight: 'bold' }}>
-              <Package />
-            </div>
-            <h2 style={{ marginBottom: '10px', color: '#111827' }}>{formData.name}</h2>
-            <p style={{ color: '#6b7280', fontSize: '16px', marginBottom: '15px' }}>Code: {formData.code}</p>
-            <span className={`badge ${formData.isActive ? 'badge-success' : 'badge-danger'}`} style={{ fontSize: '14px', padding: '6px 15px' }}>
-              {formData.isActive ? 'Active' : 'Inactive'}
-            </span>
-
-            <div style={{ marginTop: '30px', textAlign: 'left', borderTop: '1px solid #f3f4f6', paddingTop: '20px' }}>
-              <div style={{ marginBottom: '15px' }}>
-                <label style={{ display: 'block', color: '#6b7280', fontSize: '11px', fontWeight: 'bold', textTransform: 'uppercase' }}>Manufacturing Date</label>
-                <div style={{ fontSize: '15px', color: '#111827', fontWeight: '500' }}>{formData.mfgDate || 'N/A'}</div>
-              </div>
+        <div style={{ maxWidth: '1000px', margin: '40px auto 40px' }}>
+          <div className="agro-card" style={{ padding: 0, overflow: 'hidden' }}>
+            {/* Unified Header */}
+            <div style={{ 
+              display: 'flex', 
+              justifyContent: 'space-between', 
+              alignItems: 'center', 
+              padding: '24px 30px', 
+              borderBottom: '1px solid #f3f4f6',
+              background: 'white'
+            }}>
               <div>
-                <label style={{ display: 'block', color: '#6b7280', fontSize: '11px', fontWeight: 'bold', textTransform: 'uppercase' }}>Expiry Date</label>
-                <div style={{ fontSize: '15px', color: formData.expDate ? '#ef4444' : '#111827', fontWeight: '600' }}>{formData.expDate || 'N/A'}</div>
+                <h2 style={{ fontSize: '24px', fontWeight: '800', color: '#111827', margin: 0 }}>Product Details</h2>
+                <p style={{ color: '#6b7280', margin: '4px 0 0 0', fontSize: '14px' }}>Full technical and commercial specifications of the product</p>
               </div>
-            </div>
-          </div>
-
-          <div className="agro-card">
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '30px', paddingBottom: '15px', borderBottom: '1px solid #f3f4f6' }}>
-              <Layers size={22} color="#16a34a" />
-              <h3 style={{ margin: 0, color: '#111827', fontSize: '20px' }}>Specifications & Pricing</h3>
+              <button className="btn-agro btn-outline" onClick={onBack} style={{ padding: '10px 25px', borderRadius: '8px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <ArrowLeft size={18} /> Close Details
+              </button>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '30px' }}>
-              <div>
-                <label style={{ display: 'block', color: '#6b7280', fontSize: '13px', fontWeight: 'bold', textTransform: 'uppercase', marginBottom: '8px' }}>Category</label>
-                <div style={{ fontSize: '16px', fontWeight: '600', color: '#111827' }}>{formData.category}</div>
+            <div style={{ display: 'flex', minHeight: '500px' }}>
+              {/* Product Sidebar */}
+              <div style={{ 
+                width: '320px', 
+                background: '#f9fafb', 
+                padding: '40px 30px', 
+                borderRight: '1px solid #f3f4f6',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center'
+              }}>
+                <div style={{ 
+                  width: '120px', 
+                  height: '120px', 
+                  background: 'white', 
+                  color: '#16a34a', 
+                  borderRadius: '20px', 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'center', 
+                  fontSize: '48px', 
+                  boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.05)',
+                  border: '4px solid #f0fdf4',
+                  marginBottom: '20px'
+                }}>
+                  <Package size={48} />
+                </div>
+                
+                <h2 style={{ fontSize: '22px', fontWeight: '800', color: '#111827', margin: '0 0 8px 0', textAlign: 'center' }}>{formData.name}</h2>
+                <div style={{ color: '#6b7280', fontSize: '14px', marginBottom: '15px' }}>Code: {formData.code}</div>
+                <span className={`badge ${formData.isActive ? 'badge-success' : 'badge-danger'}`} style={{ padding: '6px 16px', fontSize: '13px', borderRadius: '20px' }}>
+                  {formData.isActive ? 'In Stock' : 'Out of Stock'}
+                </span>
+
+                <div style={{ marginTop: '40px', width: '100%', padding: '20px', background: 'white', borderRadius: '15px', border: '1px solid #f3f4f6' }}>
+                  <div style={{ marginBottom: '20px' }}>
+                    <div style={{ fontSize: '11px', color: '#9ca3af', fontWeight: '700', textTransform: 'uppercase', marginBottom: '5px' }}>Manufacturing Date</div>
+                    <div style={{ fontSize: '15px', color: '#374151', fontWeight: '600' }}>{formData.mfgDate || 'N/A'}</div>
+                  </div>
+                  <div>
+                    <div style={{ fontSize: '11px', color: '#ef4444', fontWeight: '700', textTransform: 'uppercase', marginBottom: '5px' }}>Expiry Date</div>
+                    <div style={{ fontSize: '15px', color: '#ef4444', fontWeight: '800' }}>{formData.expDate || 'N/A'}</div>
+                  </div>
+                </div>
               </div>
-              <div>
-                <label style={{ display: 'block', color: '#6b7280', fontSize: '13px', fontWeight: 'bold', textTransform: 'uppercase', marginBottom: '8px' }}>Brand / Company</label>
-                <div style={{ fontSize: '16px', fontWeight: '600', color: '#111827' }}>{formData.brand} ({formData.company})</div>
-              </div>
-              <div>
-                <label style={{ display: 'block', color: '#6b7280', fontSize: '13px', fontWeight: 'bold', textTransform: 'uppercase', marginBottom: '8px' }}>Packing / Unit</label>
-                <div style={{ fontSize: '16px', fontWeight: '600', color: '#111827' }}>{formData.packing} {formData.unit}</div>
-              </div>
-              <div>
-                <label style={{ display: 'block', color: '#6b7280', fontSize: '13px', fontWeight: 'bold', textTransform: 'uppercase', marginBottom: '8px' }}>MRP</label>
-                <div style={{ fontSize: '16px', fontWeight: '600', color: '#111827' }}>₹{formData.mrp}</div>
-              </div>
-              <div style={{ padding: '15px', background: '#f9fafb', borderRadius: '12px' }}>
-                <div style={{ fontSize: '12px', color: '#6b7280', fontWeight: 'bold', textTransform: 'uppercase' }}>Purchase Price</div>
-                <div style={{ fontSize: '18px', fontWeight: '700', color: '#111827' }}>₹{formData.purchasePrice}</div>
-              </div>
-              <div style={{ padding: '15px', background: '#f0fdf4', borderRadius: '12px' }}>
-                <div style={{ fontSize: '12px', color: '#16a34a', fontWeight: 'bold', textTransform: 'uppercase' }}>Sale Price</div>
-                <div style={{ fontSize: '18px', fontWeight: '700', color: '#16a34a' }}>₹{formData.salePrice}</div>
+
+              {/* Main Specs Area */}
+              <div style={{ flex: 1, padding: '40px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '30px' }}>
+                  <div style={{ width: '32px', height: '32px', borderRadius: '8px', background: '#f0fdf4', color: '#16a34a', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <Layers size={18} />
+                  </div>
+                  <h3 style={{ fontSize: '18px', fontWeight: '800', color: '#111827', margin: 0 }}>Specifications & Pricing</h3>
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '30px 20px' }}>
+                  <div style={{ padding: '16px', background: '#fcfcfc', borderRadius: '12px', border: '1px solid #f3f4f6' }}>
+                    <label style={{ display: 'block', color: '#9ca3af', fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', marginBottom: '6px' }}>Category</label>
+                    <div style={{ fontSize: '16px', color: '#111827', fontWeight: '700' }}>{formData.category}</div>
+                  </div>
+                  
+                  <div style={{ padding: '16px', background: '#fcfcfc', borderRadius: '12px', border: '1px solid #f3f4f6' }}>
+                    <label style={{ display: 'block', color: '#9ca3af', fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', marginBottom: '6px' }}>Brand / Company</label>
+                    <div style={{ fontSize: '16px', color: '#111827', fontWeight: '700' }}>{formData.brand} ({formData.company})</div>
+                  </div>
+
+                  <div style={{ padding: '16px', background: '#fcfcfc', borderRadius: '12px', border: '1px solid #f3f4f6' }}>
+                    <label style={{ display: 'block', color: '#9ca3af', fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', marginBottom: '6px' }}>Packing / Unit</label>
+                    <div style={{ fontSize: '16px', color: '#111827', fontWeight: '700' }}>{formData.packing} {formData.unit}</div>
+                  </div>
+
+                  <div style={{ padding: '16px', background: '#fcfcfc', borderRadius: '12px', border: '1px solid #f3f4f6' }}>
+                    <label style={{ display: 'block', color: '#9ca3af', fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', marginBottom: '6px' }}>MRP (Maximum Retail Price)</label>
+                    <div style={{ fontSize: '16px', color: '#111827', fontWeight: '700' }}>₹{formData.mrp}</div>
+                  </div>
+
+                  <div style={{ padding: '20px', background: '#f9fafb', borderRadius: '12px', border: '1px solid #e5e7eb' }}>
+                    <label style={{ display: 'block', color: '#9ca3af', fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', marginBottom: '10px' }}>Purchase Price</label>
+                    <div style={{ fontSize: '24px', color: '#111827', fontWeight: '800' }}>₹{formData.purchasePrice}</div>
+                  </div>
+
+                  <div style={{ padding: '20px', background: '#f0fdf4', borderRadius: '12px', border: '1px solid #dcfce7' }}>
+                    <label style={{ display: 'block', color: '#16a34a', fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', marginBottom: '10px' }}>Selling Price</label>
+                    <div style={{ fontSize: '24px', color: '#16a34a', fontWeight: '800' }}>₹{formData.salePrice}</div>
+                  </div>
+                </div>
+
+                <div style={{ marginTop: '40px', padding: '20px', background: '#fffbeb', borderRadius: '12px', border: '1px solid #fef3c7', display: 'flex', alignItems: 'center', gap: '15px' }}>
+                  <div style={{ fontSize: '24px' }}>📈</div>
+                  <div>
+                    <div style={{ fontSize: '14px', fontWeight: '700', color: '#92400e' }}>Profit Margin</div>
+                    <div style={{ fontSize: '13px', color: '#b45309' }}>Your profit margin on this product is approximately ₹{formData.salePrice - formData.purchasePrice} per unit.</div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

@@ -33,7 +33,6 @@ const Categories = () => {
 
   const handleActionAdd = () => { handleAdd(); setViewMode('add'); };
   const handleActionEdit = (item) => { handleEdit(item); setViewMode('edit'); };
-  const handleActionView = (item) => { handleView(item); setViewMode('view'); };
 
   const handleFinalSave = async (e) => {
     e.preventDefault();
@@ -58,15 +57,17 @@ const Categories = () => {
     return (
       <div className="agro-container">
         <div className="page-header">
-          <div className="page-title">
-            <h1>Categories</h1>
-            <p>Manage product groupings and classifications</p>
+          <div className="page-title-area">
+            <div className="page-title">
+              <h1>Categories</h1>
+              <p>Manage product groupings and classifications</p>
+            </div>
+            <button className="btn-agro btn-primary" onClick={handleActionAdd}>
+              <Plus size={20} /> Add Category
+            </button>
           </div>
-          <button className="btn-agro btn-primary" onClick={handleActionAdd}>
-            <Plus size={20} /> Add Category
-          </button>
         </div>
-        <DataTable title="Categories" columns={columns} data={data} onEdit={handleActionEdit} onDelete={handleDeleteClick} onView={handleActionView} />
+        <DataTable title="Categories" columns={columns} data={data} onEdit={handleActionEdit} onDelete={handleDeleteClick} />
         <ConfirmModal isOpen={isDeleteOpen} onClose={() => setIsDeleteOpen(false)} onConfirm={handleConfirmDelete} title="Delete Category?" message={`Delete ${currentItem?.name}?`} />
       </div>
     );
@@ -75,27 +76,29 @@ const Categories = () => {
   if (viewMode === 'add' || viewMode === 'edit') {
     return (
       <div className="agro-container">
-        <div className="page-header">
-          <div className="page-title">
-            <button className="btn-agro btn-outline" onClick={onBack} style={{ marginBottom: '15px', border: 'none', padding: '0', background: 'transparent' }}>
-              <ArrowLeft size={18} /> Back to Categories
-            </button>
-            <h1>{viewMode === 'edit' ? 'Edit Category' : 'Add Category'}</h1>
-          </div>
-        </div>
-        <div className="agro-card" style={{ maxWidth: '700px', margin: '0 auto' }}>
-          <form onSubmit={handleFinalSave}>
+        <div style={{ maxWidth: '700px', margin: '40px auto 0' }}>
+          <form onSubmit={handleFinalSave} className="agro-card">
+            <div className="agro-card-header">
+              <h2>{viewMode === 'edit' ? 'Edit Category' : 'Create New Category'}</h2>
+              <p>Define product groupings and classifications for the store</p>
+            </div>
+            <div className="form-section-title">
+              <Layers size={18} />
+              <h3>Category Details</h3>
+            </div>
             <FormField label="Category Name" name="name" value={formData.name} onChange={handleChange} required placeholder="e.g. Fertilizers" />
             <FormField label="Description" name="description" type="textarea" value={formData.description} onChange={handleChange} placeholder="What kind of products are in this category?" />
-            <div style={{ marginTop: '20px', padding: '15px', background: '#f9fafb', borderRadius: '10px' }}>
+            
+            <div style={{ marginTop: '16px', padding: '12px 16px', background: '#f9fafb', borderRadius: '10px', border: '1px solid #f3f4f6' }}>
               <div className="form-group" style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: 0 }}>
-                <input type="checkbox" name="isActive" id="isActive" checked={formData.isActive} onChange={handleChange} />
-                <label htmlFor="isActive" style={{ marginBottom: 0 }}>Active Category</label>
+                <input type="checkbox" name="isActive" id="isActive" checked={formData.isActive} onChange={handleChange} style={{ width: '18px', height: '18px', cursor: 'pointer', accentColor: '#16a34a' }} />
+                <label htmlFor="isActive" style={{ marginBottom: 0, fontWeight: '600', cursor: 'pointer', textTransform: 'none' }}>Active Category Status</label>
               </div>
             </div>
-            <div style={{ display: 'flex', gap: '12px', marginTop: '30px', justifyContent: 'flex-end' }}>
-              <button type="button" className="btn-agro btn-outline" onClick={onBack}><X /> Cancel</button>
-              <button type="submit" className="btn-agro btn-primary"><Save /> Save Category</button>
+            
+            <div className="form-footer">
+              <button type="button" className="btn-agro btn-outline" onClick={onBack}><X size={18} /> Cancel</button>
+              <button type="submit" className="btn-agro btn-primary"><Save size={18} /> Save Category</button>
             </div>
           </form>
         </div>
@@ -106,26 +109,36 @@ const Categories = () => {
   if (viewMode === 'view') {
     return (
       <div className="agro-container">
-        <div className="page-header">
-          <div className="page-title">
-            <button className="btn-agro btn-outline" onClick={onBack} style={{ marginBottom: '15px', border: 'none', padding: '0', background: 'transparent' }}>
-              <ArrowLeft size={18} /> Back to Categories
-            </button>
-            <h1>Category Details</h1>
-          </div>
-          <button className="btn-agro btn-primary" onClick={onBack}>Done</button>
-        </div>
-        <div className="agro-card" style={{ maxWidth: '800px', margin: '0 auto' }}>
-          <div style={{ display: 'flex', gap: '30px', alignItems: 'flex-start' }}>
-            <div style={{ width: '80px', height: '80px', background: '#f0fdf4', color: '#16a34a', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '30px' }}>
-              <Layers />
+        <div style={{ maxWidth: '800px', margin: '40px auto 0' }}>
+          <div className="agro-card" style={{ marginBottom: '24px', padding: '24px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div>
+                <h2 style={{ fontSize: '24px', fontWeight: '800', color: '#111827', margin: 0 }}>Category Details</h2>
+                <p style={{ color: '#6b7280', margin: '4px 0 0 0' }}>Comprehensive overview of the product category</p>
+              </div>
+              <button className="btn-agro btn-primary" onClick={onBack} style={{ padding: '10px 30px' }}>Done</button>
             </div>
-            <div style={{ flex: 1 }}>
-              <h2 style={{ color: '#111827', marginBottom: '10px' }}>{formData.name}</h2>
-              <span className={`badge ${formData.isActive ? 'badge-success' : 'badge-danger'}`}>{formData.isActive ? 'Active' : 'Inactive'}</span>
-              <div style={{ marginTop: '25px', padding: '20px', background: '#f9fafb', borderRadius: '12px' }}>
-                <label style={{ display: 'block', color: '#6b7280', fontSize: '12px', fontWeight: 'bold', textTransform: 'uppercase', marginBottom: '8px' }}>Description</label>
-                <div style={{ fontSize: '16px', color: '#374151', lineHeight: '1.6' }}>{formData.description || 'No description provided.'}</div>
+          </div>
+
+          <div className="agro-card">
+            <div style={{ display: 'flex', gap: '30px', alignItems: 'flex-start' }}>
+              <div style={{ width: '80px', height: '80px', background: '#f0fdf4', color: '#16a34a', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '30px' }}>
+                <Layers />
+              </div>
+              <div style={{ flex: 1 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '15px' }}>
+                  <div>
+                    <h2 style={{ fontSize: '24px', color: '#111827', margin: 0 }}>{formData.name}</h2>
+                    <span className={`badge ${formData.isActive ? 'badge-success' : 'badge-danger'}`} style={{ marginTop: '8px' }}>
+                      {formData.isActive ? 'Active Category' : 'Inactive'}
+                    </span>
+                  </div>
+                </div>
+
+                <div style={{ marginTop: '20px', padding: '20px', background: '#f9fafb', borderRadius: '12px', border: '1px solid #f3f4f6' }}>
+                  <label style={{ display: 'block', color: '#6b7280', fontSize: '12px', fontWeight: 'bold', textTransform: 'uppercase', marginBottom: '8px' }}>Description</label>
+                  <p style={{ color: '#374151', margin: 0, lineHeight: '1.6', fontSize: '15px' }}>{formData.description || 'No description provided for this category.'}</p>
+                </div>
               </div>
             </div>
           </div>

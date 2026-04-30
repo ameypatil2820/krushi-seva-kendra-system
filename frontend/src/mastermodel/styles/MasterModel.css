@@ -31,30 +31,51 @@
   background: var(--bg-white);
   border-radius: 16px;
   padding: 24px;
-  box-shadow: var(--card-shadow);
-  border: 1px solid var(--border-color);
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  border: 1px solid #f3f4f6;
   margin-bottom: 24px;
+  position: relative;
+  overflow: hidden;
 }
 
 /* Page Header */
 .page-header {
+  margin-bottom: 32px;
+}
+
+.page-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-muted);
+  font-size: 14px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.page-breadcrumb:hover {
+  color: var(--primary-color);
+}
+
+.page-title-area {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px;
 }
 
 .page-title h1 {
-  font-size: 24px;
-  font-weight: 700;
+  font-size: 28px;
+  font-weight: 800;
   color: var(--text-main);
   margin: 0;
+  letter-spacing: -0.02em;
 }
 
 .page-title p {
   color: var(--text-muted);
-  margin-top: 4px;
-  font-size: 14px;
+  margin-top: 6px;
+  font-size: 15px;
 }
 
 /* Button Styles */
@@ -198,10 +219,12 @@
 
 .form-group label {
   display: block;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
-  color: var(--text-main);
-  margin-bottom: 8px;
+  color: #374151;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
 }
 
 .form-control {
@@ -222,7 +245,63 @@
 .form-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 20px;
+  gap: 16px 24px;
+}
+
+.agro-card-header {
+  padding: 24px;
+  background: #ffffff;
+  border-bottom: 1px solid #f3f4f6;
+  margin-left: -24px;
+  margin-right: -24px;
+  margin-top: -24px;
+  margin-bottom: 28px;
+}
+
+.agro-card-header h2 {
+  font-size: 22px;
+  font-weight: 800;
+  color: #111827;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.agro-card-header p {
+  font-size: 14px;
+  color: #6b7280;
+  margin: 6px 0 0 0;
+  font-weight: 400;
+}
+
+.form-footer {
+  margin-top: 32px;
+  padding: 20px 24px;
+  background: #f9fafb;
+  border-top: 1px solid #f3f4f6;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-left: -24px;
+  margin-right: -24px;
+  margin-bottom: -24px;
+}
+
+.form-section-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  color: var(--primary-color);
+  padding-bottom: 10px;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.form-section-title h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 @media (max-width: 768px) {

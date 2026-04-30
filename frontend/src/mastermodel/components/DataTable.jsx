@@ -70,15 +70,21 @@ const DataTable = ({ columns, data, onEdit, onDelete, onView, title }) => {
                   ))}
                   <td style={{ textAlign: 'right' }}>
                     <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px' }}>
-                      <button className="btn-agro btn-outline" style={{ padding: '8px', borderRadius: '8px' }} onClick={() => onView(row)} title="View">
-                        <Eye size={18} color="#3b82f6" />
-                      </button>
-                      <button className="btn-agro btn-outline" style={{ padding: '8px', borderRadius: '8px' }} onClick={() => onEdit(row)} title="Edit">
-                        <Edit2 size={18} color="#16a34a" />
-                      </button>
-                      <button className="btn-agro btn-outline" style={{ padding: '8px', borderRadius: '8px' }} onClick={() => onDelete(row)} title="Delete">
-                        <Trash2 size={18} color="#ef4444" />
-                      </button>
+                      {onView && (
+                        <button className="btn-agro btn-outline" style={{ padding: '8px', borderRadius: '8px' }} onClick={() => onView(row)} title="View">
+                          <Eye size={18} color="#3b82f6" />
+                        </button>
+                      )}
+                      {onEdit && (
+                        <button className="btn-agro btn-outline" style={{ padding: '8px', borderRadius: '8px' }} onClick={() => onEdit(row)} title="Edit">
+                          <Edit2 size={18} color="#16a34a" />
+                        </button>
+                      )}
+                      {onDelete && (
+                        <button className="btn-agro btn-outline" style={{ padding: '8px', borderRadius: '8px' }} onClick={() => onDelete(row)} title="Delete">
+                          <Trash2 size={18} color="#ef4444" />
+                        </button>
+                      )}
                     </div>
                   </td>
                 </tr>

@@ -18,7 +18,9 @@ const FormField = ({ label, name, type = 'text', value, onChange, placeholder, r
 
   return (
     <div className="form-group">
-      <label>{label} {required && <span style={{ color: 'red' }}>*</span>}</label>
+      <label style={{ marginBottom: '6px' }}>
+        {label} {required && <span style={{ color: '#ef4444', marginLeft: '2px' }}>*</span>}
+      </label>
       {type === 'select' ? (
         <select 
           className="form-control" 

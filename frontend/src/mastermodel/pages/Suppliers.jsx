@@ -82,13 +82,15 @@ const Suppliers = () => {
     return (
       <div className="agro-container">
         <div className="page-header">
-          <div className="page-title">
-            <h1>Supplier Management</h1>
-            <p>Manage your product suppliers and vendors</p>
+          <div className="page-title-area">
+            <div className="page-title">
+              <h1>Supplier Management</h1>
+              <p>Manage your product suppliers and vendors</p>
+            </div>
+            <button className="btn-agro btn-primary" onClick={handleActionAdd}>
+              <Plus size={20} /> Add Supplier
+            </button>
           </div>
-          <button className="btn-agro btn-primary" onClick={handleActionAdd}>
-            <Plus size={20} /> Add Supplier
-          </button>
         </div>
 
         <DataTable
@@ -111,24 +113,18 @@ const Suppliers = () => {
     );
   }
 
-  // --- RENDERING ADD/EDIT FORM ---
   if (viewMode === 'add' || viewMode === 'edit') {
     return (
       <div className="agro-container">
-        <div className="page-header">
-          <div className="page-title">
-            <button className="btn-agro btn-outline" onClick={onBack} style={{ marginBottom: '15px', border: 'none', padding: '0', background: 'transparent' }}>
-              <ArrowLeft size={18} /> Back to Suppliers
-            </button>
-            <h1>{viewMode === 'edit' ? 'Edit Supplier' : 'Add New Supplier'}</h1>
-          </div>
-        </div>
-
-        <div className="agro-card" style={{ maxWidth: '900px', margin: '0 auto' }}>
-          <form onSubmit={handleFinalSave}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '25px', color: '#16a34a' }}>
-              <Info size={20} />
-              <h3 style={{ margin: 0, fontSize: '18px' }}>Supplier Basic Information</h3>
+        <div style={{ maxWidth: '900px', margin: '40px auto 0' }}>
+          <form onSubmit={handleFinalSave} className="agro-card">
+            <div className="agro-card-header">
+              <h2>{viewMode === 'edit' ? 'Update Supplier Profile' : 'Add New Supplier'}</h2>
+              <p>Manage details for your vendor or product supplier</p>
+            </div>
+            <div className="form-section-title">
+              <User size={18} />
+              <h3>Supplier Basic Information</h3>
             </div>
 
             <div className="form-grid">
@@ -140,11 +136,11 @@ const Suppliers = () => {
               <FormField label="GST Number" name="gstNo" value={formData.gstNo} onChange={handleChange} placeholder="15-digit GSTIN" />
             </div>
 
-            <div style={{ marginTop: '20px' }}>
+            <div style={{ marginTop: '16px' }}>
               <FormField label="Full Address" name="address" type="textarea" value={formData.address} onChange={handleChange} required placeholder="Enter complete business address" />
             </div>
 
-            <div style={{ display: 'flex', gap: '24px', marginTop: '20px', padding: '20px', background: '#f9fafb', borderRadius: '12px' }}>
+            <div style={{ marginTop: '16px', padding: '12px 16px', background: '#f9fafb', borderRadius: '10px', border: '1px solid #f3f4f6' }}>
               <div className="form-group" style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: 0 }}>
                 <input
                   type="checkbox"
@@ -152,17 +148,17 @@ const Suppliers = () => {
                   id="isActive"
                   checked={formData.isActive}
                   onChange={handleChange}
-                  style={{ width: '20px', height: '20px', cursor: 'pointer' }}
+                  style={{ width: '18px', height: '18px', cursor: 'pointer', accentColor: '#16a34a' }}
                 />
-                <label htmlFor="isActive" style={{ marginBottom: 0, cursor: 'pointer' }}>Set as Active Supplier</label>
+                <label htmlFor="isActive" style={{ marginBottom: 0, cursor: 'pointer', fontWeight: '600', textTransform: 'none' }}>Set as Active Supplier</label>
               </div>
             </div>
 
-            <div style={{ display: 'flex', gap: '12px', marginTop: '40px', justifyContent: 'flex-end', borderTop: '1px solid #f3f4f6', paddingTop: '25px' }}>
-              <button type="button" className="btn-agro btn-outline" onClick={onBack} style={{ padding: '12px 25px' }}>
+            <div className="form-footer">
+              <button type="button" className="btn-agro btn-outline" onClick={onBack} style={{ padding: '10px 25px' }}>
                 <X size={18} /> Cancel
               </button>
-              <button type="submit" className="btn-agro btn-primary" style={{ padding: '12px 35px' }}>
+              <button type="submit" className="btn-agro btn-primary" style={{ padding: '10px 35px' }}>
                 <Save size={18} /> {viewMode === 'edit' ? 'Update Supplier' : 'Save Supplier'}
               </button>
             </div>
@@ -176,72 +172,125 @@ const Suppliers = () => {
   if (viewMode === 'view') {
     return (
       <div className="agro-container">
-        <div className="page-header">
-          <div className="page-title">
-            <button className="btn-agro btn-outline" onClick={onBack} style={{ marginBottom: '15px', border: 'none', padding: '0', background: 'transparent' }}>
-              <ArrowLeft size={18} /> Back to Suppliers
-            </button>
-            <h1>Supplier Profile</h1>
-          </div>
-          <div style={{ display: 'flex', gap: '12px' }}>
-            <button className="btn-agro btn-primary" onClick={onBack}>
-              Done
-            </button>
-          </div>
-        </div>
-
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '25px' }}>
-          {/* Sidebar Info */}
-          <div className="agro-card" style={{ textAlign: 'center' }}>
-            <div style={{ width: '100px', height: '100px', background: '#f0fdf4', color: '#16a34a', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px', fontSize: '40px', fontWeight: 'bold' }}>
-              {formData.name.charAt(0).toUpperCase()}
-            </div>
-            <h2 style={{ marginBottom: '5px', color: '#111827' }}>{formData.name}</h2>
-            <div style={{ marginBottom: '20px' }}>
-              <span className={`badge ${formData.isActive ? 'badge-success' : 'badge-danger'}`} style={{ fontSize: '14px', padding: '6px 15px' }}>
-                {formData.isActive ? 'Active' : 'Inactive'}
-              </span>
-            </div>
-
-            <div style={{ marginTop: '30px', textAlign: 'left' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '18px', color: '#374151' }}>
-                <Phone size={18} color="#16a34a" />
-                <span style={{ fontSize: '15px', fontWeight: '500' }}>{formData.mobile}</span>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '18px', color: '#374151' }}>
-                <Mail size={18} color="#16a34a" />
-                <span style={{ fontSize: '15px', fontWeight: '500' }}>{formData.email || 'No email provided'}</span>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', color: '#374151' }}>
-                <MapPin size={18} color="#16a34a" />
-                <span style={{ fontSize: '15px', fontWeight: '500' }}>{formData.city}</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Main Details */}
-          <div className="agro-card">
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '25px', paddingBottom: '15px', borderBottom: '1px solid #f3f4f6' }}>
-              <User size={22} color="#16a34a" />
-              <h3 style={{ margin: 0, color: '#111827', fontSize: '20px' }}>Business Information</h3>
-            </div>
-
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '30px' }}>
+        <div style={{ maxWidth: '1000px', margin: '40px auto 40px' }}>
+          <div className="agro-card" style={{ padding: 0, overflow: 'hidden' }}>
+            {/* Unified Header */}
+            <div style={{ 
+              display: 'flex', 
+              justifyContent: 'space-between', 
+              alignItems: 'center', 
+              padding: '24px 30px', 
+              borderBottom: '1px solid #f3f4f6',
+              background: 'white'
+            }}>
               <div>
-                <label style={{ display: 'block', color: '#6b7280', fontSize: '13px', fontWeight: 'bold', textTransform: 'uppercase', marginBottom: '8px' }}>Contact Person</label>
-                <div style={{ fontSize: '16px', fontWeight: '600', color: '#111827' }}>{formData.contactPerson || 'N/A'}</div>
+                <h2 style={{ fontSize: '24px', fontWeight: '800', color: '#111827', margin: 0 }}>Supplier Profile</h2>
+                <p style={{ color: '#6b7280', margin: '4px 0 0 0', fontSize: '14px' }}>Business and contact specifications for this vendor</p>
               </div>
-              <div>
-                <label style={{ display: 'block', color: '#6b7280', fontSize: '13px', fontWeight: 'bold', textTransform: 'uppercase', marginBottom: '8px' }}>GST Number</label>
-                <div style={{ fontSize: '16px', fontWeight: '600', color: '#111827' }}>{formData.gstNo || 'N/A'}</div>
+              <button className="btn-agro btn-outline" onClick={onBack} style={{ padding: '10px 25px', borderRadius: '8px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <X size={18} /> Close Profile
+              </button>
+            </div>
+
+            <div style={{ display: 'flex', minHeight: '500px' }}>
+              {/* Profile Sidebar */}
+              <div style={{ 
+                width: '320px', 
+                background: '#f9fafb', 
+                padding: '40px 30px', 
+                borderRight: '1px solid #f3f4f6',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center'
+              }}>
+                <div style={{ 
+                  width: '100px', 
+                  height: '100px', 
+                  background: 'white', 
+                  color: '#16a34a', 
+                  borderRadius: '50%', 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'center', 
+                  fontSize: '40px', 
+                  fontWeight: '800', 
+                  boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.05)',
+                  border: '4px solid #f0fdf4',
+                  marginBottom: '20px'
+                }}>
+                  {formData.name.charAt(0).toUpperCase()}
+                </div>
+                
+                <h2 style={{ fontSize: '22px', fontWeight: '800', color: '#111827', margin: '0 0 8px 0', textAlign: 'center' }}>{formData.name}</h2>
+                <span className={`badge ${formData.isActive ? 'badge-success' : 'badge-danger'}`} style={{ padding: '6px 16px', fontSize: '13px', borderRadius: '20px' }}>
+                  {formData.isActive ? 'Active Supplier' : 'Inactive'}
+                </span>
+
+                <div style={{ marginTop: '40px', width: '100%', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+                    <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#16a34a', boxShadow: '0 2px 4px rgba(0,0,0,0.02)' }}>
+                      <Phone size={18} />
+                    </div>
+                    <div>
+                      <div style={{ fontSize: '11px', color: '#9ca3af', fontWeight: '700', textTransform: 'uppercase' }}>Mobile</div>
+                      <div style={{ fontSize: '15px', color: '#374151', fontWeight: '600' }}>{formData.mobile}</div>
+                    </div>
+                  </div>
+                  
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+                    <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#16a34a', boxShadow: '0 2px 4px rgba(0,0,0,0.02)' }}>
+                      <Mail size={18} />
+                    </div>
+                    <div style={{ overflow: 'hidden' }}>
+                      <div style={{ fontSize: '11px', color: '#9ca3af', fontWeight: '700', textTransform: 'uppercase' }}>Email</div>
+                      <div style={{ fontSize: '14px', color: '#374151', fontWeight: '600', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>{formData.email || 'Not provided'}</div>
+                    </div>
+                  </div>
+
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+                    <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#16a34a', boxShadow: '0 2px 4px rgba(0,0,0,0.02)' }}>
+                      <MapPin size={18} />
+                    </div>
+                    <div>
+                      <div style={{ fontSize: '11px', color: '#9ca3af', fontWeight: '700', textTransform: 'uppercase' }}>Location</div>
+                      <div style={{ fontSize: '15px', color: '#374151', fontWeight: '600' }}>{formData.city}</div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div style={{ gridColumn: 'span 2' }}>
-                <label style={{ display: 'block', color: '#6b7280', fontSize: '13px', fontWeight: 'bold', textTransform: 'uppercase', marginBottom: '8px' }}>Full Address</label>
-                <div style={{ fontSize: '16px', fontWeight: '500', color: '#374151', lineHeight: '1.6', background: '#f9fafb', padding: '15px', borderRadius: '8px', border: '1px solid #f3f4f6' }}>{formData.address}</div>
-              </div>
-              <div>
-                <label style={{ display: 'block', color: '#6b7280', fontSize: '13px', fontWeight: 'bold', textTransform: 'uppercase', marginBottom: '8px' }}>Registered On</label>
-                <div style={{ fontSize: '16px', fontWeight: '600', color: '#111827' }}>{new Date(formData.createdAt).toLocaleDateString()}</div>
+
+              {/* Main Info Area */}
+              <div style={{ flex: 1, padding: '40px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '30px' }}>
+                  <div style={{ width: '32px', height: '32px', borderRadius: '8px', background: '#f0fdf4', color: '#16a34a', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <User size={18} />
+                  </div>
+                  <h3 style={{ fontSize: '18px', fontWeight: '800', color: '#111827', margin: 0 }}>Business Information</h3>
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '40px 20px' }}>
+                  <div style={{ padding: '16px', background: '#fcfcfc', borderRadius: '12px', border: '1px solid #f3f4f6' }}>
+                    <label style={{ display: 'block', color: '#9ca3af', fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', marginBottom: '6px' }}>Contact Person</label>
+                    <div style={{ fontSize: '16px', color: '#111827', fontWeight: '700' }}>{formData.contactPerson || 'N/A'}</div>
+                  </div>
+                  
+                  <div style={{ padding: '16px', background: '#fcfcfc', borderRadius: '12px', border: '1px solid #f3f4f6' }}>
+                    <label style={{ display: 'block', color: '#9ca3af', fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', marginBottom: '6px' }}>GST Number</label>
+                    <div style={{ fontSize: '16px', color: '#111827', fontWeight: '700' }}>{formData.gstNo || 'N/A'}</div>
+                  </div>
+
+                  <div style={{ gridColumn: 'span 2', padding: '20px', background: '#f9fafb', borderRadius: '12px', border: '1px dashed #e5e7eb' }}>
+                    <label style={{ display: 'block', color: '#9ca3af', fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', marginBottom: '10px' }}>Full Business Address</label>
+                    <div style={{ fontSize: '15px', color: '#374151', lineHeight: '1.7', fontWeight: '500' }}>
+                      {formData.address}
+                    </div>
+                  </div>
+
+                  <div style={{ padding: '16px', background: '#fcfcfc', borderRadius: '12px', border: '1px solid #f3f4f6' }}>
+                    <label style={{ display: 'block', color: '#9ca3af', fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', marginBottom: '6px' }}>Registered On</label>
+                    <div style={{ fontSize: '16px', color: '#111827', fontWeight: '700' }}>{new Date(formData.createdAt).toLocaleDateString()}</div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
