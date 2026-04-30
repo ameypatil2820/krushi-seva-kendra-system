@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { STORAGE_KEYS, getFromStorage, setToStorage } from '../../utils/storage';
+import { STORAGE_KEYS, getFromStorage, setToStorage, initializeStorage } from '../../utils/storage';
 import { Users, UserPlus, Trash2, Shield } from 'lucide-react';
 
 const UserManagement = () => {
@@ -10,6 +10,7 @@ const UserManagement = () => {
   const [error, setError] = useState('');
 
   useEffect(() => {
+    initializeStorage();
     setUsers(getFromStorage(STORAGE_KEYS.USERS) || []);
     setRoles(getFromStorage(STORAGE_KEYS.ROLES) || []);
   }, []);
