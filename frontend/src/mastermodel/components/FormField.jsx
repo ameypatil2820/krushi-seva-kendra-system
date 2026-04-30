@@ -28,9 +28,11 @@ const FormField = ({ label, name, type = 'text', value, onChange, placeholder, r
           required={required}
         >
           <option value="">Select {label}</option>
-          {options?.map((opt, i) => (
-            <option key={i} value={opt.id || opt.value}>{opt.name || opt.label}</option>
-          ))}
+          {options?.map((opt, i) => {
+            const val = typeof opt === 'object' ? (opt.id || opt.value || opt.name) : opt;
+            const labelStr = typeof opt === 'object' ? (opt.name || opt.label) : opt;
+            return <option key={i} value={val}>{labelStr}</option>;
+          })}
         </select>
       ) : type === 'textarea' ? (
         <textarea 
