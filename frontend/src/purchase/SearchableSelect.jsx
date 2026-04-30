@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { Search, ChevronDown, X } from 'lucide-react';
 
-const SearchableSelect = ({ options, value, onChange, placeholder, style }) => {
+const SearchableSelect = ({ options, value, onChange, placeholder, style, height = '40px', padding = '0 12px' }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [dropdownPos, setDropdownPos] = useState({ top: 0, left: 0, width: 0 });
@@ -127,8 +127,8 @@ const SearchableSelect = ({ options, value, onChange, placeholder, style }) => {
           display: 'flex',
           alignItems: 'center',
           cursor: 'text',
-          padding: '0 12px',
-          height: '40px',
+          padding: padding,
+          height: height,
           background: 'rgba(255,255,255,0.05)',
           borderRadius: '10px',
           border: isOpen ? '2px solid var(--primary)' : '1px solid var(--border)',

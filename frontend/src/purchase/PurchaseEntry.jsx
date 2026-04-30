@@ -233,6 +233,8 @@ const PurchaseEntry = () => {
                     onChange={(val, data) => handleChildChange(child.id, 'productId', val, data)}
                     placeholder="Search Product..."
                     icon={Package}
+                    height="36px"
+                    padding="0 8px"
                   />
                 </td>
                 <td style={{ padding: '8px' }}>
