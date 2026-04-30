@@ -5,16 +5,19 @@ import { ShoppingBag, Search, Filter, Plus, Calendar, User, CheckCircle, Clock, 
 const PurchaseOrder = () => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
+  const [statusFilter, setStatusFilter] = useState('All');
   const [orders, setOrders] = useState([
     { id: 'PO-001', supplierId: 'SUP-101', orderDate: '2026-04-20', expiryDate: '2026-05-20', status: 'Pending' },
     { id: 'PO-002', supplierId: 'SUP-102', orderDate: '2026-04-22', expiryDate: '2026-05-22', status: 'Completed' },
     { id: 'PO-003', supplierId: 'SUP-103', orderDate: '2026-04-25', expiryDate: '2026-05-25', status: 'Cancelled' },
   ]);
 
-  const filteredOrders = orders.filter(o => 
-    o.id.toLowerCase().includes(searchTerm.toLowerCase()) || 
-    o.supplierId.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredOrders = orders.filter(o => {
+    const matchesSearch = o.id.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                         o.supplierId.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesStatus = statusFilter === 'All' || o.status === statusFilter;
+    return matchesSearch && matchesStatus;
+  });
 
   const getStatusBadge = (status) => {
     switch (status) {
@@ -52,9 +55,20 @@ const PurchaseOrder = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
-        <button className="btn btn-secondary" style={{ width: 'auto' }}>
-          <Filter size={18} /> Filter
-        </button>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <Filter size={18} color="var(--text-secondary)" />
+          <select 
+            className="input-field" 
+            style={{ width: '150px' }}
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+          >
+            <option value="All">All Status</option>
+            <option value="Pending">Pending</option>
+            <option value="Completed">Completed</option>
+            <option value="Cancelled">Cancelled</option>
+          </select>
+        </div>
       </div>
 
       <div className="glass-card" style={{ overflow: 'hidden' }}>
