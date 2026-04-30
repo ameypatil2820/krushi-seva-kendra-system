@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FiPlus } from 'react-icons/fi';
+import { Plus } from 'lucide-react';
 import { useCRUD } from '../hooks/useCRUD';
 import DataTable from '../components/DataTable';
 import AdminModal from '../components/AdminModal';
@@ -69,7 +69,7 @@ const Categories = () => {
           <p>Organize your products into logical categories</p>
         </div>
         <button className="btn-agro btn-primary" onClick={handleAdd}>
-          <FiPlus size={20} /> Add Category
+          <Plus size={20} /> Add Category
         </button>
       </div>
 

@@ -1,11 +1,20 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { RotateCcw, Search, AlertCircle, Calendar, User, FileText, IndianRupee } from 'lucide-react';
 
 const PurchaseReturn = () => {
+  const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState('');
   const [returns, setReturns] = useState([
     { id: 'RET-001', purchaseId: 'PUR-501', supplierId: 'SUP-101', returnDate: '2026-04-28', totalAmount: 1200.50, reason: 'Damaged Products' },
     { id: 'RET-002', purchaseId: 'PUR-505', supplierId: 'SUP-105', returnDate: '2026-04-29', totalAmount: 850.00, reason: 'Expired Stock' },
   ]);
+
+  const filteredReturns = returns.filter(r => 
+    r.id.toLowerCase().includes(searchTerm.toLowerCase()) || 
+    r.purchaseId.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    r.supplierId.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="animate-fade">
@@ -14,7 +23,11 @@ const PurchaseReturn = () => {
           <h2 style={{ color: '#ef4444', margin: 0 }}>Purchase Returns</h2>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Record and manage returned items to suppliers</p>
         </div>
-        <button className="btn" style={{ background: '#ef4444', color: 'white' }}>
+        <button 
+          className="btn" 
+          style={{ background: '#ef4444', color: 'white' }}
+          onClick={() => navigate('/purchase/returns/new')}
+        >
           <RotateCcw size={18} /> Process Return
         </button>
       </div>
@@ -22,7 +35,14 @@ const PurchaseReturn = () => {
       <div className="glass-card" style={{ padding: '20px', marginBottom: '25px', display: 'flex', gap: '15px', alignItems: 'center' }}>
         <div style={{ position: 'relative', flex: 1 }}>
           <Search style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-secondary)' }} size={18} />
-          <input type="text" className="input-field" placeholder="Search returns by ID or Purchase ID..." style={{ paddingLeft: '40px' }} />
+          <input 
+            type="text" 
+            className="input-field" 
+            placeholder="Search returns by ID, Purchase ID or Supplier..." 
+            style={{ paddingLeft: '40px' }} 
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
         </div>
       </div>
 
@@ -40,7 +60,7 @@ const PurchaseReturn = () => {
             </tr>
           </thead>
           <tbody>
-            {returns.map((item) => (
+            {filteredReturns.map((item) => (
               <tr key={item.id} style={{ borderBottom: '1px solid var(--glass-border)' }}>
                 <td style={{ padding: '15px 20px', fontWeight: '600', color: '#ef4444' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>

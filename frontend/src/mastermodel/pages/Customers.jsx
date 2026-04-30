@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FiPlus } from 'react-icons/fi';
+import { Plus } from 'lucide-react';
 import { useCRUD } from '../hooks/useCRUD';
 import DataTable from '../components/DataTable';
 import AdminModal from '../components/AdminModal';
@@ -77,7 +77,7 @@ const Customers = () => {
           <p>Maintain your customer records and information</p>
         </div>
         <button className="btn-agro btn-primary" onClick={handleAdd}>
-          <FiPlus size={20} /> Add Customer
+          <Plus size={20} /> Add Customer
         </button>
       </div>
 

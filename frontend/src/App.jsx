@@ -13,11 +13,15 @@ import { Suppliers, Customers, Categories, Taxes, Products } from './mastermodel
 
 import SaleEntry from './sales/SaleEntry';
 import Quotation from './sales/Quotation';
+import NewQuotation from './sales/NewQuotation';
 import SaleReturn from './sales/SaleReturn';
+import NewSaleReturn from './sales/NewSaleReturn';
 
 import PurchaseEntry from './purchase/PurchaseEntry';
 import PurchaseOrder from './purchase/PurchaseOrder';
+import NewPurchaseOrder from './purchase/NewPurchaseOrder';
 import PurchaseReturn from './purchase/PurchaseReturn';
+import NewPurchaseReturn from './purchase/NewPurchaseReturn';
 
 const AppRoutes = () => {
   return (
@@ -41,7 +45,9 @@ const AppRoutes = () => {
         <Route path="sales">
           <Route path="entry" element={<SaleEntry />} />
           <Route path="quotations" element={<Quotation />} />
+          <Route path="quotations/new" element={<NewQuotation />} />
           <Route path="returns" element={<SaleReturn />} />
+          <Route path="returns/new" element={<NewSaleReturn />} />
           <Route index element={<ModulePage title="Sales" module="sale" />} />
         </Route>
         
@@ -49,7 +55,9 @@ const AppRoutes = () => {
         <Route path="purchase">
           <Route path="entry" element={<PurchaseEntry />} />
           <Route path="orders" element={<PurchaseOrder />} />
+          <Route path="orders/new" element={<NewPurchaseOrder />} />
           <Route path="returns" element={<PurchaseReturn />} />
+          <Route path="returns/new" element={<NewPurchaseReturn />} />
           <Route index element={<ModulePage title="Purchases" module="purchase" />} />
         </Route>
 

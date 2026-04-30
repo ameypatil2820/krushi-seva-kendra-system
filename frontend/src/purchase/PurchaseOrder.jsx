@@ -1,12 +1,20 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ShoppingBag, Search, Filter, Plus, Calendar, User, CheckCircle, Clock, AlertCircle } from 'lucide-react';
 
 const PurchaseOrder = () => {
+  const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState('');
   const [orders, setOrders] = useState([
     { id: 'PO-001', supplierId: 'SUP-101', orderDate: '2026-04-20', expiryDate: '2026-05-20', status: 'Pending' },
     { id: 'PO-002', supplierId: 'SUP-102', orderDate: '2026-04-22', expiryDate: '2026-05-22', status: 'Completed' },
     { id: 'PO-003', supplierId: 'SUP-103', orderDate: '2026-04-25', expiryDate: '2026-05-25', status: 'Cancelled' },
   ]);
+
+  const filteredOrders = orders.filter(o => 
+    o.id.toLowerCase().includes(searchTerm.toLowerCase()) || 
+    o.supplierId.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const getStatusBadge = (status) => {
     switch (status) {
@@ -24,7 +32,10 @@ const PurchaseOrder = () => {
           <h2 style={{ color: 'var(--primary)', margin: 0 }}>Purchase Orders</h2>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Manage your inventory orders and suppliers</p>
         </div>
-        <button className="btn btn-primary">
+        <button 
+          className="btn btn-primary"
+          onClick={() => navigate('/purchase/orders/new')}
+        >
           <Plus size={18} /> New Order
         </button>
       </div>
@@ -32,7 +43,14 @@ const PurchaseOrder = () => {
       <div className="glass-card" style={{ padding: '20px', marginBottom: '25px', display: 'flex', gap: '15px', alignItems: 'center' }}>
         <div style={{ position: 'relative', flex: 1 }}>
           <Search style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-secondary)' }} size={18} />
-          <input type="text" className="input-field" placeholder="Search orders by ID or Supplier..." style={{ paddingLeft: '40px' }} />
+          <input 
+            type="text" 
+            className="input-field" 
+            placeholder="Search orders by ID or Supplier..." 
+            style={{ paddingLeft: '40px' }} 
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
         </div>
         <button className="btn btn-secondary" style={{ width: 'auto' }}>
           <Filter size={18} /> Filter
@@ -52,7 +70,7 @@ const PurchaseOrder = () => {
             </tr>
           </thead>
           <tbody>
-            {orders.map((order) => (
+            {filteredOrders.map((order) => (
               <tr key={order.id} style={{ borderBottom: '1px solid var(--glass-border)', transition: 'background 0.3s' }} className="hover-row">
                 <td style={{ padding: '15px 20px', fontWeight: '600' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FiPlus } from 'react-icons/fi';
+import { Plus } from 'lucide-react';
 import { useCRUD } from '../hooks/useCRUD';
 import { MockService } from '../services/MockService';
 import DataTable from '../components/DataTable';
@@ -114,7 +114,7 @@ const Products = () => {
           <p>Manage your stocks, pricing and categories</p>
         </div>
         <button className="btn-agro btn-primary" onClick={handleAdd}>
-          <FiPlus size={20} /> Add Product
+          <Plus size={20} /> Add Product
         </button>
       </div>
 

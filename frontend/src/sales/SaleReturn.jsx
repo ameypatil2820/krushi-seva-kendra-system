@@ -1,11 +1,20 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { RotateCcw, Search, AlertCircle, Calendar, User, FileText, IndianRupee } from 'lucide-react';
 
 const SaleReturn = () => {
+  const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState('');
   const [returns, setReturns] = useState([
     { id: 'SRET-001', saleId: 'SALE-501', customerId: 'CUS-101', returnDate: '2026-04-28', totalAmount: 450.00, reason: 'Incorrect Product' },
     { id: 'SRET-002', saleId: 'SALE-505', customerId: 'CUS-105', returnDate: '2026-04-29', totalAmount: 120.00, reason: 'Defective Item' },
   ]);
+
+  const filteredReturns = returns.filter(r => 
+    r.id.toLowerCase().includes(searchTerm.toLowerCase()) || 
+    r.saleId.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    r.customerId.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="animate-fade">
@@ -14,7 +23,11 @@ const SaleReturn = () => {
           <h2 style={{ color: '#ef4444', margin: 0 }}>Sales Returns</h2>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Manage customer returns and refunds</p>
         </div>
-        <button className="btn" style={{ background: '#ef4444', color: 'white' }}>
+        <button 
+          className="btn" 
+          style={{ background: '#ef4444', color: 'white' }}
+          onClick={() => navigate('/sales/returns/new')}
+        >
           <RotateCcw size={18} /> New Sale Return
         </button>
       </div>
@@ -22,7 +35,14 @@ const SaleReturn = () => {
       <div className="glass-card" style={{ padding: '20px', marginBottom: '25px', display: 'flex', gap: '15px', alignItems: 'center' }}>
         <div style={{ position: 'relative', flex: 1 }}>
           <Search style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-secondary)' }} size={18} />
-          <input type="text" className="input-field" placeholder="Search by Return ID or Sale ID..." style={{ paddingLeft: '40px' }} />
+          <input 
+            type="text" 
+            className="input-field" 
+            placeholder="Search by Return ID, Sale ID or Customer..." 
+            style={{ paddingLeft: '40px' }} 
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
         </div>
       </div>
 
@@ -40,7 +60,7 @@ const SaleReturn = () => {
             </tr>
           </thead>
           <tbody>
-            {returns.map((item) => (
+            {filteredReturns.map((item) => (
               <tr key={item.id} style={{ borderBottom: '1px solid var(--glass-border)' }}>
                 <td style={{ padding: '15px 20px', fontWeight: '600', color: '#ef4444' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>

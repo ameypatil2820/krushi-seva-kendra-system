@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FiPlus } from 'react-icons/fi';
+import { Plus } from 'lucide-react';
 import { useCRUD } from '../hooks/useCRUD';
 import DataTable from '../components/DataTable';
 import AdminModal from '../components/AdminModal';
@@ -72,7 +72,7 @@ const Taxes = () => {
           <p>Configure GST and other tax rates</p>
         </div>
         <button className="btn-agro btn-primary" onClick={handleAdd}>
-          <FiPlus size={20} /> Add Tax
+          <Plus size={20} /> Add Tax
         </button>
       </div>
 
