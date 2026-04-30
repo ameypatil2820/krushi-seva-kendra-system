@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { FiSearch, FiChevronDown, FiX } from 'react-icons/fi';
+import { Search, ChevronDown, X } from 'lucide-react';
 
 const SearchableSelect = ({ label, options, value, onChange, placeholder, required }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -90,8 +90,8 @@ const SearchableSelect = ({ label, options, value, onChange, placeholder, requir
         />
         
         <div style={{ position: 'absolute', right: '10px', display: 'flex', gap: '8px', alignItems: 'center', color: '#9ca3af' }}>
-          {searchTerm && <FiX onClick={(e) => { e.stopPropagation(); handleClear(); }} style={{ cursor: 'pointer' }} />}
-          <FiChevronDown />
+          {searchTerm && <X onClick={(e) => { e.stopPropagation(); handleClear(); }} style={{ cursor: 'pointer' }} />}
+          <ChevronDown />
         </div>
       </div>
 
