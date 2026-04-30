@@ -7,10 +7,10 @@ import ConfirmModal from '../components/ConfirmModal';
 import '../styles/MasterModel.css';
 
 const Taxes = () => {
-  const { 
+  const {
     data, loading, isDeleteOpen, setIsDeleteOpen,
-    currentItem, handleAdd, handleEdit, handleView, 
-    handleDeleteClick, handleConfirmDelete, handleSave 
+    currentItem, handleAdd, handleEdit, handleView,
+    handleDeleteClick, handleConfirmDelete, handleSave
   } = useCRUD('taxes');
 
   const [viewMode, setViewMode] = useState('list');
@@ -44,13 +44,13 @@ const Taxes = () => {
   const columns = [
     { header: 'Tax Name', accessor: 'name' },
     { header: 'Rate (%)', render: (row) => `${row.rate}%` },
-    { 
-      header: 'Status', 
+    {
+      header: 'Status',
       render: (row) => (
         <span className={`badge ${row.isActive ? 'badge-success' : 'badge-danger'}`}>
           {row.isActive ? 'Active' : 'Inactive'}
         </span>
-      ) 
+      )
     }
   ];
 

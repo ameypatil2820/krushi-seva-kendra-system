@@ -7,15 +7,15 @@ import ConfirmModal from '../components/ConfirmModal';
 import '../styles/MasterModel.css';
 
 const Suppliers = () => {
-  const { 
+  const {
     data, loading, isDeleteOpen, setIsDeleteOpen,
-    currentItem, handleAdd, handleEdit, handleView, 
-    handleDeleteClick, handleConfirmDelete, handleSave 
+    currentItem, handleAdd, handleEdit, handleView,
+    handleDeleteClick, handleConfirmDelete, handleSave
   } = useCRUD('suppliers');
 
   const [viewMode, setViewMode] = useState('list'); // 'list', 'add', 'edit', 'view'
   const [formData, setFormData] = useState({
-    name: '', mobile: '', contactPerson: '', email: '', 
+    name: '', mobile: '', contactPerson: '', email: '',
     city: '', address: '', gstNo: '', isActive: true
   });
 
@@ -25,7 +25,7 @@ const Suppliers = () => {
       setFormData(currentItem);
     } else if (viewMode === 'add') {
       setFormData({
-        name: '', mobile: '', contactPerson: '', email: '', 
+        name: '', mobile: '', contactPerson: '', email: '',
         city: '', address: '', gstNo: '', isActive: true
       });
     }
@@ -33,9 +33,9 @@ const Suppliers = () => {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData(prev => ({ 
-      ...prev, 
-      [name]: type === 'checkbox' ? checked : value 
+    setFormData(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value
     }));
   };
 
@@ -67,13 +67,13 @@ const Suppliers = () => {
     { header: 'Mobile', accessor: 'mobile' },
     { header: 'City', accessor: 'city' },
     { header: 'GST No', accessor: 'gstNo' },
-    { 
-      header: 'Status', 
+    {
+      header: 'Status',
       render: (row) => (
         <span className={`badge ${row.isActive ? 'badge-success' : 'badge-danger'}`}>
           {row.isActive ? 'Active' : 'Inactive'}
         </span>
-      ) 
+      )
     }
   ];
 
@@ -91,21 +91,21 @@ const Suppliers = () => {
           </button>
         </div>
 
-        <DataTable 
+        <DataTable
           title="Suppliers"
-          columns={columns} 
-          data={data} 
-          onEdit={handleActionEdit} 
+          columns={columns}
+          data={data}
+          onEdit={handleActionEdit}
           onDelete={handleDeleteClick}
           onView={handleActionView}
         />
 
-        <ConfirmModal 
-          isOpen={isDeleteOpen} 
-          onClose={() => setIsDeleteOpen(false)} 
-          onConfirm={handleConfirmDelete} 
-          title="Delete Supplier?" 
-          message={`Are you sure you want to delete ${currentItem?.name}? This action cannot be undone.`} 
+        <ConfirmModal
+          isOpen={isDeleteOpen}
+          onClose={() => setIsDeleteOpen(false)}
+          onConfirm={handleConfirmDelete}
+          title="Delete Supplier?"
+          message={`Are you sure you want to delete ${currentItem?.name}? This action cannot be undone.`}
         />
       </div>
     );
@@ -130,7 +130,7 @@ const Suppliers = () => {
               <Info size={20} />
               <h3 style={{ margin: 0, fontSize: '18px' }}>Supplier Basic Information</h3>
             </div>
-            
+
             <div className="form-grid">
               <FormField label="Supplier Name" name="name" value={formData.name} onChange={handleChange} required placeholder="Enter supplier name" />
               <FormField label="Mobile Number" name="mobile" value={formData.mobile} onChange={handleChange} required placeholder="Enter mobile number" />
@@ -146,18 +146,18 @@ const Suppliers = () => {
 
             <div style={{ display: 'flex', gap: '24px', marginTop: '20px', padding: '20px', background: '#f9fafb', borderRadius: '12px' }}>
               <div className="form-group" style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: 0 }}>
-                <input 
-                  type="checkbox" 
-                  name="isActive" 
+                <input
+                  type="checkbox"
+                  name="isActive"
                   id="isActive"
-                  checked={formData.isActive} 
-                  onChange={handleChange} 
+                  checked={formData.isActive}
+                  onChange={handleChange}
                   style={{ width: '20px', height: '20px', cursor: 'pointer' }}
                 />
                 <label htmlFor="isActive" style={{ marginBottom: 0, cursor: 'pointer' }}>Set as Active Supplier</label>
               </div>
             </div>
-            
+
             <div style={{ display: 'flex', gap: '12px', marginTop: '40px', justifyContent: 'flex-end', borderTop: '1px solid #f3f4f6', paddingTop: '25px' }}>
               <button type="button" className="btn-agro btn-outline" onClick={onBack} style={{ padding: '12px 25px' }}>
                 <X size={18} /> Cancel
@@ -202,7 +202,7 @@ const Suppliers = () => {
                 {formData.isActive ? 'Active' : 'Inactive'}
               </span>
             </div>
-            
+
             <div style={{ marginTop: '30px', textAlign: 'left' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '18px', color: '#374151' }}>
                 <Phone size={18} color="#16a34a" />
@@ -225,7 +225,7 @@ const Suppliers = () => {
               <User size={22} color="#16a34a" />
               <h3 style={{ margin: 0, color: '#111827', fontSize: '20px' }}>Business Information</h3>
             </div>
-            
+
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '30px' }}>
               <div>
                 <label style={{ display: 'block', color: '#6b7280', fontSize: '13px', fontWeight: 'bold', textTransform: 'uppercase', marginBottom: '8px' }}>Contact Person</label>
