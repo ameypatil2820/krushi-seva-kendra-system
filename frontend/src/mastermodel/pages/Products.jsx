@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
+<<<<<<< HEAD
 import { FiPlus, FiArrowLeft, FiSave, FiX, FiInfo, FiTag, FiDollarSign, FiPackage, FiLayers, FiDatabase } from 'react-icons/fi';
+=======
+import { Plus } from 'lucide-react';
+>>>>>>> 9f1c9438dd26883529e4fc1f585163a0c4e6f6bc
 import { useCRUD } from '../hooks/useCRUD';
 import DataTable from '../components/DataTable';
 import FormField from '../components/FormField';
@@ -93,6 +97,7 @@ const Products = () => {
             <FiPlus size={20} /> Add Product
           </button>
         </div>
+<<<<<<< HEAD
 
         <DataTable 
           title="Products"
@@ -110,6 +115,11 @@ const Products = () => {
           title="Delete Product?" 
           message={`Are you sure you want to delete ${currentItem?.name}?`} 
         />
+=======
+        <button className="btn-agro btn-primary" onClick={handleAdd}>
+          <Plus size={20} /> Add Product
+        </button>
+>>>>>>> 9f1c9438dd26883529e4fc1f585163a0c4e6f6bc
       </div>
     );
   }

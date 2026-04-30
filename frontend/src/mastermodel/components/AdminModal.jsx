@@ -1,5 +1,5 @@
 import React from 'react';
-import { FiX } from 'react-icons/fi';
+import { X } from 'lucide-react';
 
 const AdminModal = ({ isOpen, onClose, title, children }) => {
   if (!isOpen) return null;
@@ -14,7 +14,7 @@ const AdminModal = ({ isOpen, onClose, title, children }) => {
             className="btn-agro btn-outline" 
             style={{ padding: '8px', borderRadius: '50%' }}
           >
-            <FiX size={20} />
+            <X size={20} />
           </button>
         </div>
         

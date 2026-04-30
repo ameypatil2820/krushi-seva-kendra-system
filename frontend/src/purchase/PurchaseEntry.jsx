@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
-import { Plus, Trash2, Save, ArrowLeft, Calendar, User, FileText, CreditCard } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Plus, Trash2, Save, ArrowLeft, Calendar, User, FileText, CreditCard, Truck } from 'lucide-react';
+import { MockService } from '../mastermodel/services/MockService';
 
 const PurchaseEntry = () => {
+  const [suppliers, setSuppliers] = useState([]);
   const [master, setMaster] = useState({
     supplierId: '',
     billNo: '',
@@ -15,6 +17,10 @@ const PurchaseEntry = () => {
     paidAmount: 0,
     dueAmount: 0
   });
+
+  useEffect(() => {
+    MockService.getAll('suppliers').then(data => setSuppliers(data));
+  }, []);
 
   const [children, setChildren] = useState([
     { 
@@ -84,13 +90,22 @@ const PurchaseEntry = () => {
     let totalTax = 0;
 
     currentChildren.forEach(child => {
-      totalQty += parseFloat(child.quantity) || 0;
-      subtotal += (parseFloat(child.quantity) || 0) * (parseFloat(child.purchasePrice) || 0);
-      totalTax += parseFloat(child.taxAmount) || 0;
+      const qty = parseFloat(child.quantity) || 0;
+      const price = parseFloat(child.purchasePrice) || 0;
+      const taxP = parseFloat(child.taxPercent) || 0;
+      
+      const rowSubtotal = qty * price;
+      const rowTax = (rowSubtotal * taxP) / 100;
+      
+      totalQty += qty;
+      subtotal += rowSubtotal;
+      totalTax += rowTax;
     });
 
-    const grandTotal = subtotal + totalTax - (parseFloat(discount) || 0);
-    const dueAmount = grandTotal - (parseFloat(master.paidAmount) || 0);
+    const disc = parseFloat(discount) || 0;
+    const paid = parseFloat(master.paidAmount) || 0;
+    const grandTotal = Math.max(0, subtotal + totalTax - disc);
+    const dueAmount = grandTotal - paid;
 
     setMaster(prev => ({
       ...prev,
@@ -99,16 +114,18 @@ const PurchaseEntry = () => {
       totalTaxAmount: totalTax,
       grandTotal,
       dueAmount,
-      discount
+      discount: disc
     }));
   };
 
   const handleMasterChange = (field, value) => {
-    const updatedMaster = { ...master, [field]: value };
+    const val = field === 'discount' || field === 'paidAmount' ? (parseFloat(value) || 0) : value;
+    const updatedMaster = { ...master, [field]: val };
+
     if (field === 'discount' || field === 'paidAmount') {
-      const disc = field === 'discount' ? parseFloat(value) || 0 : master.discount;
-      const paid = field === 'paidAmount' ? parseFloat(value) || 0 : master.paidAmount;
-      updatedMaster.grandTotal = updatedMaster.subtotal + updatedMaster.totalTaxAmount - disc;
+      const disc = field === 'discount' ? val : master.discount;
+      const paid = field === 'paidAmount' ? val : master.paidAmount;
+      updatedMaster.grandTotal = Math.max(0, updatedMaster.subtotal + updatedMaster.totalTaxAmount - disc);
       updatedMaster.dueAmount = updatedMaster.grandTotal - paid;
     }
     setMaster(updatedMaster);
@@ -129,14 +146,18 @@ const PurchaseEntry = () => {
         <h4 style={{ marginBottom: '20px', borderBottom: '1px solid var(--border)', paddingBottom: '10px' }}>Bill Details (Master)</h4>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px' }}>
           <div className="input-group">
-            <label><User size={14} /> Supplier ID</label>
-            <input 
-              type="text" 
+            <label><Truck size={14} /> Select Supplier</label>
+            <select 
               className="input-field" 
               value={master.supplierId} 
               onChange={(e) => handleMasterChange('supplierId', e.target.value)}
-              placeholder="SUP-001"
-            />
+              required
+            >
+              <option value="">-- Select Supplier --</option>
+              {suppliers.map(s => (
+                <option key={s.id} value={s.id}>{s.name} ({s.city})</option>
+              ))}
+            </select>
           </div>
           <div className="input-group">
             <label><FileText size={14} /> Bill No</label>
@@ -155,6 +176,7 @@ const PurchaseEntry = () => {
               className="input-field" 
               value={master.billDate} 
               onChange={(e) => handleMasterChange('billDate', e.target.value)}
+              style={{ colorScheme: 'dark' }}
             />
           </div>
           <div className="input-group">
@@ -185,7 +207,7 @@ const PurchaseEntry = () => {
         <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '1000px' }}>
           <thead>
             <tr style={{ textAlign: 'left', borderBottom: '1px solid var(--border)' }}>
-              <th style={{ padding: '12px' }}>Product ID</th>
+              <th style={{ padding: '12px' }}>Product Name</th>
               <th style={{ padding: '12px' }}>Batch</th>
               <th style={{ padding: '12px' }}>Qty</th>
               <th style={{ padding: '12px' }}>P. Price</th>
@@ -223,7 +245,7 @@ const PurchaseEntry = () => {
                 </td>
                 <td style={{ padding: '12px', fontWeight: '600' }}>₹{child.totalAmount.toFixed(2)}</td>
                 <td style={{ padding: '8px' }}>
-                  <input type="date" className="input-field" style={{ padding: '6px' }} value={child.expiryDate} onChange={(e) => handleChildChange(child.id, 'expiryDate', e.target.value)} />
+                  <input type="date" className="input-field" style={{ padding: '6px', colorScheme: 'dark' }} value={child.expiryDate} onChange={(e) => handleChildChange(child.id, 'expiryDate', e.target.value)} />
                 </td>
                 <td style={{ padding: '8px' }}>
                   <button onClick={() => removeChildRow(child.id)} style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer' }}>

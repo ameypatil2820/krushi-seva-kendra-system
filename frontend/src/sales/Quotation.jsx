@@ -1,12 +1,20 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { FileText, Search, Filter, Plus, Calendar, User, CheckCircle, Clock, AlertCircle, IndianRupee } from 'lucide-react';
 
 const Quotation = () => {
+  const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState('');
   const [quotations, setQuotations] = useState([
     { id: 'QTN-201', customerId: 'CUS-501', date: '2026-04-20', totalAmount: 5400.00, status: 'Pending' },
     { id: 'QTN-202', customerId: 'CUS-502', date: '2026-04-22', totalAmount: 12450.50, status: 'Accepted' },
     { id: 'QTN-203', customerId: 'CUS-503', date: '2026-04-25', totalAmount: 8900.00, status: 'Expired' },
   ]);
+
+  const filteredQuotations = quotations.filter(q => 
+    q.id.toLowerCase().includes(searchTerm.toLowerCase()) || 
+    q.customerId.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const getStatusBadge = (status) => {
     switch (status) {
@@ -24,7 +32,11 @@ const Quotation = () => {
           <h2 style={{ color: '#8b5cf6', margin: 0 }}>Sales Quotations</h2>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Create and manage price quotes for customers</p>
         </div>
-        <button className="btn" style={{ background: '#8b5cf6', color: 'white' }}>
+        <button 
+          className="btn" 
+          style={{ background: '#8b5cf6', color: 'white' }}
+          onClick={() => navigate('/sales/quotations/new')}
+        >
           <Plus size={18} /> New Quotation
         </button>
       </div>
@@ -32,7 +44,14 @@ const Quotation = () => {
       <div className="glass-card" style={{ padding: '20px', marginBottom: '25px', display: 'flex', gap: '15px', alignItems: 'center' }}>
         <div style={{ position: 'relative', flex: 1 }}>
           <Search style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-secondary)' }} size={18} />
-          <input type="text" className="input-field" placeholder="Search by Qtn ID or Customer ID..." style={{ paddingLeft: '40px' }} />
+          <input 
+            type="text" 
+            className="input-field" 
+            placeholder="Search by Qtn ID or Customer ID..." 
+            style={{ paddingLeft: '40px' }} 
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
         </div>
         <button className="btn btn-secondary" style={{ width: 'auto' }}>
           <Filter size={18} /> Filter
@@ -52,7 +71,7 @@ const Quotation = () => {
             </tr>
           </thead>
           <tbody>
-            {quotations.map((item) => (
+            {filteredQuotations.map((item) => (
               <tr key={item.id} style={{ borderBottom: '1px solid var(--glass-border)' }}>
                 <td style={{ padding: '15px 20px', fontWeight: '600' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
