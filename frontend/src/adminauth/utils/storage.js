@@ -1,7 +1,10 @@
 export const STORAGE_KEYS = {
   USERS: 'ksk_users',
   ROLES: 'ksk_roles',
-  CURRENT_USER: 'ksk_current_user'
+  CURRENT_USER: 'ksk_current_user',
+  SALES: 'ksk_sales',
+  PURCHASES: 'ksk_purchases',
+  AGRO_DATA: 'agro_erp_data'
 };
 
 export const getFromStorage = (key) => {
