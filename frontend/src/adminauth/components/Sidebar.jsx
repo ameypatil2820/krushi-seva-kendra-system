@@ -81,7 +81,7 @@ const Sidebar = () => {
   const filteredMenu = menuItems.map(filterItem).filter(Boolean);
 
   return (
-    <aside className="sidebar glass-card" style={{ width: '260px', height: '100vh', padding: '20px', borderRadius: '0', overflowY: 'auto' }}>
+    <aside className="sidebar glass-card" style={{ width: '260px', height: '100vh', padding: '20px', borderRadius: '0', overflowY: 'auto', flexShrink: 0 }}>
       <div className="brand" style={{ marginBottom: '40px', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <img src={logo} alt="Krushi Seva Logo" style={{ width: '80px', height: '80px', marginBottom: '10px', borderRadius: '12px' }} />
         <h2 style={{ color: 'var(--primary)', fontWeight: '800', letterSpacing: '1px', fontSize: '1.2rem', margin: '0' }}>KRUSHI SEVA</h2>
