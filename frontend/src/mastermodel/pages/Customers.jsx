@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FiPlus, FiArrowLeft, FiSave, FiX, FiUser, FiPhone, FiMapPin, FiMail, FiLoader, FiCheckCircle, FiInfo, FiHome } from 'react-icons/fi';
+import { Plus as FiPlus, ArrowLeft as FiArrowLeft, Save as FiSave, X as FiX, User as FiUser, Phone as FiPhone, MapPin as FiMapPin, Mail as FiMail, Loader as FiLoader, CheckCircle as FiCheckCircle, Info as FiInfo, Home as FiHome } from 'lucide-react';
 import { useCRUD } from '../hooks/useCRUD';
 import DataTable from '../components/DataTable';
 import FormField from '../components/FormField';
