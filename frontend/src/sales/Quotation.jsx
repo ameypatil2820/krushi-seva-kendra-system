@@ -5,16 +5,19 @@ import { FileText, Search, Filter, Plus, Calendar, User, CheckCircle, Clock, Ale
 const Quotation = () => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
+  const [statusFilter, setStatusFilter] = useState('All');
   const [quotations, setQuotations] = useState([
     { id: 'QTN-201', customerId: 'CUS-501', date: '2026-04-20', totalAmount: 5400.00, status: 'Pending' },
     { id: 'QTN-202', customerId: 'CUS-502', date: '2026-04-22', totalAmount: 12450.50, status: 'Accepted' },
     { id: 'QTN-203', customerId: 'CUS-503', date: '2026-04-25', totalAmount: 8900.00, status: 'Expired' },
   ]);
 
-  const filteredQuotations = quotations.filter(q => 
-    q.id.toLowerCase().includes(searchTerm.toLowerCase()) || 
-    q.customerId.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredQuotations = quotations.filter(q => {
+    const matchesSearch = q.id.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                         q.customerId.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesStatus = statusFilter === 'All' || q.status === statusFilter;
+    return matchesSearch && matchesStatus;
+  });
 
   const getStatusBadge = (status) => {
     switch (status) {
@@ -53,9 +56,20 @@ const Quotation = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
-        <button className="btn btn-secondary" style={{ width: 'auto' }}>
-          <Filter size={18} /> Filter
-        </button>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <Filter size={18} color="var(--text-secondary)" />
+          <select 
+            className="input-field" 
+            style={{ width: '150px' }}
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+          >
+            <option value="All">All Status</option>
+            <option value="Pending">Pending</option>
+            <option value="Accepted">Accepted</option>
+            <option value="Expired">Expired</option>
+          </select>
+        </div>
       </div>
 
       <div className="glass-card" style={{ overflow: 'hidden' }}>
