@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Save, ArrowLeft, Plus, Trash2, Truck, Calendar, ShoppingBag } from 'lucide-react';
+import { Save, ArrowLeft, Plus, Trash2, Truck, Calendar, ShoppingBag, Package } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { MockService } from '../mastermodel/services/MockService';
+import SearchableSelect from './SearchableSelect';
 
 const NewPurchaseOrder = () => {
   const navigate = useNavigate();
   const [suppliers, setSuppliers] = useState([]);
+  const [products, setProducts] = useState([]);
   const [master, setMaster] = useState({
     supplierId: '',
     orderDate: new Date().toISOString().split('T')[0],
@@ -15,6 +17,7 @@ const NewPurchaseOrder = () => {
 
   useEffect(() => {
     MockService.getAll('suppliers').then(data => setSuppliers(data));
+    MockService.getAll('products').then(data => setProducts(data));
   }, []);
 
   const [items, setItems] = useState([
@@ -31,10 +34,14 @@ const NewPurchaseOrder = () => {
     }
   };
 
-  const handleItemChange = (id, field, value) => {
+  const handleItemChange = (id, field, value, extraData) => {
     const updatedItems = items.map(item => {
       if (item.id === id) {
-        return { ...item, [field]: value };
+        let updatedItem = { ...item, [field]: value };
+        if (field === 'productId' && extraData) {
+          updatedItem.expectedPrice = parseFloat(extraData.purchasePrice) || 0;
+        }
+        return updatedItem;
       }
       return item;
     });
@@ -53,21 +60,16 @@ const NewPurchaseOrder = () => {
         </button>
       </div>
 
-      <div className="glass-card" style={{ padding: '25px', marginBottom: '25px' }}>
+      <div className="glass-card" style={{ padding: '25px', marginBottom: '25px', position: 'relative', zIndex: 10 }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px' }}>
           <div className="input-group">
-            <label><Truck size={14} /> Select Supplier</label>
-            <select 
-              className="input-field" 
-              value={master.supplierId} 
-              onChange={(e) => setMaster({...master, supplierId: e.target.value})}
-              required
-            >
-              <option value="">-- Select Supplier --</option>
-              {suppliers.map(s => (
-                <option key={s.id} value={s.id}>{s.name} ({s.city})</option>
-              ))}
-            </select>
+            <label><Truck size={14} /> Supplier</label>
+            <SearchableSelect 
+              options={suppliers}
+              value={master.supplierId}
+              onChange={(val) => setMaster({...master, supplierId: val})}
+              placeholder="Search Supplier..."
+            />
           </div>
           <div className="input-group">
             <label><Calendar size={14} /> Order Date</label>
@@ -113,8 +115,14 @@ const NewPurchaseOrder = () => {
           <tbody>
             {items.map((item) => (
               <tr key={item.id} style={{ borderBottom: '1px solid var(--glass-border)' }}>
-                <td style={{ padding: '8px' }}>
-                  <input type="text" className="input-field" placeholder="Product Name" value={item.productId} onChange={(e) => handleItemChange(item.id, 'productId', e.target.value)} />
+                <td style={{ padding: '8px', minWidth: '250px' }}>
+                  <SearchableSelect 
+                    options={products}
+                    value={item.productId}
+                    onChange={(val, data) => handleItemChange(item.id, 'productId', val, data)}
+                    placeholder="Search Product..."
+                    icon={Package}
+                  />
                 </td>
                 <td style={{ padding: '8px' }}>
                   <input type="number" className="input-field" style={{ width: '100px' }} value={item.quantity} onChange={(e) => handleItemChange(item.id, 'quantity', e.target.value)} />

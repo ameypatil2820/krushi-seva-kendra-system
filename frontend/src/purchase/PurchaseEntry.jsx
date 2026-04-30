@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, Trash2, Save, ArrowLeft, Calendar, User, FileText, CreditCard, Truck } from 'lucide-react';
+import { Plus, Trash2, Save, ArrowLeft, Calendar, User, FileText, CreditCard, Truck, Package, Search as SearchIcon } from 'lucide-react';
 import { MockService } from '../mastermodel/services/MockService';
+import SearchableSelect from './SearchableSelect';
 
 const PurchaseEntry = () => {
   const [suppliers, setSuppliers] = useState([]);
+  const [products, setProducts] = useState([]);
   const [master, setMaster] = useState({
     supplierId: '',
     billNo: '',
@@ -20,37 +22,38 @@ const PurchaseEntry = () => {
 
   useEffect(() => {
     MockService.getAll('suppliers').then(data => setSuppliers(data));
+    MockService.getAll('products').then(data => setProducts(data));
   }, []);
 
   const [children, setChildren] = useState([
-    { 
-      id: Date.now(), 
-      productId: '', 
-      batchNo: '', 
-      quantity: 0, 
-      purchasePrice: 0, 
-      salePrice: 0, 
-      mrp: 0, 
-      taxPercent: 0, 
-      taxAmount: 0, 
-      totalAmount: 0, 
-      expiryDate: '' 
+    {
+      id: Date.now(),
+      productId: '',
+      batchNo: '',
+      quantity: 0,
+      purchasePrice: 0,
+      salePrice: 0,
+      mrp: 0,
+      taxPercent: 0,
+      taxAmount: 0,
+      totalAmount: 0,
+      expiryDate: ''
     }
   ]);
 
   const addChildRow = () => {
-    setChildren([...children, { 
-      id: Date.now(), 
-      productId: '', 
-      batchNo: '', 
-      quantity: 0, 
-      purchasePrice: 0, 
-      salePrice: 0, 
-      mrp: 0, 
-      taxPercent: 0, 
-      taxAmount: 0, 
-      totalAmount: 0, 
-      expiryDate: '' 
+    setChildren([...children, {
+      id: Date.now(),
+      productId: '',
+      batchNo: '',
+      quantity: 0,
+      purchasePrice: 0,
+      salePrice: 0,
+      mrp: 0,
+      taxPercent: 0,
+      taxAmount: 0,
+      totalAmount: 0,
+      expiryDate: ''
     }]);
   };
 
@@ -60,22 +63,28 @@ const PurchaseEntry = () => {
     }
   };
 
-  const handleChildChange = (id, field, value) => {
+  const handleChildChange = (id, field, value, extraData) => {
     const updatedChildren = children.map(child => {
       if (child.id === id) {
-        const updatedChild = { ...child, [field]: value };
+        let updatedChild = { ...child, [field]: value };
         
-        // Calculate tax and total for this row
-        if (field === 'quantity' || field === 'purchasePrice' || field === 'taxPercent') {
-          const qty = field === 'quantity' ? parseFloat(value) || 0 : child.quantity;
-          const price = field === 'purchasePrice' ? parseFloat(value) || 0 : child.purchasePrice;
-          const taxP = field === 'taxPercent' ? parseFloat(value) || 0 : child.taxPercent;
-          
-          const rowSubtotal = qty * price;
-          const rowTax = (rowSubtotal * taxP) / 100;
-          updatedChild.taxAmount = rowTax;
-          updatedChild.totalAmount = rowSubtotal + rowTax;
+        // Auto-fill from product selection
+        if (field === 'productId' && extraData) {
+          updatedChild.purchasePrice = parseFloat(extraData.purchasePrice) || 0;
+          updatedChild.salePrice = parseFloat(extraData.salePrice) || 0;
+          updatedChild.mrp = parseFloat(extraData.mrp) || 0;
+          updatedChild.taxPercent = parseFloat(extraData.tax) || 0;
         }
+
+        const qty = field === 'quantity' ? parseFloat(value) || 0 : updatedChild.quantity;
+        const price = field === 'purchasePrice' || (field === 'productId' && extraData) ? (parseFloat(updatedChild.purchasePrice) || 0) : child.purchasePrice;
+        const taxP = field === 'taxPercent' || (field === 'productId' && extraData) ? (parseFloat(updatedChild.taxPercent) || 0) : child.taxPercent;
+        
+        const rowSubtotal = qty * price;
+        const rowTax = (rowSubtotal * taxP) / 100;
+        updatedChild.taxAmount = rowTax;
+        updatedChild.totalAmount = rowSubtotal + rowTax;
+        
         return updatedChild;
       }
       return child;
@@ -93,10 +102,10 @@ const PurchaseEntry = () => {
       const qty = parseFloat(child.quantity) || 0;
       const price = parseFloat(child.purchasePrice) || 0;
       const taxP = parseFloat(child.taxPercent) || 0;
-      
+
       const rowSubtotal = qty * price;
       const rowTax = (rowSubtotal * taxP) / 100;
-      
+
       totalQty += qty;
       subtotal += rowSubtotal;
       totalTax += rowTax;
@@ -142,48 +151,43 @@ const PurchaseEntry = () => {
       </div>
 
       {/* Master Section */}
-      <div className="glass-card" style={{ padding: '25px', marginBottom: '25px' }}>
+      <div className="glass-card" style={{ padding: '25px', marginBottom: '25px', position: 'relative', zIndex: 10 }}>
         <h4 style={{ marginBottom: '20px', borderBottom: '1px solid var(--border)', paddingBottom: '10px' }}>Bill Details (Master)</h4>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px' }}>
-          <div className="input-group">
-            <label><Truck size={14} /> Select Supplier</label>
-            <select 
-              className="input-field" 
-              value={master.supplierId} 
-              onChange={(e) => handleMasterChange('supplierId', e.target.value)}
-              required
-            >
-              <option value="">-- Select Supplier --</option>
-              {suppliers.map(s => (
-                <option key={s.id} value={s.id}>{s.name} ({s.city})</option>
-              ))}
-            </select>
+          <div className="input-group" style={{ gridColumn: 'span 1' }}>
+            <label><Truck size={14} /> Supplier</label>
+            <SearchableSelect 
+              options={suppliers}
+              value={master.supplierId}
+              onChange={(val) => handleMasterChange('supplierId', val)}
+              placeholder="Search Supplier..."
+            />
           </div>
           <div className="input-group">
             <label><FileText size={14} /> Bill No</label>
-            <input 
-              type="text" 
-              className="input-field" 
-              value={master.billNo} 
+            <input
+              type="text"
+              className="input-field"
+              value={master.billNo}
               onChange={(e) => handleMasterChange('billNo', e.target.value)}
               placeholder="INV-1234"
             />
           </div>
           <div className="input-group">
             <label><Calendar size={14} /> Bill Date</label>
-            <input 
-              type="date" 
-              className="input-field" 
-              value={master.billDate} 
+            <input
+              type="date"
+              className="input-field"
+              value={master.billDate}
               onChange={(e) => handleMasterChange('billDate', e.target.value)}
               style={{ colorScheme: 'dark' }}
             />
           </div>
           <div className="input-group">
             <label><CreditCard size={14} /> Payment Type</label>
-            <select 
-              className="input-field" 
-              value={master.paymentType} 
+            <select
+              className="input-field"
+              value={master.paymentType}
               onChange={(e) => handleMasterChange('paymentType', e.target.value)}
             >
               <option value="Cash">Cash</option>
@@ -203,7 +207,7 @@ const PurchaseEntry = () => {
             <Plus size={16} /> Add Product
           </button>
         </div>
-        
+
         <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '1000px' }}>
           <thead>
             <tr style={{ textAlign: 'left', borderBottom: '1px solid var(--border)' }}>
@@ -222,8 +226,14 @@ const PurchaseEntry = () => {
           <tbody>
             {children.map((child) => (
               <tr key={child.id} style={{ borderBottom: '1px solid var(--glass-border)' }}>
-                <td style={{ padding: '8px' }}>
-                  <input type="text" className="input-field" style={{ padding: '6px' }} value={child.productId} onChange={(e) => handleChildChange(child.id, 'productId', e.target.value)} />
+                <td style={{ padding: '8px', minWidth: '250px' }}>
+                  <SearchableSelect 
+                    options={products}
+                    value={child.productId}
+                    onChange={(val, data) => handleChildChange(child.id, 'productId', val, data)}
+                    placeholder="Search Product..."
+                    icon={Package}
+                  />
                 </td>
                 <td style={{ padding: '8px' }}>
                   <input type="text" className="input-field" style={{ padding: '6px' }} value={child.batchNo} onChange={(e) => handleChildChange(child.id, 'batchNo', e.target.value)} />

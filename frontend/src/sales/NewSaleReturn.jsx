@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Save, ArrowLeft, Plus, Trash2, User, Calendar, FileText, RotateCcw, AlertCircle } from 'lucide-react';
+import { Save, ArrowLeft, Plus, Trash2, User, Calendar, FileText, RotateCcw, AlertCircle, Package } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { MockService } from '../mastermodel/services/MockService';
+import SearchableSelect from './SearchableSelect';
 
 const NewSaleReturn = () => {
   const navigate = useNavigate();
   const [customers, setCustomers] = useState([]);
+  const [products, setProducts] = useState([]);
   const [master, setMaster] = useState({
     saleId: '',
     customerId: '',
@@ -16,18 +18,25 @@ const NewSaleReturn = () => {
 
   useEffect(() => {
     MockService.getAll('customers').then(data => setCustomers(data));
+    MockService.getAll('products').then(data => setProducts(data));
   }, []);
 
   const [items, setItems] = useState([
     { id: Date.now(), productId: '', quantity: 1, rate: 0, amount: 0 }
   ]);
 
-  const handleItemChange = (id, field, value) => {
+  const handleItemChange = (id, field, value, extraData) => {
     const updatedItems = items.map(item => {
       if (item.id === id) {
-        const updatedItem = { ...item, [field]: value };
-        const qty = field === 'quantity' ? parseFloat(value) || 0 : item.quantity;
-        const rate = field === 'rate' ? parseFloat(value) || 0 : item.rate;
+        let updatedItem = { ...item, [field]: value };
+        
+        if (field === 'productId' && extraData) {
+          updatedItem.rate = parseFloat(extraData.salePrice) || 0;
+        }
+
+        const qty = field === 'quantity' ? parseFloat(value) || 0 : updatedItem.quantity;
+        const rate = field === 'rate' || (field === 'productId' && extraData) ? (parseFloat(updatedItem.rate) || 0) : item.rate;
+        
         updatedItem.amount = qty * rate;
         return updatedItem;
       }
@@ -65,18 +74,13 @@ const NewSaleReturn = () => {
             />
           </div>
           <div className="input-group">
-            <label><User size={14} /> Select Customer</label>
-            <select 
-              className="input-field" 
-              value={master.customerId} 
-              onChange={(e) => setMaster({...master, customerId: e.target.value})}
-              required
-            >
-              <option value="">-- Select Customer --</option>
-              {customers.map(c => (
-                <option key={c.id} value={c.id}>{c.name} ({c.city})</option>
-              ))}
-            </select>
+            <label><User size={14} /> Customer</label>
+            <SearchableSelect 
+              options={customers}
+              value={master.customerId}
+              onChange={(val) => setMaster({...master, customerId: val})}
+              placeholder="Search Customer..."
+            />
           </div>
           <div className="input-group">
             <label><Calendar size={14} /> Return Date</label>
@@ -116,8 +120,14 @@ const NewSaleReturn = () => {
           <tbody>
             {items.map((item) => (
               <tr key={item.id} style={{ borderBottom: '1px solid var(--glass-border)' }}>
-                <td style={{ padding: '8px' }}>
-                  <input type="text" className="input-field" placeholder="Product Name" value={item.productId} onChange={(e) => handleItemChange(item.id, 'productId', e.target.value)} />
+                <td style={{ padding: '8px', minWidth: '250px' }}>
+                  <SearchableSelect 
+                    options={products}
+                    value={item.productId}
+                    onChange={(val, data) => handleItemChange(item.id, 'productId', val, data)}
+                    placeholder="Search Product..."
+                    icon={Package}
+                  />
                 </td>
                 <td style={{ padding: '8px' }}>
                   <input type="number" className="input-field" style={{ width: '80px' }} value={item.quantity} onChange={(e) => handleItemChange(item.id, 'quantity', e.target.value)} />
