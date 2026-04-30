@@ -7,10 +7,10 @@ import ConfirmModal from '../components/ConfirmModal';
 import '../styles/MasterModel.css';
 
 const Customers = () => {
-  const {
+  const { 
     data, loading, isDeleteOpen, setIsDeleteOpen,
-    currentItem, handleAdd, handleEdit, handleView,
-    handleDeleteClick, handleConfirmDelete, handleSave
+    currentItem, handleAdd, handleEdit, handleView, 
+    handleDeleteClick, handleConfirmDelete, handleSave 
   } = useCRUD('customers');
 
   const [viewMode, setViewMode] = useState('list');
@@ -18,8 +18,8 @@ const Customers = () => {
   const [pinSuccess, setPinSuccess] = useState(false);
   const [villageList, setVillageList] = useState([]);
   const [formData, setFormData] = useState({
-    name: '', mobile: '', email: '', pinCode: '',
-    city: '', district: '', state: '',
+    name: '', mobile: '', email: '', pinCode: '', 
+    city: '', district: '', state: '', 
     address: '', gstNo: '', isActive: true
   });
 
@@ -34,8 +34,8 @@ const Customers = () => {
 
   const resetForm = () => {
     setFormData({
-      name: '', mobile: '', email: '', pinCode: '',
-      city: '', district: '', state: '',
+      name: '', mobile: '', email: '', pinCode: '', 
+      city: '', district: '', state: '', 
       address: '', gstNo: '', isActive: true
     });
     setVillageList([]);
@@ -47,18 +47,18 @@ const Customers = () => {
   useEffect(() => {
     const fetchPinDetails = async () => {
       const pin = formData.pinCode;
-
+      
       if (pin.length === 6) {
         setIsFetchingPin(true);
         setPinSuccess(false);
         try {
           const response = await fetch(`https://api.postalpincode.in/pincode/${pin}`);
           const data = await response.json();
-
+          
           if (data[0].Status === "Success") {
             const offices = data[0].PostOffice;
             setVillageList(offices.map(o => o.Name));
-
+            
             const details = offices[0];
             setFormData(prev => ({
               ...prev,
@@ -77,7 +77,6 @@ const Customers = () => {
           setIsFetchingPin(false);
         }
       } else {
-        // Clear immediately if pin is not 6 digits
         if (pin.length > 0) clearLocationFields();
       }
     };
@@ -93,9 +92,9 @@ const Customers = () => {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: type === 'checkbox' ? checked : value
+    setFormData(prev => ({ 
+      ...prev, 
+      [name]: type === 'checkbox' ? checked : value 
     }));
   };
 
@@ -116,13 +115,13 @@ const Customers = () => {
     { header: 'Mobile', accessor: 'mobile' },
     { header: 'City', accessor: 'city' },
     { header: 'District', accessor: 'district' },
-    {
-      header: 'Status',
+    { 
+      header: 'Status', 
       render: (row) => (
         <span className={`badge ${row.isActive ? 'badge-success' : 'badge-danger'}`}>
           {row.isActive ? 'Active' : 'Inactive'}
         </span>
-      )
+      ) 
     }
   ];
 
@@ -160,54 +159,52 @@ const Customers = () => {
 
         <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
           <form onSubmit={handleFinalSave}>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '30px' }}>
-
-              {/* Section 1: Personal Info */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+              
               <div className="agro-card" style={{ height: 'fit-content' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '25px', color: '#16a34a', borderBottom: '1px solid #f3f4f6', paddingBottom: '12px' }}>
-                  <FiUser size={20} />
-                  <h3 style={{ margin: 0, fontSize: '18px' }}>Personal Information</h3>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '15px', color: '#16a34a', borderBottom: '1px solid #f3f4f6', paddingBottom: '8px' }}>
+                  <FiUser size={18} />
+                  <h3 style={{ margin: 0, fontSize: '16px' }}>Personal Information</h3>
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                   <FormField label="Full Name" name="name" value={formData.name} onChange={handleChange} required placeholder="Enter customer name" />
                   <FormField label="Mobile Number" name="mobile" value={formData.mobile} onChange={handleChange} required placeholder="10 digit number" />
-                  <FormField label="Email Address" name="email" type="email" value={formData.email} onChange={handleChange} placeholder="Optional email" />
+                  <FormField label="Email Address" name="email" type="email" value={formData.email} onChange={handleChange} placeholder="Optional" />
                   <FormField label="GST Number" name="gstNo" value={formData.gstNo} onChange={handleChange} placeholder="Optional GSTIN" />
-
-                  <div style={{ marginTop: '10px', padding: '15px', background: '#f9fafb', borderRadius: '10px' }}>
+                  
+                  <div style={{ marginTop: '5px', padding: '10px 15px', background: '#f9fafb', borderRadius: '10px' }}>
                     <div className="form-group" style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: 0 }}>
                       <input type="checkbox" name="isActive" id="isActive" checked={formData.isActive} onChange={handleChange} />
-                      <label htmlFor="isActive" style={{ marginBottom: 0, fontWeight: '600' }}>Active Customer</label>
+                      <label htmlFor="isActive" style={{ marginBottom: 0, fontWeight: '600', fontSize: '13px' }}>Active Customer</label>
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* Section 2: Address & Location */}
               <div className="agro-card" style={{ height: 'fit-content' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '25px', color: '#16a34a', borderBottom: '1px solid #f3f4f6', paddingBottom: '12px' }}>
-                  <FiMapPin size={20} />
-                  <h3 style={{ margin: 0, fontSize: '18px' }}>Location Details</h3>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '15px', color: '#16a34a', borderBottom: '1px solid #f3f4f6', paddingBottom: '8px' }}>
+                  <FiMapPin size={18} />
+                  <h3 style={{ margin: 0, fontSize: '16px' }}>Location Details</h3>
                 </div>
-
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+                
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                   <div style={{ position: 'relative' }}>
                     <FormField label="Pin Code" name="pinCode" value={formData.pinCode} onChange={handleChange} required placeholder="6 digit code" />
-                    <div style={{ position: 'absolute', right: '12px', top: '40px', display: 'flex', alignItems: 'center' }}>
+                    <div style={{ position: 'absolute', right: '12px', top: '35px', display: 'flex', alignItems: 'center' }}>
                       {isFetchingPin && <FiLoader className="animate-spin" color="#16a34a" />}
-                      {pinSuccess && <FiCheckCircle color="#16a34a" size={20} />}
+                      {pinSuccess && <FiCheckCircle color="#16a34a" size={18} />}
                     </div>
                   </div>
 
                   {villageList.length > 1 ? (
-                    <FormField
-                      label="Village / City"
-                      name="city"
-                      type="select"
-                      options={villageList}
-                      value={formData.city}
-                      onChange={handleChange}
-                      required
+                    <FormField 
+                      label="Village / City" 
+                      name="city" 
+                      type="select" 
+                      options={villageList} 
+                      value={formData.city} 
+                      onChange={handleChange} 
+                      required 
                     />
                   ) : (
                     <FormField label="Village / City" name="city" value={formData.city} onChange={handleChange} required placeholder="Auto-filled" />
@@ -218,16 +215,16 @@ const Customers = () => {
                     <FormField label="State" name="state" value={formData.state} onChange={handleChange} required placeholder="State" />
                   </div>
 
-                  <FormField label="Full Address / Landmark" name="address" type="textarea" value={formData.address} onChange={handleChange} placeholder="Optional detailed address" />
+                  <FormField label="Full Address / Landmark" name="address" type="textarea" value={formData.address} onChange={handleChange} placeholder="Optional address" />
                 </div>
               </div>
             </div>
 
-            <div style={{ display: 'flex', gap: '12px', marginTop: '40px', justifyContent: 'flex-end', paddingBottom: '40px' }}>
-              <button type="button" className="btn-agro btn-outline" onClick={onBack} style={{ padding: '12px 30px' }}>
+            <div style={{ display: 'flex', gap: '12px', marginTop: '25px', justifyContent: 'flex-end', paddingBottom: '30px' }}>
+              <button type="button" className="btn-agro btn-outline" onClick={onBack} style={{ padding: '10px 25px' }}>
                 <FiX size={18} /> Cancel
               </button>
-              <button type="submit" className="btn-agro btn-primary" style={{ padding: '12px 45px', fontWeight: '600' }}>
+              <button type="submit" className="btn-agro btn-primary" style={{ padding: '10px 40px', fontWeight: '600' }}>
                 <FiSave size={18} /> {viewMode === 'edit' ? 'Update Record' : 'Save Customer'}
               </button>
             </div>
@@ -261,7 +258,7 @@ const Customers = () => {
                 {formData.isActive ? 'Active' : 'Inactive'}
               </span>
             </div>
-
+            
             <div style={{ textAlign: 'left', background: '#f9fafb', padding: '20px', borderRadius: '12px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '15px', color: '#374151' }}>
                 <FiPhone size={18} color="#16a34a" /> <strong>{formData.mobile}</strong>
@@ -280,7 +277,7 @@ const Customers = () => {
               <FiHome size={22} color="#16a34a" />
               <h3 style={{ margin: 0, color: '#111827', fontSize: '20px' }}>Address & Location</h3>
             </div>
-
+            
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '30px' }}>
               <div>
                 <label style={{ display: 'block', color: '#6b7280', fontSize: '12px', fontWeight: 'bold', textTransform: 'uppercase', marginBottom: '5px' }}>Pin Code</label>
