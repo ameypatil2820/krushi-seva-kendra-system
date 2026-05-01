@@ -107,7 +107,7 @@ const PurchaseOrder = () => {
                 <td style={{ padding: '15px 20px' }}>{order.expiryDate}</td>
                 <td style={{ padding: '15px 20px' }}>{getStatusBadge(order.status)}</td>
                 <td style={{ padding: '15px 20px' }}>
-                  <button className="btn btn-secondary" style={{ padding: '5px 12px', fontSize: '0.8rem' }}>View Details</button>
+                  <button className="btn btn-secondary" onClick={() => navigate(`/purchase/orders/view/${order.id}`)} style={{ padding: '5px 12px', fontSize: '0.8rem' }}>View Details</button>
                 </td>
               </tr>
             ))}

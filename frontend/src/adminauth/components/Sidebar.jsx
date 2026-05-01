@@ -18,7 +18,9 @@ import {
   ChevronDown,
   ChevronRight,
   ClipboardList,
-  CreditCard
+  Box,
+  Clock,
+  AlertCircle
 } from 'lucide-react';
 
 import logo from '../../assets/logo.png';
@@ -28,7 +30,8 @@ const Sidebar = () => {
   const location = useLocation();
   const [openGroups, setOpenGroups] = useState({
     sales: location.pathname.startsWith('/sales'),
-    purchase: location.pathname.startsWith('/purchase')
+    purchase: location.pathname.startsWith('/purchase'),
+    stock: location.pathname.startsWith('/stock')
   });
 
   const toggleGroup = (group) => {
@@ -41,8 +44,18 @@ const Sidebar = () => {
     { name: 'Products', icon: <Package size={20} />, path: '/products', module: 'product', action: 'view' },
     { name: 'Customers', icon: <UserCheck size={20} />, path: '/customers', module: 'customer', action: 'view' },
     { name: 'Suppliers', icon: <Truck size={20} />, path: '/suppliers', module: 'supplier', action: 'view' },
-    { name: 'Stock', icon: <Package size={20} />, path: '/stock', module: 'stock', action: 'view' },
-    { name: 'Billing', icon: <CreditCard size={20} />, path: '/billing', module: 'billing', action: 'view' },
+    
+    // Stock Group
+    { 
+      name: 'Stock', 
+      icon: <Box size={20} />, 
+      id: 'stock',
+      children: [
+        { name: 'Stock Master', icon: <Package size={18} />, path: '/stock/master', module: 'stock', action: 'view' },
+        { name: 'Stock Child', icon: <Box size={18} />, path: '/stock/child', module: 'stock', action: 'view' },
+        { name: 'Expiry Tracking', icon: <Clock size={18} />, path: '/stock/expiry', module: 'stock', action: 'view' }
+      ]
+    },
     
     // Sales Group
     { 
@@ -50,7 +63,7 @@ const Sidebar = () => {
       icon: <ShoppingCart size={20} />, 
       id: 'sales',
       children: [
-        { name: 'Sale Bill', icon: <ShoppingCart size={18} />, path: '/sales/entry', module: 'sale', action: 'view' },
+        { name: 'Sale Bill', icon: <ShoppingCart size={18} />, path: '/sales/bills', module: 'sale', action: 'view' },
         { name: 'Quotation', icon: <FileText size={18} />, path: '/sales/quotations', module: 'sale', action: 'view' },
         { name: 'Sale Return', icon: <RotateCcw size={18} />, path: '/sales/returns', module: 'sale', action: 'view' },
       ]
@@ -62,7 +75,7 @@ const Sidebar = () => {
       icon: <Truck size={20} />, 
       id: 'purchase',
       children: [
-        { name: 'Purchase Bill', icon: <FileText size={18} />, path: '/purchase/entry', module: 'purchase', action: 'view' },
+        { name: 'Purchase Bill', icon: <FileText size={18} />, path: '/purchase/bills', module: 'purchase', action: 'view' },
         { name: 'Purchase Order', icon: <ClipboardList size={18} />, path: '/purchase/orders', module: 'purchase', action: 'view' },
         { name: 'Purchase Return', icon: <RotateCcw size={18} />, path: '/purchase/returns', module: 'purchase', action: 'view' },
       ]

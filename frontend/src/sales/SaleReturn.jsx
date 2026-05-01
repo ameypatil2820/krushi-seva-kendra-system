@@ -98,7 +98,7 @@ const SaleReturn = () => {
                   </span>
                 </td>
                 <td style={{ padding: '15px 20px' }}>
-                  <button className="btn btn-secondary" style={{ padding: '5px 12px', fontSize: '0.8rem' }}>Details</button>
+                  <button className="btn btn-secondary" onClick={() => navigate(`/sales/returns/view/${item.id}`)} style={{ padding: '5px 12px', fontSize: '0.8rem' }}>View</button>
                 </td>
               </tr>
             ))}

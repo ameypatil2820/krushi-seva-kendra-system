@@ -32,7 +32,6 @@ export const initializeStorage = () => {
         purchase: ['view', 'create', 'edit', 'delete'],
         tax: ['view', 'create', 'edit', 'delete'],
         stock: ['view', 'manage'],
-        billing: ['view', 'manage'],
         users: ['manage'],
         roles: ['manage']
       }
