@@ -2,12 +2,24 @@ import React, { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { Search, ChevronDown, X } from 'lucide-react';
 
-const SearchableSelect = ({ options, value, onChange, placeholder, style, height = '40px', padding = '0 12px' }) => {
+const SearchableSelect = ({ options, value, onChange, placeholder, style, height = '40px', padding = '0 12px', textColor = 'white', bgColor = '#111827', inputRef: forwardedRef, onEnterSelect }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [highlightedIndex, setHighlightedIndex] = useState(0);
   const [dropdownPos, setDropdownPos] = useState({ top: 0, left: 0, width: 0 });
   const wrapperRef = useRef(null);
   const inputRef = useRef(null);
+
+  // Sync the internal ref with the forwarded ref
+  useEffect(() => {
+    if (forwardedRef) {
+      if (typeof forwardedRef === 'function') {
+        forwardedRef(inputRef.current);
+      } else {
+        forwardedRef.current = inputRef.current;
+      }
+    }
+  }, [forwardedRef]);
 
   const selectedOption = options.find(opt => String(opt.id) === String(value));
 
@@ -54,6 +66,35 @@ const SearchableSelect = ({ options, value, onChange, placeholder, style, height
     (opt.code && opt.code.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
+  const selectOption = (opt) => {
+    onChange(opt.id, opt);
+    setIsOpen(false);
+    setSearchTerm('');
+    setHighlightedIndex(0);
+  };
+
+  const handleKeyDown = (e) => {
+    if (!isOpen) return;
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setHighlightedIndex(i => Math.min(i + 1, filteredOptions.length - 1));
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setHighlightedIndex(i => Math.max(i - 1, 0));
+    } else if (e.key === 'Enter') {
+      e.preventDefault();
+      e.stopPropagation();
+      if (filteredOptions[highlightedIndex]) {
+        selectOption(filteredOptions[highlightedIndex]);
+        // After selection, call the parent's enter handler (e.g. add new row)
+        if (onEnterSelect) setTimeout(() => onEnterSelect(), 30);
+      }
+    } else if (e.key === 'Escape') {
+      setIsOpen(false);
+      setSearchTerm('');
+    }
+  };
+
   const handleOpen = () => {
     calcPos();
     setIsOpen(true);
@@ -73,34 +114,30 @@ const SearchableSelect = ({ options, value, onChange, placeholder, style, height
         overflowY: 'auto',
         boxShadow: '0 15px 40px rgba(0,0,0,0.8)',
         border: '1px solid rgba(255,255,255,0.12)',
-        background: '#111827',
+        background: bgColor,
         padding: '6px',
         borderRadius: '12px',
       }}
     >
       {filteredOptions.length > 0 ? (
-        filteredOptions.map(opt => (
+        filteredOptions.map((opt, idx) => (
           <div
             key={opt.id}
             style={{
               padding: '10px 14px',
               cursor: 'pointer',
               borderRadius: '8px',
-              background: String(value) === String(opt.id) ? 'rgba(16,185,129,0.15)' : 'transparent',
+              background: idx === highlightedIndex ? 'rgba(16,185,129,0.2)' : (String(value) === String(opt.id) ? 'rgba(16,185,129,0.15)' : 'transparent'),
               marginBottom: '2px',
               display: 'flex',
               flexDirection: 'column',
             }}
-            onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.08)'}
-            onMouseLeave={e => e.currentTarget.style.background = String(value) === String(opt.id) ? 'rgba(16,185,129,0.15)' : 'transparent'}
-            onMouseDown={e => e.preventDefault()} // prevent blur before click
-            onClick={() => {
-              onChange(opt.id, opt);
-              setIsOpen(false);
-              setSearchTerm('');
-            }}
+            onMouseEnter={() => setHighlightedIndex(idx)}
+            onMouseLeave={() => {}}
+            onMouseDown={e => e.preventDefault()}
+            onClick={() => selectOption(opt)}
           >
-            <div style={{ fontWeight: '600', fontSize: '0.9rem', color: String(value) === String(opt.id) ? 'var(--primary)' : 'white' }}>
+            <div style={{ fontWeight: '600', fontSize: '0.9rem', color: String(value) === String(opt.id) ? 'var(--primary)' : textColor }}>
               {opt.name}
             </div>
             {(opt.city || opt.code) && (
@@ -129,7 +166,7 @@ const SearchableSelect = ({ options, value, onChange, placeholder, style, height
           cursor: 'text',
           padding: padding,
           height: height,
-          background: 'rgba(255,255,255,0.05)',
+          background: textColor === 'white' ? 'rgba(255,255,255,0.05)' : 'white',
           borderRadius: '10px',
           border: isOpen ? '2px solid var(--primary)' : '1px solid var(--border)',
           transition: 'border 0.2s ease',
@@ -146,7 +183,7 @@ const SearchableSelect = ({ options, value, onChange, placeholder, style, height
             background: 'transparent',
             border: 'none',
             outline: 'none',
-            color: 'white',
+            color: textColor,
             width: '100%',
             height: '100%',
             fontSize: '0.9rem'
@@ -159,9 +196,9 @@ const SearchableSelect = ({ options, value, onChange, placeholder, style, height
           }}
           onFocus={handleOpen}
           onBlur={() => {
-            // small delay to allow click on dropdown item to register
             setTimeout(() => setIsOpen(false), 150);
           }}
+          onKeyDown={handleKeyDown}
           autoComplete="off"
         />
 
