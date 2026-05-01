@@ -22,6 +22,10 @@ import PurchaseOrder from './purchase/PurchaseOrder';
 import NewPurchaseOrder from './purchase/NewPurchaseOrder';
 import PurchaseReturn from './purchase/PurchaseReturn';
 import NewPurchaseReturn from './purchase/NewPurchaseReturn';
+import StockManagement from './stock/StockManagement';
+import BillingDashboard from './bill/BillingDashboard';
+import NewCustomerBill from './bill/NewCustomerBill';
+import NewSupplierBill from './bill/NewSupplierBill';
 
 const AppRoutes = () => {
   return (
@@ -59,6 +63,16 @@ const AppRoutes = () => {
           <Route path="returns" element={<PurchaseReturn />} />
           <Route path="returns/new" element={<NewPurchaseReturn />} />
           <Route index element={<ModulePage title="Purchases" module="purchase" />} />
+        </Route>
+
+        {/* Stock Routes */}
+        <Route path="stock" element={<StockManagement />} />
+
+        {/* Billing Routes */}
+        <Route path="billing">
+          <Route index element={<BillingDashboard />} />
+          <Route path="customer/new" element={<NewCustomerBill />} />
+          <Route path="supplier/new" element={<NewSupplierBill />} />
         </Route>
 
         <Route path="roles" element={

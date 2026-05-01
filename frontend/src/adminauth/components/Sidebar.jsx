@@ -17,7 +17,8 @@ import {
   RotateCcw,
   ChevronDown,
   ChevronRight,
-  ClipboardList
+  ClipboardList,
+  CreditCard
 } from 'lucide-react';
 
 import logo from '../../assets/logo.png';
@@ -40,6 +41,8 @@ const Sidebar = () => {
     { name: 'Products', icon: <Package size={20} />, path: '/products', module: 'product', action: 'view' },
     { name: 'Customers', icon: <UserCheck size={20} />, path: '/customers', module: 'customer', action: 'view' },
     { name: 'Suppliers', icon: <Truck size={20} />, path: '/suppliers', module: 'supplier', action: 'view' },
+    { name: 'Stock', icon: <Package size={20} />, path: '/stock', module: 'stock', action: 'view' },
+    { name: 'Billing', icon: <CreditCard size={20} />, path: '/billing', module: 'billing', action: 'view' },
     
     // Sales Group
     { 
