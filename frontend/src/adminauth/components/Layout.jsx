@@ -1,12 +1,62 @@
 import React, { useEffect } from 'react';
-import { Outlet, useLocation, Navigate } from 'react-router-dom';
+import { Outlet, useLocation, Navigate, useNavigate } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import { motion } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
+import { Search, UserCircle } from 'lucide-react';
 
 const Layout = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { user, hasPermission } = useAuth();
+  const [searchQuery, setSearchQuery] = React.useState('');
+  const [suggestions, setSuggestions] = React.useState([]);
+  const [showSuggestions, setShowSuggestions] = React.useState(false);
+
+  // Sidebar Menu Items for Search
+  const menuItems = [
+    { name: 'Dashboard', path: '/dashboard' },
+    { name: 'Category', path: '/categories', module: 'category', action: 'view' },
+    { name: 'Products', path: '/products', module: 'product', action: 'view' },
+    { name: 'Customers', path: '/customers', module: 'customer', action: 'view' },
+    { name: 'Suppliers', path: '/suppliers', module: 'supplier', action: 'view' },
+    { name: 'Stock', path: '/stock', module: 'stock', action: 'view' },
+    { name: 'Billing', path: '/billing', module: 'billing', action: 'view' },
+    { name: 'Sale Bill', path: '/sales/entry', module: 'sale', action: 'view' },
+    { name: 'Quotation', path: '/sales/quotations', module: 'sale', action: 'view' },
+    { name: 'Sale Return', path: '/sales/returns', module: 'sale', action: 'view' },
+    { name: 'Purchase Bill', path: '/purchase/entry', module: 'purchase', action: 'view' },
+    { name: 'Purchase Order', path: '/purchase/orders', module: 'purchase', action: 'view' },
+    { name: 'Purchase Return', path: '/purchase/returns', module: 'purchase', action: 'view' },
+    { name: 'Tax', path: '/tax', module: 'tax', action: 'view' },
+    { name: 'Users', path: '/users', module: 'users', action: 'manage' },
+    { name: 'Roles', path: '/roles', module: 'roles', action: 'manage' },
+  ];
+
+  // Handle Search Input Change
+  const handleSearchChange = (e) => {
+    const query = e.target.value;
+    setSearchQuery(query);
+
+    if (query.length > 0) {
+      const filtered = menuItems.filter(item => 
+        item.name.toLowerCase().startsWith(query.toLowerCase()) &&
+        (!item.module || hasPermission(item.module, item.action))
+      );
+      setSuggestions(filtered);
+      setShowSuggestions(true);
+    } else {
+      setSuggestions([]);
+      setShowSuggestions(false);
+    }
+  };
+
+  // Handle Suggestion Click
+  const handleSuggestionClick = (path) => {
+    navigate(path);
+    setSearchQuery('');
+    setShowSuggestions(false);
+  };
 
   // Map URL paths to modules
   const getModuleFromPath = (path) => {
@@ -103,113 +153,118 @@ const Layout = () => {
         {/* Top Navbar */}
         <header style={{
           height: '90px',
-          background: 'rgba(255, 255, 255, 0.85)',
-          backdropFilter: 'blur(20px)',
-          borderBottom: '1px solid var(--border-light)',
+          margin: '20px 25px 10px 25px',
+          background: 'transparent',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          padding: '0 60px',
-          position: 'sticky',
-          top: 0,
-          zIndex: 90,
-          boxShadow: '0 10px 30px -15px rgba(0,0,0,0.05)'
+          padding: '0 40px',
+          position: 'relative',
+          zIndex: 90
         }}>
-          {/* Welcome Section */}
-          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '4px' }}>
-            <div style={{ fontSize: '20px', fontWeight: '800', color: 'var(--text-main)', letterSpacing: '-0.02em' }}>
-              Hello, {user?.name?.split(' ')[0] || 'Admin'} 👋
-            </div>
-            <div style={{ fontSize: '13px', color: 'var(--text-muted)', fontWeight: '500' }}>
-              {new Date().toLocaleDateString('en-US', { weekday: 'long', day: 'numeric', month: 'long' })}
-            </div>
-          </div>
-
-          {/* Search Section */}
-          <div style={{ flex: 2, display: 'flex', justifyContent: 'center', padding: '0 40px' }}>
+          {/* Search Section on the Left */}
+          <div style={{ flex: 2, display: 'flex', justifyContent: 'flex-start' }}>
             <div style={{ position: 'relative', width: '100%', maxWidth: '500px' }}>
               <input
                 type="text"
-                placeholder="Search anything..."
+                placeholder="Search menu items..."
+                value={searchQuery}
+                onChange={handleSearchChange}
+                onFocus={() => searchQuery.length > 0 && setShowSuggestions(true)}
                 style={{
                   width: '100%',
                   padding: '14px 24px 14px 54px',
-                  borderRadius: '99px',
-                  background: '#f1f5f9',
-                  border: '1px solid transparent',
+                  borderRadius: '12px',
+                  background: 'transparent',
+                  border: '1px solid #e2e8f0',
                   fontSize: '15px',
                   fontWeight: '500',
                   color: 'var(--text-main)',
-                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                  outline: 'none',
-                  boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.02)'
+                  transition: 'all 0.3s ease',
+                  outline: 'none'
                 }}
               />
-              <span style={{ position: 'absolute', left: '22px', top: '50%', transform: 'translateY(-50%)', fontSize: '20px' }}>🔍</span>
-              <div style={{
-                position: 'absolute',
-                right: '18px',
-                top: '50%',
-                transform: 'translateY(-50%)',
-                background: 'white',
-                border: '1px solid #e2e8f0',
-                borderRadius: '8px',
-                padding: '3px 8px',
-                fontSize: '11px',
-                fontWeight: '800',
-                color: 'var(--text-muted)',
-                boxShadow: '0 2px 4px rgba(0,0,0,0.05)'
-              }}>
-                /
+              
+              {/* Search Suggestions Dropdown */}
+              {showSuggestions && suggestions.length > 0 && (
+                <div style={{
+                  position: 'absolute',
+                  top: '110%',
+                  left: 0,
+                  right: 0,
+                  background: 'white',
+                  borderRadius: '12px',
+                  boxShadow: '0 10px 25px rgba(0,0,0,0.1)',
+                  border: '1px solid #e2e8f0',
+                  zIndex: 100,
+                  overflow: 'hidden',
+                  padding: '8px'
+                }}>
+                  {suggestions.map((item) => (
+                    <div
+                      key={item.path}
+                      onClick={() => handleSuggestionClick(item.path)}
+                      style={{
+                        padding: '12px 16px',
+                        borderRadius: '8px',
+                        cursor: 'pointer',
+                        fontSize: '14px',
+                        fontWeight: '600',
+                        color: 'var(--text-main)',
+                        transition: 'background 0.2s',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between'
+                      }}
+                      onMouseOver={(e) => e.currentTarget.style.background = '#f1f5f9'}
+                      onMouseOut={(e) => e.currentTarget.style.background = 'transparent'}
+                    >
+                      <span>{item.name}</span>
+                      <span style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: '500' }}>Go to page →</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+              {/* Close suggestions when clicking outside - simplified for now */}
+              {showSuggestions && (
+                <div 
+                  style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 99 }}
+                  onClick={() => setShowSuggestions(false)}
+                />
+              )}
+              <div style={{ position: 'absolute', left: '18px', top: '50%', transform: 'translateY(-50%)', display: 'flex', alignItems: 'center' }}>
+                <Search size={20} color="var(--text-muted)" />
               </div>
             </div>
           </div>
 
-          {/* Actions & Profile */}
-          <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '35px' }}>
-            <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
-              <button style={{ background: 'none', border: 'none', fontSize: '24px', cursor: 'pointer', transition: 'transform 0.2s' }} onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.2)'} onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}>🔔</button>
-              <button style={{ background: 'none', border: 'none', fontSize: '24px', cursor: 'pointer', transition: 'transform 0.2s' }} onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.2)'} onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}>⚙️</button>
-            </div>
+          {/* Spacer Middle */}
+          <div style={{ flex: 1 }}></div>
 
-            <div style={{ height: '40px', width: '1px', background: 'var(--border-light)' }}></div>
-
+          {/* User Profile / Login Symbol on the Right */}
+          <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
             <div style={{
+              width: '45px',
+              height: '45px',
+              borderRadius: '50%',
+              border: '2px solid var(--primary)',
               display: 'flex',
               alignItems: 'center',
-              gap: '15px',
-              padding: '8px 12px 8px 16px',
-              background: 'white',
-              borderRadius: '16px',
-              border: '1px solid var(--border-light)',
-              boxShadow: '0 4px 12px rgba(0,0,0,0.03)'
-            }}>
-              <div style={{ textAlign: 'right' }}>
-                <div style={{ fontWeight: '800', fontSize: '15px', color: 'var(--text-main)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  {user?.name || 'Admin'}
-                  <span style={{ background: '#f0fdf4', color: '#16a34a', fontSize: '11px', padding: '3px 8px', borderRadius: '6px', fontWeight: '800', border: '1px solid #dcfce7' }}>🌱 Admin</span>
-                </div>
-                <div style={{ fontSize: '12px', color: '#10b981', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '6px', justifyContent: 'flex-end', marginTop: '2px' }}>
-                  <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#10b981', boxShadow: '0 0 10px #10b981' }}></span>
-                  Online
-                </div>
-              </div>
-              <div style={{
-                width: '50px',
-                height: '50px',
-                borderRadius: '14px',
-                background: 'linear-gradient(135deg, var(--primary-soft) 0%, #dcfce7 100%)',
-                border: '2px solid white',
-                boxShadow: '0 8px 16px -4px rgba(22, 163, 74, 0.2)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: 'var(--primary)',
-                fontWeight: '900',
-                fontSize: '20px'
-              }}>
-                {user?.name?.charAt(0) || 'A'}
-              </div>
+              justifyContent: 'center',
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+              color: 'var(--primary)',
+              fontWeight: '800',
+              fontSize: '18px'
+            }}
+              onMouseEnter={e => {
+                e.currentTarget.style.transform = 'scale(1.1)';
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.transform = 'scale(1)';
+              }}
+            >
+              {user?.name?.charAt(0).toUpperCase() || 'A'}
             </div>
           </div>
         </header>
