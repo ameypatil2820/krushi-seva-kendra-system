@@ -163,51 +163,64 @@ const NewCustomerBill = () => {
         </div>
       </div>
 
-      <form onSubmit={(e) => handleSave(e, false)} className="agro-card" style={{ maxWidth: '800px', margin: '0 auto' }}>
-        <div className="agro-card-header" style={{ borderBottom: '1px solid #f3f4f6', paddingBottom: '20px', marginBottom: '20px' }}>
-          <h2 style={{ fontSize: '20px', margin: 0 }}>Customer Details & Payment</h2>
+      <form onSubmit={(e) => handleSave(e, false)} style={{ background: 'white', padding: '30px', borderRadius: '15px', border: '1px solid #e5e7eb', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}>
+        <div style={{ borderBottom: '1px solid #f3f4f6', paddingBottom: '20px', marginBottom: '30px' }}>
+          <h2 style={{ fontSize: '22px', fontWeight: '700', color: '#111827', margin: 0 }}>Bill Information</h2>
+          <p style={{ color: '#6b7280', margin: '5px 0 0 0' }}>Enter customer and payment details below</p>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '30px' }}>
           
-          <div className="form-group" style={{ display: 'flex', flexDirection: 'column', gap: '8px', gridColumn: 'span 2' }}>
-            <label style={{ fontSize: '13px', fontWeight: '700', color: '#374151', textTransform: 'uppercase' }}>Select Customer *</label>
-            <SearchableSelect 
-              options={customerOptions}
-              value={formData.customerId}
-              onChange={handleCustomerSelect}
-              placeholder="Search by Name, Mobile or City..."
-              height="45px"
-            />
-            {/* Hidden input to ensure form validation passes if they didn't pick customer from list but typed it manually - wait, no, they MUST pick it from the list now */}
-            <input 
-              type="text" 
-              name="customerName" 
-              value={formData.customerName} 
-              onChange={handleChange} 
-              required 
-              style={{ display: 'none' }} 
-            />
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+            <div className="form-group" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <label style={{ fontSize: '13px', fontWeight: '700', color: '#374151', textTransform: 'uppercase' }}>Select Customer *</label>
+              <SearchableSelect 
+                options={customerOptions}
+                value={formData.customerId}
+                onChange={handleCustomerSelect}
+                placeholder="Search by Name, Mobile or City..."
+                height="48px"
+              />
+              <input 
+                type="text" 
+                name="customerName" 
+                value={formData.customerName} 
+                onChange={handleChange} 
+                required 
+                style={{ display: 'none' }} 
+              />
+            </div>
+
+            <FormField label="Payment Date" name="paymentDate" type="date" value={formData.paymentDate} onChange={handleChange} required />
           </div>
 
-          {/* Readonly customer ID to show selection */}
-          <FormField label="Customer ID" name="customerId" value={formData.customerId} onChange={() => {}} placeholder="Auto-filled" />
-          <FormField label="Payment Date" name="paymentDate" type="date" value={formData.paymentDate} onChange={handleChange} required />
-          
-          <FormField label="Total Bill (₹)" name="totalBill" type="number" value={formData.totalBill} onChange={handleChange} required placeholder="0" />
-          <FormField label="Paid Amount (₹)" name="paid" type="number" value={formData.paid} onChange={handleChange} required placeholder="0" />
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+              <FormField label="Customer ID" name="customerId" value={formData.customerId} onChange={() => {}} placeholder="Auto-filled" readonly />
+              <FormField label="Total Bill (₹)" name="totalBill" type="number" value={formData.totalBill} onChange={handleChange} required placeholder="0" />
+            </div>
+            
+            <FormField label="Paid Amount (₹)" name="paid" type="number" value={formData.paid} onChange={handleChange} required placeholder="0" />
+          </div>
         </div>
         
-        <div style={{ marginTop: '30px', padding: '24px', background: '#f8fafc', borderRadius: '12px', border: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <span style={{ fontWeight: '700', color: '#475569', fontSize: '18px' }}>Calculated Due Amount:</span>
-          <span style={{ fontSize: '28px', fontWeight: '800', color: (Number(formData.totalBill || 0) - Number(formData.paid || 0)) > 0 ? '#ef4444' : '#10b981' }}>
-            ₹{(Number(formData.totalBill || 0) - Number(formData.paid || 0)).toLocaleString()}
-          </span>
+        <div style={{ marginTop: '40px', padding: '30px', background: 'linear-gradient(to right, #f8fafc, #f1f5f9)', borderRadius: '15px', border: '1px solid #e2e8f0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div>
+            <span style={{ fontWeight: '700', color: '#475569', fontSize: '16px', display: 'block' }}>Summary</span>
+            <span style={{ color: '#64748b', fontSize: '14px' }}>Net outstanding amount for this transaction</span>
+          </div>
+          <div style={{ textAlign: 'right' }}>
+            <span style={{ display: 'block', fontSize: '14px', color: '#64748b', marginBottom: '5px' }}>Outstanding Due</span>
+            <span style={{ fontSize: '32px', fontWeight: '800', color: (Number(formData.totalBill || 0) - Number(formData.paid || 0)) > 0 ? '#ef4444' : '#10b981' }}>
+              ₹{(Number(formData.totalBill || 0) - Number(formData.paid || 0)).toLocaleString()}
+            </span>
+          </div>
         </div>
 
-        <div className="form-footer" style={{ marginTop: '30px', borderTop: '1px solid #f1f5f9', paddingTop: '20px', display: 'flex', gap: '15px', justifyContent: 'flex-end' }}>
-          <button type="button" className="btn-agro btn-outline" onClick={() => navigate('/billing')} style={{ padding: '12px 30px' }}><X size={18} /> Cancel</button>
-          <button type="submit" className="btn-agro btn-primary" style={{ padding: '12px 40px', fontWeight: 'bold' }}><Save size={18} /> Save Bill</button>
-          <button type="button" className="btn-agro btn-primary" style={{ padding: '12px 40px', fontWeight: 'bold', background: '#0ea5e9', borderColor: '#0ea5e9' }} onClick={(e) => handleSave(e, true)}>
+        <div style={{ marginTop: '40px', borderTop: '1px solid #f1f5f9', paddingTop: '30px', display: 'flex', gap: '15px', justifyContent: 'flex-end' }}>
+          <button type="button" className="btn-agro btn-outline" onClick={() => navigate('/billing')} style={{ padding: '12px 30px', minWidth: '120px' }}><X size={18} /> Cancel</button>
+          <button type="submit" className="btn-agro btn-primary" style={{ padding: '12px 40px', fontWeight: 'bold', minWidth: '160px' }}><Save size={18} /> Save Bill</button>
+          <button type="button" className="btn-agro btn-primary" style={{ padding: '12px 40px', fontWeight: 'bold', background: '#0ea5e9', borderColor: '#0ea5e9', minWidth: '160px' }} onClick={(e) => handleSave(e, true)}>
             <Save size={18} /> Save & Print
           </button>
         </div>
