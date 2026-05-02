@@ -17,6 +17,10 @@ const ProductList = () => {
     { header: 'Product Name', accessor: 'name' },
     { header: 'Code', accessor: 'code' },
     { header: 'Category', accessor: 'category' },
+    { 
+      header: 'Packing', 
+      render: (row) => row.primaryUnit ? `1 ${row.primaryUnit} = ${row.conversionFactor} ${row.secondaryUnit}` : 'N/A'
+    },
     {
       header: 'Current Stock',
       render: (row) => {
