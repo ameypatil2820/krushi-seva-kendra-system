@@ -1,7 +1,7 @@
 import React from 'react';
 import { Edit2, Trash2, Eye, Search, Filter } from 'lucide-react';
 
-const DataTable = ({ columns, data, onEdit, onDelete, onView, title }) => {
+const DataTable = ({ columns, data, onEdit, onDelete, onView, title, hideControls }) => {
   const [searchTerm, setSearchTerm] = React.useState('');
   const [statusFilter, setStatusFilter] = React.useState('all');
 
@@ -18,36 +18,38 @@ const DataTable = ({ columns, data, onEdit, onDelete, onView, title }) => {
   });
 
   return (
-    <div style={{ background: 'white', borderRadius: 'var(--radius-lg)' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '25px', gap: '20px' }}>
-        <div style={{ position: 'relative', flex: 1, maxWidth: '400px' }}>
-          <Search size={18} style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
-          <input 
-            type="text" 
-            placeholder={`Search ${title || 'data'}...`} 
-            className="form-control" 
-            style={{ paddingLeft: '48px', borderRadius: '12px' }}
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </div>
-        
-        <div style={{ display: 'flex', gap: '12px' }}>
-          <div style={{ position: 'relative', width: '160px' }}>
-            <select 
+    <div className="data-table-simple">
+      {!hideControls && (
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px', gap: '15px' }}>
+          <div style={{ position: 'relative', flex: 1, maxWidth: '400px' }}>
+            <Search size={18} style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
+            <input 
+              type="text" 
+              placeholder={`Search ${title || 'data'}...`} 
               className="form-control" 
-              style={{ paddingLeft: '15px', borderRadius: '12px', appearance: 'none', cursor: 'pointer', background: '#f9fafb' }}
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-            >
-              <option value="all">All Status</option>
-              <option value="active">Active</option>
-              <option value="inactive">Inactive</option>
-            </select>
-            <Filter size={14} style={{ position: 'absolute', right: '15px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)', pointerEvents: 'none' }} />
+              style={{ paddingLeft: '48px', borderRadius: '12px' }}
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+          
+          <div style={{ display: 'flex', gap: '12px' }}>
+            <div style={{ position: 'relative', width: '160px' }}>
+              <select 
+                className="form-control" 
+                style={{ paddingLeft: '15px', borderRadius: '12px', appearance: 'none', cursor: 'pointer', background: '#f9fafb' }}
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value)}
+              >
+                <option value="all">All Status</option>
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+              </select>
+              <Filter size={14} style={{ position: 'absolute', right: '15px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)', pointerEvents: 'none' }} />
+            </div>
           </div>
         </div>
-      </div>
+      )}
       
       <div className="agro-table-container">
         <table className="agro-table">

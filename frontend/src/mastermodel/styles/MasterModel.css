@@ -19,7 +19,7 @@
 }
 
 .agro-container {
-  padding: 30px;
+  padding: 15px 25px;
   background-color: var(--background);
   min-height: calc(100vh - 64px);
   animation: fadeIn 0.4s ease-out;
@@ -69,7 +69,7 @@
 
 .agro-table th {
   background: #f9fafb;
-  padding: 16px 20px;
+  padding: 12px 15px;
   font-weight: 700;
   color: var(--text-muted);
   text-transform: uppercase;
@@ -82,7 +82,7 @@
 }
 
 .agro-table td {
-  padding: 16px 20px;
+  padding: 10px 15px;
   border-bottom: 1px solid var(--border-light);
   color: var(--text-main);
   font-size: 14px;
@@ -312,4 +312,35 @@
 
 .action-btn:hover {
   transform: scale(1.1);
+}
+
+.agro-header-compact {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0;
+  padding: 0;
+}
+
+.agro-header-compact h2 {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text-main);
+  margin: 0;
+}
+
+.agro-header-compact p {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 2px 0 0 0;
+}
+
+.agro-table-wrapper-simple {
+  border: none;
+  background: transparent;
+  overflow: visible;
+}
+
+.data-table-simple {
+  padding: 0;
 }

@@ -22,48 +22,68 @@ const CategoryCreate = () => {
   };
 
   return (
-    <div className="agro-container">
-      <div style={{ maxWidth: '700px', margin: '0 auto' }}>
-        <form onSubmit={handleFinalSave} className="agro-card" style={{ padding: 0, overflow: 'hidden' }}>
-          <div className="agro-card-header" style={{ padding: '30px', background: 'white' }}>
-            <div>
-              <h2 style={{ fontSize: '24px' }}>Create New Category</h2>
-              <p>Define product groupings and classifications</p>
-            </div>
-            <button type="button" className="btn-agro btn-outline" onClick={() => navigate('/categories')}>
-              <ArrowLeft size={18} /> Back to List
-            </button>
+    <div className="agro-container" style={{ padding: '0 25px' }}>
+      <form onSubmit={handleFinalSave} className="agro-unified-card" style={{ 
+        background: 'white', 
+        borderRadius: '16px', 
+        boxShadow: 'var(--shadow)',
+        border: '1px solid var(--border-light)',
+        marginTop: '5px',
+        overflow: 'hidden'
+      }}>
+        <div className="agro-header-compact" style={{ 
+          display: 'flex', 
+          alignItems: 'center', 
+          justifyContent: 'space-between', 
+          padding: '12px 20px',
+          borderBottom: '1px solid var(--border-light)',
+          background: 'white'
+        }}>
+          <div>
+            <h2 style={{ fontSize: '18px', marginBottom: '1px' }}>Create New Category</h2>
+            <p style={{ fontSize: '12px', margin: 0 }}>Define product groupings</p>
           </div>
+          <button type="button" className="btn-agro btn-outline" onClick={() => navigate('/categories')} style={{ height: '34px', padding: '0 12px', fontSize: '12px' }}>
+            <ArrowLeft size={16} /> Back
+          </button>
+        </div>
 
-          <div style={{ padding: '40px' }}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-              <div className="form-section-title" style={{ marginBottom: '10px' }}>
-                <Layers size={18} />
-                <h3 style={{ fontSize: '14px', margin: 0 }}>Category Details</h3>
-              </div>
-              
+        <div style={{ padding: '15px 20px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            <div className="form-section-title" style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '2px', color: 'var(--primary)' }}>
+              <Layers size={16} />
+              <h3 style={{ fontSize: '13px', margin: 0, fontWeight: '700' }}>Category Details</h3>
+            </div>
+            
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
               <FormField label="Category Name" name="name" value={formData.name} onChange={handleChange} required placeholder="e.g. Fertilizers" />
-              <FormField label="Description" name="description" type="textarea" value={formData.description} onChange={handleChange} placeholder="What kind of products are in this category?" />
+              <div style={{ display: 'flex', alignItems: 'center', marginTop: '22px' }}>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', fontSize: '13px', fontWeight: '600' }}>
+                  <input type="checkbox" name="isActive" checked={formData.isActive} onChange={handleChange} style={{ width: '16px', height: '16px' }} />
+                  Active Status
+                </label>
+              </div>
             </div>
+            <FormField label="Description" name="description" type="textarea" value={formData.description} onChange={handleChange} placeholder="Category description..." />
           </div>
+        </div>
 
-          <div style={{ 
-            padding: '25px 40px', 
-            background: '#f9fafb', 
-            borderTop: '1px solid var(--border-light)', 
-            display: 'flex', 
-            justifyContent: 'flex-end', 
-            gap: '15px' 
-          }}>
-            <button type="button" className="btn-agro btn-outline" onClick={() => navigate('/categories')} style={{ minWidth: '120px' }}>
-              <X size={18} /> Cancel
-            </button>
-            <button type="submit" className="btn-agro btn-primary" style={{ minWidth: '180px' }}>
-              <Save size={18} /> Save Category
-            </button>
-          </div>
-        </form>
-      </div>
+        <div style={{ 
+          padding: '10px 20px', 
+          background: '#f8fafc', 
+          borderTop: '1px solid var(--border-light)', 
+          display: 'flex', 
+          justifyContent: 'flex-end', 
+          gap: '10px' 
+        }}>
+          <button type="button" className="btn-agro btn-outline" onClick={() => navigate('/categories')} style={{ height: '36px', minWidth: '100px', fontSize: '13px' }}>
+            <X size={16} /> Cancel
+          </button>
+          <button type="submit" className="btn-agro btn-primary" style={{ height: '36px', minWidth: '140px', fontSize: '13px' }}>
+            <Save size={16} /> Save
+          </button>
+        </div>
+      </form>
     </div>
   );
 };

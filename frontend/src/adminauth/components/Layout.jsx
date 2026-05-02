@@ -39,7 +39,7 @@ const Layout = () => {
     setSearchQuery(query);
 
     if (query.length > 0) {
-      const filtered = menuItems.filter(item => 
+      const filtered = menuItems.filter(item =>
         item.name.toLowerCase().startsWith(query.toLowerCase()) &&
         (!item.module || hasPermission(item.module, item.action))
       );
@@ -116,9 +116,9 @@ const Layout = () => {
   }, [permissionClasses]);
 
   // Determine if current page is a create/entry page that should be fullscreen
-  const isFullScreenPage = location.pathname.endsWith('/new') || 
-                           location.pathname.endsWith('/entry') || 
-                           location.pathname.includes('/view/');
+  const isFullScreenPage = location.pathname.endsWith('/new') ||
+    location.pathname.endsWith('/entry') ||
+    location.pathname.includes('/view/');
 
   return (
     <div className={`layout-container ${permissionClasses}`} style={{ display: 'flex', height: '100vh', overflow: 'hidden' }}>
@@ -146,9 +146,9 @@ const Layout = () => {
           }
         `}
       </style>
-      
+
       {!isFullScreenPage && <Sidebar />}
-      
+
       <main className="main-content" style={{
         flex: 1,
         overflowY: 'auto',
@@ -160,15 +160,19 @@ const Layout = () => {
         {/* Top Navbar */}
         {!isFullScreenPage && (
           <header style={{
-            height: '90px',
-            margin: '20px 25px 10px 25px',
-            background: 'transparent',
+            minHeight: '80px',
+            height: 'auto',
+            margin: '20px 25px 0 25px',
+            background: 'white',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            padding: '0 40px',
+            padding: '10px 30px',
+            borderRadius: '16px',
+            boxShadow: 'var(--shadow)',
             position: 'relative',
-            zIndex: 90
+            zIndex: 90,
+            border: '1px solid var(--border-light)'
           }}>
             {/* Search Section on the Left */}
             <div style={{ flex: 2, display: 'flex', justifyContent: 'flex-start' }}>
@@ -233,7 +237,7 @@ const Layout = () => {
                     ))}
                   </div>
                 )}
-                {/* Close suggestions when clicking outside - simplified for now */}
+                {/* Close suggestions when clicking outside */}
                 {showSuggestions && (
                   <div 
                     style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 99 }}
@@ -278,7 +282,7 @@ const Layout = () => {
           </header>
         )}
 
-        <div style={{ padding: '40px', flex: 1 }}>
+        <div style={{ padding: '10px 0', flex: 1 }}>
           <motion.div
             key={location.pathname}
             initial={{ opacity: 0, y: 10 }}
