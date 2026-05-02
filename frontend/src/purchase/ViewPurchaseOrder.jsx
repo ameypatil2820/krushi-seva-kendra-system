@@ -73,18 +73,18 @@ const ViewPurchaseOrder = () => {
         <p style={{ marginTop: '5px', fontWeight: 'bold', textDecoration: 'underline' }}>PURCHASE ORDER / INTENT TO BUY</p>
       </div>
 
-      <div className="agro-unified-card" style={{ 
-        background: 'white', 
-        borderRadius: '16px', 
+      <div className="agro-unified-card" style={{
+        background: 'white',
+        borderRadius: '16px',
         boxShadow: 'var(--shadow)',
         border: '1px solid var(--border-light)',
         marginTop: '5px',
         overflow: 'hidden'
       }}>
-        <div className="agro-header-compact no-print" style={{ 
-          display: 'flex', 
-          alignItems: 'center', 
-          justifyContent: 'space-between', 
+        <div className="agro-header-compact no-print" style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
           padding: '12px 20px',
           borderBottom: '1px solid var(--border-light)',
           background: 'white'

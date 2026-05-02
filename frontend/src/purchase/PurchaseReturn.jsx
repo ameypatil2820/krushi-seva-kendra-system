@@ -12,26 +12,26 @@ const PurchaseReturn = () => {
     { id: 'RET-002', purchaseId: 'PUR-505', supplierId: 'SUP-105', returnDate: '2026-04-29', totalAmount: 850.00, reason: 'Expired Stock' },
   ]);
 
-  const filteredReturns = returns.filter(r => 
-    r.id.toLowerCase().includes(searchTerm.toLowerCase()) || 
+  const filteredReturns = returns.filter(r =>
+    r.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
     r.purchaseId.toLowerCase().includes(searchTerm.toLowerCase()) ||
     r.supplierId.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
     <div className="agro-container" style={{ padding: '0 25px' }}>
-      <div className="agro-unified-card" style={{ 
-        background: 'white', 
-        borderRadius: '16px', 
+      <div className="agro-unified-card" style={{
+        background: 'white',
+        borderRadius: '16px',
         boxShadow: 'var(--shadow)',
         border: '1px solid var(--border-light)',
         marginTop: '5px',
         overflow: 'hidden'
       }}>
-        <div className="agro-header-compact" style={{ 
-          display: 'flex', 
-          alignItems: 'center', 
-          justifyContent: 'space-between', 
+        <div className="agro-header-compact" style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
           padding: '20px 25px',
           borderBottom: '1px solid var(--border-light)',
           background: 'white'
@@ -43,10 +43,10 @@ const PurchaseReturn = () => {
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flex: 1, justifyContent: 'center' }}>
             <div style={{ position: 'relative', width: '100%', maxWidth: '400px' }}>
-              <input 
-                type="text" 
-                placeholder="Search returns..." 
-                className="form-control" 
+              <input
+                type="text"
+                placeholder="Search returns..."
+                className="form-control"
                 style={{ paddingLeft: '15px', paddingRight: '12px', height: '38px', fontSize: '13px', borderRadius: '10px', border: '1px solid var(--border)' }}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -88,8 +88,8 @@ const PurchaseReturn = () => {
                       </div>
                     </td>
                     <td style={{ textAlign: 'right' }}>
-                      <button 
-                        className="btn-agro btn-outline" 
+                      <button
+                        className="btn-agro btn-outline"
                         onClick={() => navigate(`/purchase/returns/view/${item.id}`)}
                         style={{ padding: '4px 12px', height: '28px', fontSize: '11px' }}
                       >

@@ -12,26 +12,26 @@ const StockMaster = () => {
   const [searchTerm, setSearchTerm] = useState('');
 
   const filteredMaster = useMemo(() => {
-    return mockStockMaster.filter(item => 
-      item.productName.toLowerCase().includes(searchTerm.toLowerCase()) || 
+    return mockStockMaster.filter(item =>
+      item.productName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.id.toLowerCase().includes(searchTerm.toLowerCase())
     );
   }, [searchTerm]);
 
   return (
     <div className="agro-container" style={{ padding: '0 25px' }}>
-      <div className="agro-unified-card" style={{ 
-        background: 'white', 
-        borderRadius: '16px', 
+      <div className="agro-unified-card" style={{
+        background: 'white',
+        borderRadius: '16px',
         boxShadow: 'var(--shadow)',
         border: '1px solid var(--border-light)',
         marginTop: '5px',
         overflow: 'hidden'
       }}>
-        <div className="agro-header-compact" style={{ 
-          display: 'flex', 
-          alignItems: 'center', 
-          justifyContent: 'space-between', 
+        <div className="agro-header-compact" style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
           padding: '20px 25px',
           borderBottom: '1px solid var(--border-light)',
           background: 'white'
@@ -43,10 +43,10 @@ const StockMaster = () => {
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flex: 1, justifyContent: 'center' }}>
             <div style={{ position: 'relative', width: '100%', maxWidth: '400px' }}>
-              <input 
-                type="text" 
-                placeholder="Search products..." 
-                className="form-control" 
+              <input
+                type="text"
+                placeholder="Search products..."
+                className="form-control"
                 style={{ paddingLeft: '15px', paddingRight: '12px', height: '38px', fontSize: '13px', borderRadius: '10px', border: '1px solid var(--border)' }}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -56,7 +56,7 @@ const StockMaster = () => {
 
           <div style={{ width: '150px' }}></div> {/* Spacer to balance header */}
         </div>
-        
+
         <div style={{ padding: '10px' }}>
           <div className="agro-table-container agro-table-wrapper-simple">
             <table className="agro-table">
@@ -82,9 +82,9 @@ const StockMaster = () => {
                     </td>
                     <td>
                       {item.totalAvailable > 0 ? (
-                        <span className="badge badge-success"><CheckCircle size={12} style={{marginRight: '4px'}}/> In Stock</span>
+                        <span className="badge badge-success"><CheckCircle size={12} style={{ marginRight: '4px' }} /> In Stock</span>
                       ) : (
-                        <span className="badge badge-danger"><XCircle size={12} style={{marginRight: '4px'}}/> Out of Stock</span>
+                        <span className="badge badge-danger"><XCircle size={12} style={{ marginRight: '4px' }} /> Out of Stock</span>
                       )}
                     </td>
                   </tr>

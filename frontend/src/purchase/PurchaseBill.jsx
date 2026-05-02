@@ -26,27 +26,27 @@ const PurchaseBill = () => {
 
   const getStatusBadge = (status) => {
     switch (status) {
-      case 'Paid':    return <span className="badge badge-success" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}><CheckCircle size={12} /> Paid</span>;
+      case 'Paid': return <span className="badge badge-success" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}><CheckCircle size={12} /> Paid</span>;
       case 'Partial': return <span className="badge badge-warning" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}><Clock size={12} /> Partial</span>;
-      case 'Unpaid':  return <span className="badge badge-danger" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}><Clock size={12} /> Unpaid</span>;
-      default:        return <span className="badge">{status}</span>;
+      case 'Unpaid': return <span className="badge badge-danger" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}><Clock size={12} /> Unpaid</span>;
+      default: return <span className="badge">{status}</span>;
     }
   };
 
   return (
     <div className="agro-container" style={{ padding: '0 25px' }}>
-      <div className="agro-unified-card" style={{ 
-        background: 'white', 
-        borderRadius: '16px', 
+      <div className="agro-unified-card" style={{
+        background: 'white',
+        borderRadius: '16px',
         boxShadow: 'var(--shadow)',
         border: '1px solid var(--border-light)',
         marginTop: '5px',
         overflow: 'hidden'
       }}>
-        <div className="agro-header-compact" style={{ 
-          display: 'flex', 
-          alignItems: 'center', 
-          justifyContent: 'space-between', 
+        <div className="agro-header-compact" style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
           padding: '20px 25px',
           borderBottom: '1px solid var(--border-light)',
           background: 'white'
@@ -58,17 +58,17 @@ const PurchaseBill = () => {
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flex: 1, justifyContent: 'center' }}>
             <div style={{ position: 'relative', width: '100%', maxWidth: '300px' }}>
-              <input 
-                type="text" 
-                placeholder="Search bills..." 
-                className="form-control" 
+              <input
+                type="text"
+                placeholder="Search bills..."
+                className="form-control"
                 style={{ paddingLeft: '15px', paddingRight: '12px', height: '38px', fontSize: '13px', borderRadius: '10px', border: '1px solid var(--border)' }}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
-            <select 
-              className="form-control" 
+            <select
+              className="form-control"
               style={{ width: '130px', height: '38px', fontSize: '13px', borderRadius: '10px', background: '#f8fafc', border: '1px solid var(--border)' }}
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
@@ -84,7 +84,7 @@ const PurchaseBill = () => {
             <Plus size={18} /> New Purchase Bill
           </button>
         </div>
-        
+
         <div style={{ padding: '10px' }}>
           <div className="agro-table-container agro-table-wrapper-simple">
             <table className="agro-table">
@@ -118,8 +118,8 @@ const PurchaseBill = () => {
                     </td>
                     <td>{getStatusBadge(bill.status)}</td>
                     <td style={{ textAlign: 'right' }}>
-                      <button 
-                        className="btn-agro btn-outline" 
+                      <button
+                        className="btn-agro btn-outline"
                         onClick={() => navigate(`/purchase/bills/view/${bill.id}`)}
                         style={{ padding: '4px 12px', height: '28px', fontSize: '11px' }}
                       >

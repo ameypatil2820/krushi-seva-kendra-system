@@ -13,7 +13,7 @@ const ProductCreate = () => {
 
   const [formData, setFormData] = useState({
     name: '', code: '', category: '', tax: '',
-    company: '', primaryUnit: '', secondaryUnit: '', conversionFactor: '', 
+    company: '', primaryUnit: '', secondaryUnit: '', conversionFactor: '',
     minStock: '', currentStock: '',
     expiryRequired: false, isActive: true
   });
@@ -50,18 +50,18 @@ const ProductCreate = () => {
 
   return (
     <div className="agro-container" style={{ padding: '0 25px' }}>
-      <form onSubmit={handleFinalSave} className="agro-unified-card" style={{ 
-        background: 'white', 
-        borderRadius: '16px', 
+      <form onSubmit={handleFinalSave} className="agro-unified-card" style={{
+        background: 'white',
+        borderRadius: '16px',
         boxShadow: 'var(--shadow)',
         border: '1px solid var(--border-light)',
         marginTop: '5px',
         overflow: 'hidden'
       }}>
-        <div className="agro-header-compact" style={{ 
-          display: 'flex', 
-          alignItems: 'center', 
-          justifyContent: 'space-between', 
+        <div className="agro-header-compact" style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
           padding: '12px 20px',
           borderBottom: '1px solid var(--border-light)',
           background: 'white'
@@ -83,7 +83,7 @@ const ProductCreate = () => {
                 <Tag size={14} />
                 <h3 style={{ fontSize: '13px', margin: 0, fontWeight: '700' }}>Basic Information</h3>
               </div>
-              
+
               <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: '5px' }}>
                 <FormField label="Product Name" name="name" value={formData.name} onChange={handleChange} required placeholder="Enter product name" />
                 <FormField label="Product Code" name="code" value={formData.code} onChange={handleChange} required placeholder="e.g. PRD001" />
@@ -99,14 +99,14 @@ const ProductCreate = () => {
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px' }}>
                 <SearchableSelect label="Purchase Unit" options={['Box', 'Bag', 'Case', 'Crate', 'Drum', 'Nos']} value={formData.primaryUnit} onChange={(e) => setFormData(prev => ({ ...prev, primaryUnit: e.target.value }))} required />
                 <SearchableSelect label="Sale Unit" options={['Nos', 'Kg', 'Ltr', 'Pcs', 'Gm', 'Ml', 'Packet']} value={formData.secondaryUnit} onChange={(e) => setFormData(prev => ({ ...prev, secondaryUnit: e.target.value }))} required />
-                <FormField 
-                  label="Conversion Factor" 
-                  name="conversionFactor" 
-                  type="number" 
-                  value={formData.conversionFactor} 
-                  onChange={handleChange} 
-                  required 
-                  placeholder="e.g. 10" 
+                <FormField
+                  label="Conversion Factor"
+                  name="conversionFactor"
+                  type="number"
+                  value={formData.conversionFactor}
+                  onChange={handleChange}
+                  required
+                  placeholder="e.g. 10"
                 />
               </div>
             </div>
@@ -117,7 +117,7 @@ const ProductCreate = () => {
                 <Package size={14} />
                 <h3 style={{ fontSize: '13px', margin: 0, fontWeight: '700' }}>Stock & Alerts</h3>
               </div>
-              
+
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
                 <FormField label="Current Stock" name="currentStock" type="number" value={formData.currentStock} onChange={handleChange} required placeholder="0" />
                 <FormField label="Low Stock Alert" name="minStock" type="number" value={formData.minStock} onChange={handleChange} required placeholder="5" />
@@ -128,13 +128,13 @@ const ProductCreate = () => {
           </div>
         </div>
 
-        <div style={{ 
-          padding: '10px 20px', 
-          background: '#f8fafc', 
-          borderTop: '1px solid var(--border-light)', 
-          display: 'flex', 
-          justifyContent: 'flex-end', 
-          gap: '10px' 
+        <div style={{
+          padding: '10px 20px',
+          background: '#f8fafc',
+          borderTop: '1px solid var(--border-light)',
+          display: 'flex',
+          justifyContent: 'flex-end',
+          gap: '10px'
         }}>
           <button type="button" className="btn-agro btn-outline" onClick={() => navigate('/products')} style={{ height: '36px', minWidth: '100px', fontSize: '13px' }}>
             <X size={16} /> Cancel

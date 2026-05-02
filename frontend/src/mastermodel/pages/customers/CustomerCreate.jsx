@@ -9,7 +9,7 @@ const CustomerCreate = () => {
   const navigate = useNavigate();
   const { handleSave } = useCRUD('customers');
   const [formData, setFormData] = useState({
-    name: '', mobile: '', email: '', address: '', 
+    name: '', mobile: '', email: '', address: '',
     gstNo: '', isActive: true
   });
 
@@ -29,18 +29,18 @@ const CustomerCreate = () => {
 
   return (
     <div className="agro-container" style={{ padding: '0 25px' }}>
-      <form onSubmit={handleFinalSave} className="agro-unified-card" style={{ 
-        background: 'white', 
-        borderRadius: '16px', 
+      <form onSubmit={handleFinalSave} className="agro-unified-card" style={{
+        background: 'white',
+        borderRadius: '16px',
         boxShadow: 'var(--shadow)',
         border: '1px solid var(--border-light)',
         marginTop: '5px',
         overflow: 'hidden'
       }}>
-        <div className="agro-header-compact" style={{ 
-          display: 'flex', 
-          alignItems: 'center', 
-          justifyContent: 'space-between', 
+        <div className="agro-header-compact" style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
           padding: '12px 20px',
           borderBottom: '1px solid var(--border-light)',
           background: 'white'
@@ -60,16 +60,16 @@ const CustomerCreate = () => {
               <User size={16} />
               <h3 style={{ fontSize: '13px', margin: 0, fontWeight: '700' }}>Customer Information</h3>
             </div>
-            
+
             <FormField label="Full Name" name="name" value={formData.name} onChange={handleChange} required placeholder="Enter customer name" />
-            
+
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
               <FormField label="Mobile Number" name="mobile" value={formData.mobile} onChange={handleChange} required placeholder="10 digit number" />
               <FormField label="Email Address" name="email" type="email" value={formData.email} onChange={handleChange} placeholder="Optional" />
             </div>
 
             <FormField label="GST Number" name="gstNo" value={formData.gstNo} onChange={handleChange} placeholder="Optional GSTIN" />
-            
+
             <div style={{ marginTop: '5px' }}>
               <div className="form-section-title" style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '0', color: 'var(--primary)' }}>
                 <MapPin size={16} />
@@ -80,13 +80,13 @@ const CustomerCreate = () => {
           </div>
         </div>
 
-        <div style={{ 
-          padding: '10px 20px', 
-          background: '#f8fafc', 
-          borderTop: '1px solid var(--border-light)', 
-          display: 'flex', 
-          justifyContent: 'flex-end', 
-          gap: '10px' 
+        <div style={{
+          padding: '10px 20px',
+          background: '#f8fafc',
+          borderTop: '1px solid var(--border-light)',
+          display: 'flex',
+          justifyContent: 'flex-end',
+          gap: '10px'
         }}>
           <button type="button" className="btn-agro btn-outline" onClick={() => navigate('/customers')} style={{ height: '36px', minWidth: '100px', fontSize: '13px' }}>
             <X size={16} /> Cancel

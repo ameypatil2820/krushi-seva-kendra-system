@@ -31,18 +31,18 @@ const ExpiryTracking = () => {
 
   return (
     <div className="agro-container" style={{ padding: '0 25px' }}>
-      <div className="agro-unified-card" style={{ 
-        background: 'white', 
-        borderRadius: '16px', 
+      <div className="agro-unified-card" style={{
+        background: 'white',
+        borderRadius: '16px',
         boxShadow: 'var(--shadow)',
         border: '1px solid var(--border-light)',
         marginTop: '5px',
         overflow: 'hidden'
       }}>
-        <div className="agro-header-compact" style={{ 
-          display: 'flex', 
-          alignItems: 'center', 
-          justifyContent: 'space-between', 
+        <div className="agro-header-compact" style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
           padding: '20px 25px',
           borderBottom: '1px solid var(--border-light)',
           background: 'white'
@@ -53,7 +53,7 @@ const ExpiryTracking = () => {
           </div>
           <div style={{ width: '150px' }}></div>
         </div>
-        
+
         <div style={{ padding: '10px' }}>
           <div className="agro-table-container agro-table-wrapper-simple">
             <table className="agro-table">

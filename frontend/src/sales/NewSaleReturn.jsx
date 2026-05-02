@@ -65,14 +65,14 @@ const NewSaleReturn = () => {
     const updatedItems = items.map(item => {
       if (item.id === id) {
         let updatedItem = { ...item, [field]: value };
-        
+
         if (field === 'productId' && extraData) {
           updatedItem.rate = parseFloat(extraData.salePrice) || 0;
         }
 
         const qty = field === 'quantity' ? parseFloat(value) || 0 : updatedItem.quantity;
         const rate = field === 'rate' || (field === 'productId' && extraData) ? (parseFloat(updatedItem.rate) || 0) : item.rate;
-        
+
         updatedItem.amount = qty * rate;
         return updatedItem;
       }
@@ -87,18 +87,18 @@ const NewSaleReturn = () => {
 
   return (
     <div className="agro-container" style={{ padding: '0 25px' }}>
-      <div className="agro-unified-card" style={{ 
-        background: 'white', 
-        borderRadius: '16px', 
+      <div className="agro-unified-card" style={{
+        background: 'white',
+        borderRadius: '16px',
         boxShadow: 'var(--shadow)',
         border: '1px solid var(--border-light)',
         marginTop: '5px',
         overflow: 'hidden'
       }}>
-        <div className="agro-header-compact" style={{ 
-          display: 'flex', 
-          alignItems: 'center', 
-          justifyContent: 'space-between', 
+        <div className="agro-header-compact" style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
           padding: '12px 20px',
           borderBottom: '1px solid var(--border-light)',
           background: 'white'
@@ -123,26 +123,26 @@ const NewSaleReturn = () => {
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr 1fr', gap: '10px', marginBottom: '10px' }}>
                 <div className="form-group" style={{ margin: 0 }}>
                   <label style={{ fontSize: '12px', marginBottom: '3px' }}>Original Sale ID</label>
-                  <input type="text" className="form-control" style={{ height: '36px', fontSize: '13px' }} placeholder="SALE-101" value={master.saleId} onChange={(e) => setMaster({...master, saleId: e.target.value})} />
+                  <input type="text" className="form-control" style={{ height: '36px', fontSize: '13px' }} placeholder="SALE-101" value={master.saleId} onChange={(e) => setMaster({ ...master, saleId: e.target.value })} />
                 </div>
                 <div className="form-group" style={{ margin: 0 }}>
                   <label style={{ fontSize: '12px', marginBottom: '3px' }}>Customer</label>
                   <SearchableSelect
                     options={customers}
                     value={master.customerId}
-                    onChange={(val) => setMaster({...master, customerId: val})}
+                    onChange={(val) => setMaster({ ...master, customerId: val })}
                     placeholder="Search Customer..."
                     height="36px"
                   />
                 </div>
                 <div className="form-group" style={{ margin: 0 }}>
                   <label style={{ fontSize: '12px', marginBottom: '3px' }}>Return Date</label>
-                  <input type="date" className="form-control" style={{ height: '36px', fontSize: '13px' }} value={master.returnDate} onChange={(e) => setMaster({...master, returnDate: e.target.value})} />
+                  <input type="date" className="form-control" style={{ height: '36px', fontSize: '13px' }} value={master.returnDate} onChange={(e) => setMaster({ ...master, returnDate: e.target.value })} />
                 </div>
               </div>
               <div className="form-group" style={{ margin: 0 }}>
                 <label style={{ fontSize: '12px', marginBottom: '3px' }}>Reason for Return</label>
-                <textarea className="form-control" style={{ fontSize: '13px', minHeight: '50px' }} placeholder="Describe the reason..." value={master.reason} onChange={(e) => setMaster({...master, reason: e.target.value})} />
+                <textarea className="form-control" style={{ fontSize: '13px', minHeight: '50px' }} placeholder="Describe the reason..." value={master.reason} onChange={(e) => setMaster({ ...master, reason: e.target.value })} />
               </div>
             </div>
 

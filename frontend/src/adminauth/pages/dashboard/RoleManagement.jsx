@@ -94,18 +94,18 @@ const RoleManagement = () => {
 
   return (
     <div className="agro-container" style={{ padding: '0 25px' }}>
-      <div className="agro-unified-card" style={{ 
-        background: 'white', 
-        borderRadius: '16px', 
+      <div className="agro-unified-card" style={{
+        background: 'white',
+        borderRadius: '16px',
         boxShadow: 'var(--shadow)',
         border: '1px solid var(--border-light)',
         marginTop: '5px',
         overflow: 'hidden'
       }}>
-        <div className="agro-header-compact" style={{ 
-          display: 'flex', 
-          alignItems: 'center', 
-          justifyContent: 'space-between', 
+        <div className="agro-header-compact" style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
           padding: '12px 20px',
           borderBottom: '1px solid var(--border-light)',
           background: 'white'
@@ -132,7 +132,7 @@ const RoleManagement = () => {
                 <label style={{ fontSize: '12px', marginBottom: '4px' }}>Role Name</label>
                 <input type="text" className="form-control" style={{ height: '36px', fontSize: '13px' }} placeholder="e.g. Sales Manager" value={currentRole.roleName} onChange={(e) => setCurrentRole({ ...currentRole, roleName: e.target.value })} />
               </div>
-              
+
               <div style={{ marginTop: '20px' }}>
                 <label style={{ fontSize: '13px', fontWeight: '700', marginBottom: '15px', display: 'block', color: 'var(--text-dark)' }}>Module-wise Permissions</label>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '15px' }}>

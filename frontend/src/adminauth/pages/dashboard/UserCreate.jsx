@@ -55,7 +55,7 @@ const UserCreate = () => {
   };
 
   return (
-    <div className="agro-container" style={{ padding: '0 25px' }}>
+    <div className="agro-container" style={{ padding: '25px 25px 0 25px' }}>
       <form onSubmit={handleSave} className="agro-unified-card" style={{ 
         background: 'white', 
         borderRadius: '16px', 
@@ -68,7 +68,7 @@ const UserCreate = () => {
           display: 'flex', 
           alignItems: 'center', 
           justifyContent: 'space-between', 
-          padding: '12px 20px',
+          padding: '15px 20px',
           borderBottom: '1px solid var(--border-light)',
           background: 'white'
         }}>

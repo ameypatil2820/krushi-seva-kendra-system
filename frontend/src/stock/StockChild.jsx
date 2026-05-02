@@ -26,26 +26,26 @@ const StockChild = () => {
   const [searchTerm, setSearchTerm] = useState('');
 
   const filteredBatches = useMemo(() => {
-    return mockStockBatches.filter(item => 
-      item.productName.toLowerCase().includes(searchTerm.toLowerCase()) || 
+    return mockStockBatches.filter(item =>
+      item.productName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.batchNo.toLowerCase().includes(searchTerm.toLowerCase())
     );
   }, [searchTerm]);
 
   return (
     <div className="agro-container" style={{ padding: '0 25px' }}>
-      <div className="agro-unified-card" style={{ 
-        background: 'white', 
-        borderRadius: '16px', 
+      <div className="agro-unified-card" style={{
+        background: 'white',
+        borderRadius: '16px',
         boxShadow: 'var(--shadow)',
         border: '1px solid var(--border-light)',
         marginTop: '5px',
         overflow: 'hidden'
       }}>
-        <div className="agro-header-compact" style={{ 
-          display: 'flex', 
-          alignItems: 'center', 
-          justifyContent: 'space-between', 
+        <div className="agro-header-compact" style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
           padding: '20px 25px',
           borderBottom: '1px solid var(--border-light)',
           background: 'white'
@@ -57,10 +57,10 @@ const StockChild = () => {
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flex: 1, justifyContent: 'center' }}>
             <div style={{ position: 'relative', width: '100%', maxWidth: '400px' }}>
-              <input 
-                type="text" 
-                placeholder="Search batches..." 
-                className="form-control" 
+              <input
+                type="text"
+                placeholder="Search batches..."
+                className="form-control"
                 style={{ paddingLeft: '15px', paddingRight: '12px', height: '38px', fontSize: '13px', borderRadius: '10px', border: '1px solid var(--border)' }}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -70,7 +70,7 @@ const StockChild = () => {
 
           <div style={{ width: '150px' }}></div> {/* Spacer */}
         </div>
-        
+
         <div style={{ padding: '10px' }}>
           <div className="agro-table-container agro-table-wrapper-simple">
             <table className="agro-table">

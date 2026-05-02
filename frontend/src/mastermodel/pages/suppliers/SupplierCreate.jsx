@@ -29,18 +29,18 @@ const SupplierCreate = () => {
 
   return (
     <div className="agro-container" style={{ padding: '0 25px' }}>
-      <form onSubmit={handleFinalSave} className="agro-unified-card" style={{ 
-        background: 'white', 
-        borderRadius: '16px', 
+      <form onSubmit={handleFinalSave} className="agro-unified-card" style={{
+        background: 'white',
+        borderRadius: '16px',
         boxShadow: 'var(--shadow)',
         border: '1px solid var(--border-light)',
         marginTop: '5px',
         overflow: 'hidden'
       }}>
-        <div className="agro-header-compact" style={{ 
-          display: 'flex', 
-          alignItems: 'center', 
-          justifyContent: 'space-between', 
+        <div className="agro-header-compact" style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
           padding: '12px 20px',
           borderBottom: '1px solid var(--border-light)',
           background: 'white'
@@ -60,9 +60,9 @@ const SupplierCreate = () => {
               <User size={16} />
               <h3 style={{ fontSize: '13px', margin: 0, fontWeight: '700' }}>Business Information</h3>
             </div>
-            
+
             <FormField label="Supplier Name" name="name" value={formData.name} onChange={handleChange} required placeholder="Enter supplier name" />
-            
+
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
               <FormField label="Mobile Number" name="mobile" value={formData.mobile} onChange={handleChange} required placeholder="Primary mobile" />
               <FormField label="Alt Mobile No (Optional)" name="altMobileNo" value={formData.altMobileNo} onChange={handleChange} placeholder="Alternative number" />
@@ -75,13 +75,13 @@ const SupplierCreate = () => {
           </div>
         </div>
 
-        <div style={{ 
-          padding: '10px 20px', 
-          background: '#f8fafc', 
-          borderTop: '1px solid var(--border-light)', 
-          display: 'flex', 
-          justifyContent: 'flex-end', 
-          gap: '10px' 
+        <div style={{
+          padding: '10px 20px',
+          background: '#f8fafc',
+          borderTop: '1px solid var(--border-light)',
+          display: 'flex',
+          justifyContent: 'flex-end',
+          gap: '10px'
         }}>
           <button type="button" className="btn-agro btn-outline" onClick={() => navigate('/suppliers')} style={{ height: '36px', minWidth: '100px', fontSize: '13px' }}>
             <X size={16} /> Cancel

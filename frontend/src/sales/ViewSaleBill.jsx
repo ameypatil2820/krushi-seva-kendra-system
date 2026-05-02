@@ -77,18 +77,18 @@ const ViewSaleBill = () => {
         <p style={{ marginTop: '5px', fontWeight: 'bold', textDecoration: 'underline' }}>SALE BILL / TAX INVOICE</p>
       </div>
 
-      <div className="agro-unified-card" style={{ 
-        background: 'white', 
-        borderRadius: '16px', 
+      <div className="agro-unified-card" style={{
+        background: 'white',
+        borderRadius: '16px',
         boxShadow: 'var(--shadow)',
         border: '1px solid var(--border-light)',
         marginTop: '5px',
         overflow: 'hidden'
       }}>
-        <div className="agro-header-compact no-print" style={{ 
-          display: 'flex', 
-          alignItems: 'center', 
-          justifyContent: 'space-between', 
+        <div className="agro-header-compact no-print" style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
           padding: '12px 20px',
           borderBottom: '1px solid var(--border-light)',
           background: 'white'
@@ -184,7 +184,7 @@ const ViewSaleBill = () => {
                   Goods once sold will only be returned per company policy.
                 </p>
               </div>
-              
+
               <div style={{ minWidth: '320px', padding: '18px', background: 'white', borderRadius: '16px', border: '1px solid var(--border-light)', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05)', display: 'flex', flexDirection: 'column', gap: '10px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13px' }}>
                   <span style={{ color: '#64748b', fontWeight: '500' }}>Sub Total:</span>
@@ -194,32 +194,32 @@ const ViewSaleBill = () => {
                   <span style={{ color: '#64748b', fontWeight: '500' }}>Tax Amount:</span>
                   <span style={{ fontWeight: '700', color: '#1e293b' }}>₹{billData.taxAmount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</span>
                 </div>
-                
+
                 <div style={{ height: '1px', background: 'var(--border-light)', margin: '4px 0' }}></div>
-                
+
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '20px', color: 'var(--primary)' }}>
                   <span style={{ fontWeight: '900' }}>Grand Total:</span>
                   <span style={{ fontWeight: '900' }}>₹{billData.grandTotal.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</span>
                 </div>
-                
+
                 <div style={{ height: '1px', background: 'var(--border-light)', margin: '4px 0' }}></div>
-                
+
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '14px', color: '#16a34a' }}>
                   <span style={{ fontWeight: '700' }}>Paid Amount:</span>
                   <span style={{ fontWeight: '800' }}>₹{billData.paidAmount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</span>
                 </div>
 
                 {billData.dueAmount > 0 && (
-                  <div style={{ 
+                  <div style={{
                     marginTop: '5px',
-                    padding: '8px 12px', 
-                    background: '#fff1f2', 
-                    borderRadius: '8px', 
+                    padding: '8px 12px',
+                    background: '#fff1f2',
+                    borderRadius: '8px',
                     border: '1px solid #fecdd3',
-                    display: 'flex', 
-                    justifyContent: 'space-between', 
-                    fontSize: '14px', 
-                    color: '#e11d48' 
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    fontSize: '14px',
+                    color: '#e11d48'
                   }}>
                     <span style={{ fontWeight: '700' }}>Balance Due:</span>
                     <span style={{ fontWeight: '900' }}>₹{billData.dueAmount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</span>

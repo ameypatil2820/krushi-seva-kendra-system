@@ -71,7 +71,7 @@ const NewQuotation = () => {
     const updatedItems = items.map(item => {
       if (item.id === id) {
         let updatedItem = { ...item, [field]: value };
-        
+
         if (field === 'productId' && extraData) {
           updatedItem.rate = parseFloat(extraData.salePrice) || 0;
           updatedItem.taxPercent = parseFloat(extraData.tax) || 0;
@@ -80,7 +80,7 @@ const NewQuotation = () => {
         const qty = field === 'quantity' ? parseFloat(value) || 0 : updatedItem.quantity;
         const rate = field === 'rate' || (field === 'productId' && extraData) ? (parseFloat(updatedItem.rate) || 0) : item.rate;
         const tax = field === 'taxPercent' || (field === 'productId' && extraData) ? (parseFloat(updatedItem.taxPercent) || 0) : item.taxPercent;
-        
+
         const subtotal = qty * rate;
         updatedItem.amount = subtotal + (subtotal * tax / 100);
         return updatedItem;
@@ -96,18 +96,18 @@ const NewQuotation = () => {
 
   return (
     <div className="agro-container" style={{ padding: '0 25px' }}>
-      <div className="agro-unified-card" style={{ 
-        background: 'white', 
-        borderRadius: '16px', 
+      <div className="agro-unified-card" style={{
+        background: 'white',
+        borderRadius: '16px',
         boxShadow: 'var(--shadow)',
         border: '1px solid var(--border-light)',
         marginTop: '5px',
         overflow: 'hidden'
       }}>
-        <div className="agro-header-compact" style={{ 
-          display: 'flex', 
-          alignItems: 'center', 
-          justifyContent: 'space-between', 
+        <div className="agro-header-compact" style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
           padding: '12px 20px',
           borderBottom: '1px solid var(--border-light)',
           background: 'white'
@@ -135,18 +135,18 @@ const NewQuotation = () => {
                   <SearchableSelect
                     options={customers}
                     value={master.customerId}
-                    onChange={(val) => setMaster({...master, customerId: val})}
+                    onChange={(val) => setMaster({ ...master, customerId: val })}
                     placeholder="Search Customer..."
                     height="36px"
                   />
                 </div>
                 <div className="form-group" style={{ margin: 0 }}>
                   <label style={{ fontSize: '12px', marginBottom: '3px' }}>Date</label>
-                  <input type="date" className="form-control" style={{ height: '36px', fontSize: '13px' }} value={master.date} onChange={(e) => setMaster({...master, date: e.target.value})} />
+                  <input type="date" className="form-control" style={{ height: '36px', fontSize: '13px' }} value={master.date} onChange={(e) => setMaster({ ...master, date: e.target.value })} />
                 </div>
                 <div className="form-group" style={{ margin: 0 }}>
                   <label style={{ fontSize: '12px', marginBottom: '3px' }}>Valid Until</label>
-                  <input type="date" className="form-control" style={{ height: '36px', fontSize: '13px' }} value={master.validUntil} onChange={(e) => setMaster({...master, validUntil: e.target.value})} />
+                  <input type="date" className="form-control" style={{ height: '36px', fontSize: '13px' }} value={master.validUntil} onChange={(e) => setMaster({ ...master, validUntil: e.target.value })} />
                 </div>
               </div>
             </div>

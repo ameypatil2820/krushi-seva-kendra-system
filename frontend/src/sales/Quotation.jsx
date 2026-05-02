@@ -14,9 +14,9 @@ const Quotation = () => {
   ]);
 
   const filteredQuotations = quotations.filter(q => {
-    const matchesSearch = q.id.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                         q.customerId.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         (q.customerName && q.customerName.toLowerCase().includes(searchTerm.toLowerCase()));
+    const matchesSearch = q.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      q.customerId.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (q.customerName && q.customerName.toLowerCase().includes(searchTerm.toLowerCase()));
     const matchesStatus = statusFilter === 'All' || q.status === statusFilter;
     return matchesSearch && matchesStatus;
   });
@@ -32,18 +32,18 @@ const Quotation = () => {
 
   return (
     <div className="agro-container" style={{ padding: '0 25px' }}>
-      <div className="agro-unified-card" style={{ 
-        background: 'white', 
-        borderRadius: '16px', 
+      <div className="agro-unified-card" style={{
+        background: 'white',
+        borderRadius: '16px',
         boxShadow: 'var(--shadow)',
         border: '1px solid var(--border-light)',
         marginTop: '5px',
         overflow: 'hidden'
       }}>
-        <div className="agro-header-compact" style={{ 
-          display: 'flex', 
-          alignItems: 'center', 
-          justifyContent: 'space-between', 
+        <div className="agro-header-compact" style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
           padding: '20px 25px',
           borderBottom: '1px solid var(--border-light)',
           background: 'white'
@@ -55,17 +55,17 @@ const Quotation = () => {
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flex: 1, justifyContent: 'center' }}>
             <div style={{ position: 'relative', width: '100%', maxWidth: '300px' }}>
-              <input 
-                type="text" 
-                placeholder="Search quotations..." 
-                className="form-control" 
+              <input
+                type="text"
+                placeholder="Search quotations..."
+                className="form-control"
                 style={{ paddingLeft: '15px', paddingRight: '12px', height: '38px', fontSize: '13px', borderRadius: '10px', border: '1px solid var(--border)' }}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
-            <select 
-              className="form-control" 
+            <select
+              className="form-control"
               style={{ width: '130px', height: '38px', fontSize: '13px', borderRadius: '10px', background: '#f8fafc', border: '1px solid var(--border)' }}
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
@@ -81,7 +81,7 @@ const Quotation = () => {
             <Plus size={18} /> New Quotation
           </button>
         </div>
-        
+
         <div style={{ padding: '10px' }}>
           <div className="agro-table-container agro-table-wrapper-simple">
             <table className="agro-table">
@@ -107,8 +107,8 @@ const Quotation = () => {
                     <td style={{ fontWeight: '700' }}>₹{item.totalAmount.toFixed(2)}</td>
                     <td>{getStatusBadge(item.status)}</td>
                     <td style={{ textAlign: 'right' }}>
-                      <button 
-                        className="btn-agro btn-outline" 
+                      <button
+                        className="btn-agro btn-outline"
                         onClick={() => navigate('/sales/entry', { state: { quotationData: item } })}
                         style={{ padding: '4px 12px', height: '28px', fontSize: '11px' }}
                       >

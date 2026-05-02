@@ -11,8 +11,8 @@ const SaleReturn = () => {
     { id: 'SRET-002', saleId: 'SALE-505', customerId: 'CUS-105', customerName: 'Sunil Jadhav', returnDate: '2026-04-29', totalAmount: 120.00, reason: 'Defective Item' },
   ]);
 
-  const filteredReturns = returns.filter(r => 
-    r.id.toLowerCase().includes(searchTerm.toLowerCase()) || 
+  const filteredReturns = returns.filter(r =>
+    r.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
     r.saleId.toLowerCase().includes(searchTerm.toLowerCase()) ||
     r.customerId.toLowerCase().includes(searchTerm.toLowerCase()) ||
     (r.customerName && r.customerName.toLowerCase().includes(searchTerm.toLowerCase()))
@@ -20,18 +20,18 @@ const SaleReturn = () => {
 
   return (
     <div className="agro-container" style={{ padding: '0 25px' }}>
-      <div className="agro-unified-card" style={{ 
-        background: 'white', 
-        borderRadius: '16px', 
+      <div className="agro-unified-card" style={{
+        background: 'white',
+        borderRadius: '16px',
         boxShadow: 'var(--shadow)',
         border: '1px solid var(--border-light)',
         marginTop: '5px',
         overflow: 'hidden'
       }}>
-        <div className="agro-header-compact" style={{ 
-          display: 'flex', 
-          alignItems: 'center', 
-          justifyContent: 'space-between', 
+        <div className="agro-header-compact" style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
           padding: '20px 25px',
           borderBottom: '1px solid var(--border-light)',
           background: 'white'
@@ -43,10 +43,10 @@ const SaleReturn = () => {
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flex: 1, justifyContent: 'center' }}>
             <div style={{ position: 'relative', width: '100%', maxWidth: '400px' }}>
-              <input 
-                type="text" 
-                placeholder="Search returns..." 
-                className="form-control" 
+              <input
+                type="text"
+                placeholder="Search returns..."
+                className="form-control"
                 style={{ paddingLeft: '15px', paddingRight: '12px', height: '38px', fontSize: '13px', borderRadius: '10px', border: '1px solid var(--border)' }}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -58,7 +58,7 @@ const SaleReturn = () => {
             <RotateCcw size={18} /> New Sale Return
           </button>
         </div>
-        
+
         <div style={{ padding: '10px' }}>
           <div className="agro-table-container agro-table-wrapper-simple">
             <table className="agro-table">
@@ -91,8 +91,8 @@ const SaleReturn = () => {
                       </span>
                     </td>
                     <td style={{ textAlign: 'right' }}>
-                      <button 
-                        className="btn-agro btn-outline" 
+                      <button
+                        className="btn-agro btn-outline"
                         onClick={() => navigate(`/sales/returns/view/${item.id}`)}
                         style={{ padding: '4px 12px', height: '28px', fontSize: '11px' }}
                       >

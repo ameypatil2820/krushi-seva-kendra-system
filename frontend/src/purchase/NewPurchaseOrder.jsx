@@ -83,18 +83,18 @@ const NewPurchaseOrder = () => {
 
   return (
     <div className="agro-container" style={{ padding: '0 25px' }}>
-      <div className="agro-unified-card" style={{ 
-        background: 'white', 
-        borderRadius: '16px', 
+      <div className="agro-unified-card" style={{
+        background: 'white',
+        borderRadius: '16px',
         boxShadow: 'var(--shadow)',
         border: '1px solid var(--border-light)',
         marginTop: '5px',
         overflow: 'hidden'
       }}>
-        <div className="agro-header-compact" style={{ 
-          display: 'flex', 
-          alignItems: 'center', 
-          justifyContent: 'space-between', 
+        <div className="agro-header-compact" style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
           padding: '12px 20px',
           borderBottom: '1px solid var(--border-light)',
           background: 'white'
@@ -122,18 +122,18 @@ const NewPurchaseOrder = () => {
                   <SearchableSelect
                     options={suppliers}
                     value={master.supplierId}
-                    onChange={(val) => setMaster({...master, supplierId: val})}
+                    onChange={(val) => setMaster({ ...master, supplierId: val })}
                     placeholder="Search Supplier..."
                     height="36px"
                   />
                 </div>
                 <div className="form-group" style={{ margin: 0 }}>
                   <label style={{ fontSize: '12px', marginBottom: '3px' }}>Order Date</label>
-                  <input type="date" className="form-control" style={{ height: '36px', fontSize: '13px' }} value={master.orderDate} onChange={(e) => setMaster({...master, orderDate: e.target.value})} />
+                  <input type="date" className="form-control" style={{ height: '36px', fontSize: '13px' }} value={master.orderDate} onChange={(e) => setMaster({ ...master, orderDate: e.target.value })} />
                 </div>
                 <div className="form-group" style={{ margin: 0 }}>
                   <label style={{ fontSize: '12px', marginBottom: '3px' }}>Exp. Delivery</label>
-                  <input type="date" className="form-control" style={{ height: '36px', fontSize: '13px' }} value={master.expiryDate} onChange={(e) => setMaster({...master, expiryDate: e.target.value})} />
+                  <input type="date" className="form-control" style={{ height: '36px', fontSize: '13px' }} value={master.expiryDate} onChange={(e) => setMaster({ ...master, expiryDate: e.target.value })} />
                 </div>
               </div>
             </div>

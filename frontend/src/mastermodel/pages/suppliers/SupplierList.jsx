@@ -31,11 +31,11 @@ const SupplierList = () => {
   const [statusFilter, setStatusFilter] = React.useState('all');
 
   const filteredData = data.filter(item => {
-    const matchesSearch = Object.values(item).some(val => 
+    const matchesSearch = Object.values(item).some(val =>
       String(val).toLowerCase().includes(searchTerm.toLowerCase())
     );
-    const matchesStatus = statusFilter === 'all' || 
-      (statusFilter === 'active' && item.isActive === true) || 
+    const matchesStatus = statusFilter === 'all' ||
+      (statusFilter === 'active' && item.isActive === true) ||
       (statusFilter === 'inactive' && item.isActive === false);
     return matchesSearch && matchesStatus;
   });
@@ -46,18 +46,18 @@ const SupplierList = () => {
 
   return (
     <div className="agro-container" style={{ padding: '0 25px' }}>
-      <div className="agro-unified-card" style={{ 
-        background: 'white', 
-        borderRadius: '16px', 
+      <div className="agro-unified-card" style={{
+        background: 'white',
+        borderRadius: '16px',
         boxShadow: 'var(--shadow)',
         border: '1px solid var(--border-light)',
         marginTop: '5px',
         overflow: 'hidden'
       }}>
-        <div className="agro-header-compact" style={{ 
-          display: 'flex', 
-          alignItems: 'center', 
-          justifyContent: 'space-between', 
+        <div className="agro-header-compact" style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
           padding: '20px 25px',
           borderBottom: '1px solid var(--border-light)',
           background: 'white'
@@ -69,17 +69,17 @@ const SupplierList = () => {
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flex: 1, justifyContent: 'center' }}>
             <div style={{ position: 'relative', width: '100%', maxWidth: '300px' }}>
-              <input 
-                type="text" 
-                placeholder="Search suppliers..." 
-                className="form-control" 
+              <input
+                type="text"
+                placeholder="Search suppliers..."
+                className="form-control"
                 style={{ paddingLeft: '15px', paddingRight: '12px', height: '38px', fontSize: '13px', borderRadius: '10px', border: '1px solid var(--border)' }}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
-            <select 
-              className="form-control" 
+            <select
+              className="form-control"
               style={{ width: '130px', height: '38px', fontSize: '13px', borderRadius: '10px', background: '#f8fafc', border: '1px solid var(--border)' }}
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
@@ -94,13 +94,13 @@ const SupplierList = () => {
             <Plus size={18} /> Add Supplier
           </button>
         </div>
-        
+
         <div style={{ padding: '10px' }}>
-          <DataTable 
-            title="Suppliers" 
-            columns={columns} 
-            data={filteredData} 
-            onEdit={handleEdit} 
+          <DataTable
+            title="Suppliers"
+            columns={columns}
+            data={filteredData}
+            onEdit={handleEdit}
             onDelete={handleDeleteClick}
             onView={handleView}
             hideControls={true}
@@ -108,12 +108,12 @@ const SupplierList = () => {
         </div>
       </div>
 
-      <ConfirmModal 
-        isOpen={isDeleteOpen} 
-        onClose={() => setIsDeleteOpen(false)} 
-        onConfirm={handleConfirmDelete} 
-        title="Delete Supplier?" 
-        message={`Are you sure you want to delete ${currentItem?.name}?`} 
+      <ConfirmModal
+        isOpen={isDeleteOpen}
+        onClose={() => setIsDeleteOpen(false)}
+        onConfirm={handleConfirmDelete}
+        title="Delete Supplier?"
+        message={`Are you sure you want to delete ${currentItem?.name}?`}
       />
     </div>
   );

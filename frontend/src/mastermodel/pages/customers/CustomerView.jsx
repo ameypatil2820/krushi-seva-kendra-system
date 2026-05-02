@@ -28,120 +28,115 @@ const CustomerView = () => {
   if (!formData) return null;
 
   return (
-    <div className="agro-container">
-      <div style={{ maxWidth: '1000px', margin: '40px auto 40px' }}>
-        <div className="agro-card" style={{ padding: 0, overflow: 'hidden' }}>
-          <div style={{ 
-            display: 'flex', 
-            justifyContent: 'space-between', 
-            alignItems: 'center', 
-            padding: '24px 30px', 
-            borderBottom: '1px solid #f3f4f6',
-            background: 'white'
-          }}>
-            <div>
-              <h2 style={{ fontSize: '24px', fontWeight: '800', color: '#111827', margin: 0 }}>Customer Profile</h2>
-              <p style={{ color: '#6b7280', margin: '4px 0 0 0', fontSize: '14px' }}>Complete overview of customer data and relationship status</p>
-            </div>
-            <button className="btn-agro btn-outline" onClick={() => navigate('/customers')} style={{ padding: '10px 25px', borderRadius: '8px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <X size={18} /> Close Profile
-            </button>
+    <div className="agro-container" style={{ padding: '25px 25px 0 25px' }}>
+      <div className="agro-unified-card" style={{ 
+        background: 'white', 
+        borderRadius: '16px', 
+        boxShadow: 'var(--shadow)',
+        border: '1px solid var(--border-light)',
+        marginTop: '5px',
+        overflow: 'hidden'
+      }}>
+        <div className="agro-header-compact" style={{ 
+          display: 'flex', 
+          alignItems: 'center', 
+          justifyContent: 'space-between', 
+          padding: '15px 20px',
+          borderBottom: '1px solid var(--border-light)',
+          background: 'white'
+        }}>
+          <div>
+            <h2 style={{ fontSize: '18px', marginBottom: '1px' }}>Customer Profile</h2>
+            <p style={{ fontSize: '12px', margin: 0 }}>Full overview of customer data and relationship status</p>
           </div>
+          <button className="btn-agro btn-outline" onClick={() => navigate('/customers')} style={{ height: '34px', padding: '0 12px', fontSize: '12px' }}>
+            <X size={16} /> Back
+          </button>
+        </div>
 
-          <div style={{ display: 'flex', minHeight: '500px' }}>
+        <div style={{ display: 'flex', minHeight: '400px' }}>
+          <div style={{ 
+            width: '280px', 
+            background: '#f8fafc', 
+            padding: '30px 20px', 
+            borderRight: '1px solid var(--border-light)',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center'
+          }}>
             <div style={{ 
-              width: '320px', 
-              background: '#f9fafb', 
-              padding: '40px 30px', 
-              borderRight: '1px solid #f3f4f6',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center'
+              width: '100px', 
+              height: '100px', 
+              background: 'white', 
+              color: 'var(--primary)', 
+              borderRadius: '50%', 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'center', 
+              fontSize: '40px', 
+              fontWeight: '800', 
+              boxShadow: '0 4px 12px rgba(0,0,0,0.05)',
+              border: '2px solid var(--border-light)',
+              marginBottom: '15px'
             }}>
-              <div style={{ 
-                width: '120px', 
-                height: '120px', 
-                background: 'white', 
-                color: '#16a34a', 
-                borderRadius: '50%', 
-                display: 'flex', 
-                alignItems: 'center', 
-                justifyContent: 'center', 
-                fontSize: '48px', 
-                fontWeight: '800', 
-                boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.05)',
-                border: '4px solid #f0fdf4',
-                marginBottom: '20px'
-              }}>
-                {formData.name.charAt(0).toUpperCase()}
+              {formData.name.charAt(0).toUpperCase()}
+            </div>
+            
+            <h2 style={{ fontSize: '18px', fontWeight: '800', color: 'var(--text-dark)', margin: '0 0 8px 0', textAlign: 'center' }}>{formData.name}</h2>
+            <span className={`badge ${formData.isActive ? 'badge-success' : 'badge-danger'}`} style={{ padding: '4px 12px', fontSize: '11px' }}>
+              {formData.isActive ? 'Active Member' : 'Inactive'}
+            </span>
+
+            <div style={{ marginTop: '30px', width: '100%', display: 'flex', flexDirection: 'column', gap: '15px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <div style={{ width: '32px', height: '32px', borderRadius: '8px', background: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--primary)', border: '1px solid var(--border-light)' }}>
+                  <Phone size={14} />
+                </div>
+                <div>
+                  <div style={{ fontSize: '9px', color: 'var(--text-muted)', fontWeight: '700', textTransform: 'uppercase' }}>Mobile</div>
+                  <div style={{ fontSize: '13px', color: 'var(--text-dark)', fontWeight: '600' }}>{formData.mobile}</div>
+                </div>
               </div>
               
-              <h2 style={{ fontSize: '22px', fontWeight: '800', color: '#111827', margin: '0 0 8px 0', textAlign: 'center' }}>{formData.name}</h2>
-              <span className={`badge ${formData.isActive ? 'badge-success' : 'badge-danger'}`} style={{ padding: '6px 16px', fontSize: '13px', borderRadius: '20px' }}>
-                {formData.isActive ? 'Active Member' : 'Inactive'}
-              </span>
-
-              <div style={{ marginTop: '40px', width: '100%', display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-                  <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#16a34a', boxShadow: '0 2px 4px rgba(0,0,0,0.02)' }}>
-                    <Phone size={18} />
-                  </div>
-                  <div>
-                    <div style={{ fontSize: '11px', color: '#9ca3af', fontWeight: '700', textTransform: 'uppercase' }}>Mobile</div>
-                    <div style={{ fontSize: '15px', color: '#374151', fontWeight: '600' }}>{formData.mobile}</div>
-                  </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <div style={{ width: '32px', height: '32px', borderRadius: '8px', background: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--primary)', border: '1px solid var(--border-light)' }}>
+                  <Mail size={14} />
                 </div>
-                
-                <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-                  <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#16a34a', boxShadow: '0 2px 4px rgba(0,0,0,0.02)' }}>
-                    <Mail size={18} />
-                  </div>
-                  <div style={{ overflow: 'hidden' }}>
-                    <div style={{ fontSize: '11px', color: '#9ca3af', fontWeight: '700', textTransform: 'uppercase' }}>Email</div>
-                    <div style={{ fontSize: '14px', color: '#374151', fontWeight: '600', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>{formData.email || 'Not provided'}</div>
-                  </div>
+                <div style={{ overflow: 'hidden' }}>
+                  <div style={{ fontSize: '9px', color: 'var(--text-muted)', fontWeight: '700', textTransform: 'uppercase' }}>Email</div>
+                  <div style={{ fontSize: '12px', color: 'var(--text-dark)', fontWeight: '600', whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>{formData.email || 'N/A'}</div>
                 </div>
+              </div>
 
-                <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-                  <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#16a34a', boxShadow: '0 2px 4px rgba(0,0,0,0.02)' }}>
-                    <Info size={18} />
-                  </div>
-                  <div>
-                    <div style={{ fontSize: '11px', color: '#9ca3af', fontWeight: '700', textTransform: 'uppercase' }}>GST Number</div>
-                    <div style={{ fontSize: '15px', color: '#374151', fontWeight: '600' }}>{formData.gstNo || 'N/A'}</div>
-                  </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <div style={{ width: '32px', height: '32px', borderRadius: '8px', background: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--primary)', border: '1px solid var(--border-light)' }}>
+                  <Info size={14} />
+                </div>
+                <div>
+                  <div style={{ fontSize: '9px', color: 'var(--text-muted)', fontWeight: '700', textTransform: 'uppercase' }}>GSTIN</div>
+                  <div style={{ fontSize: '13px', color: 'var(--text-dark)', fontWeight: '600' }}>{formData.gstNo || 'N/A'}</div>
                 </div>
               </div>
             </div>
+          </div>
 
-            <div style={{ flex: 1, padding: '40px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '30px' }}>
-                <div style={{ width: '32px', height: '32px', borderRadius: '8px', background: '#f0fdf4', color: '#16a34a', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <Home size={18} />
-                </div>
-                <h3 style={{ fontSize: '18px', fontWeight: '800', color: '#111827', margin: 0 }}>Residential Address</h3>
-              </div>
+          <div style={{ flex: 1, padding: '25px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '20px' }}>
+              <Home size={18} color="var(--primary)" />
+              <h3 style={{ fontSize: '15px', fontWeight: '800', color: 'var(--text-dark)', margin: 0 }}>Residential Address</h3>
+            </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '20px' }}>
-                <div style={{ padding: '20px', background: '#f9fafb', borderRadius: '12px', border: '1px dashed #e5e7eb' }}>
-                  <label style={{ display: 'block', color: '#9ca3af', fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', marginBottom: '10px' }}>Full Address</label>
-                  <div style={{ fontSize: '15px', color: '#374151', lineHeight: '1.7', fontWeight: '500' }}>
-                    {formData.address || 'No detailed address recorded for this customer.'}
-                  </div>
-                </div>
-                
-                <div style={{ padding: '16px', background: '#fcfcfc', borderRadius: '12px', border: '1px solid #f3f4f6' }}>
-                  <label style={{ display: 'block', color: '#9ca3af', fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', marginBottom: '6px' }}>Registered On</label>
-                  <div style={{ fontSize: '16px', color: '#111827', fontWeight: '700' }}>{formData.createdAt ? new Date(formData.createdAt).toLocaleDateString() : 'N/A'}</div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '15px' }}>
+              <div style={{ padding: '15px', background: '#fcfcfc', borderRadius: '12px', border: '1px solid var(--border-light)' }}>
+                <label style={{ display: 'block', color: 'var(--text-muted)', fontSize: '10px', fontWeight: '700', textTransform: 'uppercase', marginBottom: '6px' }}>Full Address</label>
+                <div style={{ fontSize: '14px', color: 'var(--text-dark)', lineHeight: '1.6', fontWeight: '500' }}>
+                  {formData.address || 'No detailed address recorded.'}
                 </div>
               </div>
-
-              <div style={{ marginTop: '60px', padding: '20px', borderRadius: '12px', border: '1px solid #f3f4f6', display: 'flex', alignItems: 'center', gap: '15px' }}>
-                <div style={{ fontSize: '32px' }}>💡</div>
-                <div>
-                  <div style={{ fontSize: '14px', fontWeight: '700', color: '#111827' }}>Quick Tip</div>
-                  <div style={{ fontSize: '13px', color: '#6b7280' }}>You can update this customer's details anytime from the main directory by clicking the edit icon.</div>
-                </div>
+              
+              <div style={{ padding: '12px 15px', background: '#fcfcfc', borderRadius: '10px', border: '1px solid var(--border-light)' }}>
+                <label style={{ display: 'block', color: 'var(--text-muted)', fontSize: '10px', fontWeight: '700', textTransform: 'uppercase', marginBottom: '4px' }}>Registered On</label>
+                <div style={{ fontSize: '14px', color: 'var(--text-dark)', fontWeight: '700' }}>{formData.createdAt ? new Date(formData.createdAt).toLocaleDateString() : 'N/A'}</div>
               </div>
             </div>
           </div>

@@ -66,14 +66,14 @@ const NewPurchaseReturn = () => {
     const updatedItems = items.map(item => {
       if (item.id === id) {
         let updatedItem = { ...item, [field]: value };
-        
+
         if (field === 'productId' && extraData) {
           updatedItem.purchasePrice = parseFloat(extraData.purchasePrice) || 0;
         }
 
         const qty = field === 'quantity' ? parseFloat(value) || 0 : updatedItem.quantity;
         const price = field === 'purchasePrice' || (field === 'productId' && extraData) ? (parseFloat(updatedItem.purchasePrice) || 0) : item.purchasePrice;
-        
+
         updatedItem.amount = qty * price;
         return updatedItem;
       }
@@ -84,18 +84,18 @@ const NewPurchaseReturn = () => {
 
   return (
     <div className="agro-container" style={{ padding: '0 25px' }}>
-      <div className="agro-unified-card" style={{ 
-        background: 'white', 
-        borderRadius: '16px', 
+      <div className="agro-unified-card" style={{
+        background: 'white',
+        borderRadius: '16px',
         boxShadow: 'var(--shadow)',
         border: '1px solid var(--border-light)',
         marginTop: '5px',
         overflow: 'hidden'
       }}>
-        <div className="agro-header-compact" style={{ 
-          display: 'flex', 
-          alignItems: 'center', 
-          justifyContent: 'space-between', 
+        <div className="agro-header-compact" style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
           padding: '12px 20px',
           borderBottom: '1px solid var(--border-light)',
           background: 'white'
@@ -120,26 +120,26 @@ const NewPurchaseReturn = () => {
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr 1fr', gap: '10px' }}>
                 <div className="form-group" style={{ margin: 0 }}>
                   <label style={{ fontSize: '12px', marginBottom: '3px' }}>Purchase ID</label>
-                  <input type="text" className="form-control" style={{ height: '36px', fontSize: '13px' }} placeholder="PUR-101" value={master.purchaseId} onChange={(e) => setMaster({...master, purchaseId: e.target.value})} />
+                  <input type="text" className="form-control" style={{ height: '36px', fontSize: '13px' }} placeholder="PUR-101" value={master.purchaseId} onChange={(e) => setMaster({ ...master, purchaseId: e.target.value })} />
                 </div>
                 <div className="form-group" style={{ margin: 0 }}>
                   <label style={{ fontSize: '12px', marginBottom: '3px' }}>Supplier</label>
                   <SearchableSelect
                     options={suppliers}
                     value={master.supplierId}
-                    onChange={(val) => setMaster({...master, supplierId: val})}
+                    onChange={(val) => setMaster({ ...master, supplierId: val })}
                     placeholder="Search Supplier..."
                     height="36px"
                   />
                 </div>
                 <div className="form-group" style={{ margin: 0 }}>
                   <label style={{ fontSize: '12px', marginBottom: '3px' }}>Return Date</label>
-                  <input type="date" className="form-control" style={{ height: '36px', fontSize: '13px' }} value={master.returnDate} onChange={(e) => setMaster({...master, returnDate: e.target.value})} />
+                  <input type="date" className="form-control" style={{ height: '36px', fontSize: '13px' }} value={master.returnDate} onChange={(e) => setMaster({ ...master, returnDate: e.target.value })} />
                 </div>
               </div>
               <div className="form-group" style={{ margin: '10px 0 0 0' }}>
                 <label style={{ fontSize: '12px', marginBottom: '3px' }}>Reason for Return</label>
-                <textarea className="form-control" style={{ fontSize: '13px', minHeight: '60px', resize: 'none' }} placeholder="Reason..." value={master.reason} onChange={(e) => setMaster({...master, reason: e.target.value})} />
+                <textarea className="form-control" style={{ fontSize: '13px', minHeight: '60px', resize: 'none' }} placeholder="Reason..." value={master.reason} onChange={(e) => setMaster({ ...master, reason: e.target.value })} />
               </div>
             </div>
 
