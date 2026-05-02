@@ -121,7 +121,8 @@ const Dashboard = () => {
   ].filter(action => !action.module || hasPermission(action.module, action.action));
 
   return (
-    <div style={{ padding: '5px' }}>
+    <div className="agro-container">
+      <div>
       {/* Stats Grid */}
       <div style={{ 
         display: 'grid', 
@@ -293,6 +294,7 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );
