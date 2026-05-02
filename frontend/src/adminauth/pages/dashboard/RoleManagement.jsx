@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { STORAGE_KEYS, getFromStorage, setToStorage } from '../../utils/storage';
 import { ShieldCheck, Plus, Trash2, Edit3, Save, X } from 'lucide-react';
 
+import '../../../mastermodel/styles/MasterModel.css';
+
 const AVAILABLE_MODULES = [
   { id: 'product', name: 'Product' },
   { id: 'category', name: 'Category' },
@@ -91,144 +93,136 @@ const RoleManagement = () => {
   };
 
   return (
-    <div className="animate-fade" style={{ padding: '20px' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' }}>
-        <div>
-          <h1 style={{ fontSize: '1.8rem', color: 'var(--primary)' }}>Role Management</h1>
-          <p style={{ color: 'var(--text-muted)' }}>Define access control levels and permissions</p>
-        </div>
-        {!isEditing && (
-          <button className="btn-agro btn-primary" onClick={handleAddRole}>
-            <Plus size={18} />
-            Create New Role
-          </button>
-        )}
-      </div>
-
-      {isEditing ? (
-        <div className="glass-card" style={{ padding: '30px' }}>
-          <h3 style={{ marginBottom: '20px' }}>{currentRole.id ? 'Edit Role' : 'New Role'}</h3>
-          <div className="input-group">
-            <label>Role Name</label>
-            <input
-              type="text"
-              className="input-field"
-              placeholder="e.g. Sales Manager"
-              value={currentRole.roleName}
-              onChange={(e) => setCurrentRole({ ...currentRole, roleName: e.target.value })}
-            />
+    <div className="agro-container" style={{ padding: '0 25px' }}>
+      <div className="agro-unified-card" style={{ 
+        background: 'white', 
+        borderRadius: '16px', 
+        boxShadow: 'var(--shadow)',
+        border: '1px solid var(--border-light)',
+        marginTop: '5px',
+        overflow: 'hidden'
+      }}>
+        <div className="agro-header-compact" style={{ 
+          display: 'flex', 
+          alignItems: 'center', 
+          justifyContent: 'space-between', 
+          padding: '12px 20px',
+          borderBottom: '1px solid var(--border-light)',
+          background: 'white'
+        }}>
+          <div>
+            <h2 style={{ fontSize: '18px', marginBottom: '1px' }}>Role Management</h2>
+            <p style={{ fontSize: '12px', margin: 0 }}>Define access control levels and permissions</p>
           </div>
-          <div className="input-group">
-            <label style={{ display: 'block', marginBottom: '15px', fontWeight: 'bold', fontSize: '1rem' }}>Module Permissions</label>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '20px' }}>
-              {AVAILABLE_MODULES.map((module) => {
-                const modulePerms = currentRole.permissions[module.id] || [];
-                const isAll = modulePerms.length === 4;
+          {!isEditing && (
+            <button className="btn-agro btn-primary" onClick={handleAddRole} style={{ height: '34px', padding: '0 12px', fontSize: '12px' }}>
+              <Plus size={16} /> Create Role
+            </button>
+          )}
+        </div>
 
-                return (
-                  <div key={module.id} className="glass-card" style={{ padding: '20px', border: '1px solid var(--border)' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px', borderBottom: '1px solid var(--border)', paddingBottom: '10px' }}>
-                      <h4 style={{ color: 'var(--primary)' }}>{module.name}</h4>
-                      <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.8rem', cursor: 'pointer' }}>
-                        <input
-                          type="checkbox"
-                          checked={isAll}
-                          onChange={() => toggleAllModuleActions(module.id)}
-                          style={{ accentColor: 'var(--primary)' }}
-                        />
-                        Select All
-                      </label>
+        <div style={{ padding: '20px' }}>
+          {isEditing ? (
+            <div style={{ background: '#f8fafc', padding: '20px', borderRadius: '12px', border: '1px solid var(--border-light)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '20px', color: 'var(--primary)' }}>
+                <ShieldCheck size={20} />
+                <h3 style={{ fontSize: '16px', margin: 0, fontWeight: '700' }}>{currentRole.id ? 'Edit System Role' : 'Create System Role'}</h3>
+              </div>
+              <div className="form-group" style={{ maxWidth: '400px' }}>
+                <label style={{ fontSize: '12px', marginBottom: '4px' }}>Role Name</label>
+                <input type="text" className="form-control" style={{ height: '36px', fontSize: '13px' }} placeholder="e.g. Sales Manager" value={currentRole.roleName} onChange={(e) => setCurrentRole({ ...currentRole, roleName: e.target.value })} />
+              </div>
+              
+              <div style={{ marginTop: '20px' }}>
+                <label style={{ fontSize: '13px', fontWeight: '700', marginBottom: '15px', display: 'block', color: 'var(--text-dark)' }}>Module-wise Permissions</label>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '15px' }}>
+                  {AVAILABLE_MODULES.map((module) => {
+                    const modulePerms = currentRole.permissions[module.id] || [];
+                    const isAll = modulePerms.length === 4;
+                    return (
+                      <div key={module.id} style={{ background: 'white', padding: '15px', borderRadius: '10px', border: '1px solid var(--border-light)' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px', borderBottom: '1px solid #f1f5f9', paddingBottom: '8px' }}>
+                          <span style={{ fontWeight: '700', fontSize: '13px', color: 'var(--primary)' }}>{module.name}</span>
+                          <label style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '11px', cursor: 'pointer', color: '#64748b' }}>
+                            <input type="checkbox" checked={isAll} onChange={() => toggleAllModuleActions(module.id)} /> All
+                          </label>
+                        </div>
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+                          {[
+                            { id: 'view', label: 'View' },
+                            { id: 'create', label: 'Add' },
+                            { id: 'edit', label: 'Edit' },
+                            { id: 'delete', label: 'Delete' }
+                          ].map((action) => (
+                            <label key={action.id} style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', fontSize: '12px', color: '#334155' }}>
+                              <input type="checkbox" checked={modulePerms.includes(action.id)} onChange={() => toggleAction(module.id, action.id)} style={{ accentColor: 'var(--primary)' }} />
+                              {action.label}
+                            </label>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {error && <p style={{ color: '#ef4444', fontSize: '12px', margin: '15px 0' }}>{error}</p>}
+
+              <div style={{ display: 'flex', gap: '10px', marginTop: '25px', paddingTop: '20px', borderTop: '1px solid #e2e8f0' }}>
+                <button className="btn-agro btn-primary" onClick={handleSave} style={{ height: '38px', padding: '0 25px' }}><Save size={16} /> Save Changes</button>
+                <button className="btn-agro btn-outline" onClick={() => setIsEditing(false)} style={{ height: '38px', padding: '0 25px' }}><X size={16} /> Cancel</button>
+              </div>
+            </div>
+          ) : (
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '20px' }}>
+              {roles.map((role) => (
+                <div
+                  key={role.id}
+                  style={{
+                    background: 'white',
+                    padding: '18px',
+                    borderRadius: '14px',
+                    border: '1px solid var(--border-light)',
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.02)',
+                    cursor: role.roleName !== 'Admin' ? 'pointer' : 'default',
+                    transition: 'all 0.2s'
+                  }}
+                  onClick={() => role.roleName !== 'Admin' && handleEditRole(role)}
+                  onMouseEnter={(e) => role.roleName !== 'Admin' && (e.currentTarget.style.borderColor = 'var(--primary)', e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.05)')}
+                  onMouseLeave={(e) => role.roleName !== 'Admin' && (e.currentTarget.style.borderColor = 'var(--border-light)', e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.02)')}
+                >
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                      <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: '#f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <ShieldCheck size={20} color="var(--primary)" />
+                      </div>
+                      <h4 style={{ margin: 0, fontSize: '15px', fontWeight: '700' }}>{role.roleName}</h4>
                     </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                      {[
-                        { id: 'view', label: 'View' },
-                        { id: 'create', label: 'Add' },
-                        { id: 'edit', label: 'Edit' },
-                        { id: 'delete', label: 'Delete' }
-                      ].map((action) => (
-                        <label key={action.id} style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', fontSize: '0.9rem' }}>
-                          <input
-                            type="checkbox"
-                            checked={modulePerms.includes(action.id)}
-                            onChange={() => toggleAction(module.id, action.id)}
-                            style={{ width: '16px', height: '16px', accentColor: 'var(--primary)' }}
-                          />
-                          {module.name} {action.label}
-                        </label>
+                    {role.roleName !== 'Admin' && (
+                      <button onClick={(e) => { e.stopPropagation(); handleDelete(role.id); }} style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', padding: '5px' }}>
+                        <Trash2 size={16} />
+                      </button>
+                    )}
+                  </div>
+
+                  <div style={{ borderTop: '1px solid #f1f5f9', paddingTop: '12px' }}>
+                    <p style={{ fontSize: '11px', color: '#64748b', fontWeight: '700', textTransform: 'uppercase', marginBottom: '8px', letterSpacing: '0.5px' }}>Permissions</p>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                      {Object.entries(role.permissions).map(([module, actions]) => (
+                        <div key={module} style={{ background: '#f8fafc', padding: '4px 10px', borderRadius: '6px', border: '1px solid #e2e8f0' }}>
+                          <span style={{ fontWeight: '800', fontSize: '10px', color: 'var(--primary)', textTransform: 'capitalize' }}>{module}:</span>
+                          <span style={{ fontSize: '10px', color: '#334155', marginLeft: '4px' }}>{actions.join(', ')}</span>
+                        </div>
                       ))}
+                      {Object.keys(role.permissions).length === 0 && <span style={{ fontSize: '12px', color: '#94a3b8', fontStyle: 'italic' }}>No permissions assigned</span>}
                     </div>
                   </div>
-                );
-              })}
-            </div>
-          </div>
-
-          {error && <p style={{ color: '#ef4444', fontSize: '0.8rem', marginBottom: '15px' }}>{error}</p>}
-
-          <div style={{ display: 'flex', gap: '15px', marginTop: '20px' }}>
-            <button className="btn-agro btn-primary" onClick={handleSave}>
-              <Save size={18} />
-              Save Role
-            </button>
-            <button className="btn-agro btn-outline" onClick={() => setIsEditing(false)}>
-              <X size={18} />
-              Cancel
-            </button>
-          </div>
-        </div>
-      ) : (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '20px' }}>
-          {roles.map((role) => (
-            <div
-              key={role.id}
-              className="glass-card"
-              style={{
-                padding: '20px',
-                display: 'flex',
-                flexDirection: 'column',
-                cursor: role.roleName !== 'Admin' ? 'pointer' : 'default',
-                transition: 'transform 0.2s',
-                border: '1px solid var(--border)'
-              }}
-              onClick={() => role.roleName !== 'Admin' && handleEditRole(role)}
-              onMouseEnter={(e) => role.roleName !== 'Admin' && (e.currentTarget.style.transform = 'translateY(-5px)')}
-              onMouseLeave={(e) => role.roleName !== 'Admin' && (e.currentTarget.style.transform = 'translateY(0)')}
-            >
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '15px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <ShieldCheck size={24} color="var(--primary)" />
-                  <h4 style={{ fontSize: '1.2rem' }}>{role.roleName}</h4>
                 </div>
-                {role.roleName !== 'Admin' && (
-                  <div style={{ display: 'flex', gap: '8px' }}>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleDelete(role.id);
-                      }}
-                      style={{ background: 'transparent', border: 'none', color: '#ef4444', cursor: 'pointer' }}
-                    >
-                      <Trash2 size={18} />
-                    </button>
-                  </div>
-                )}
-              </div>
-
-              <div style={{ flex: 1 }}>
-                <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginBottom: '10px' }}>Permissions:</p>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '5px' }}>
-                  {Object.entries(role.permissions).map(([module, actions]) => (
-                    <div key={module} style={{ display: 'flex', alignItems: 'center', gap: '5px', background: 'rgba(255,255,255,0.05)', padding: '4px 8px', borderRadius: '4px' }}>
-                      <span style={{ fontWeight: '600', fontSize: '0.7rem' }}>{module.toUpperCase()}:</span>
-                      <span style={{ fontSize: '0.7rem' }}>{actions.join(', ')}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
+              ))}
             </div>
-          ))}
+          )}
         </div>
-      )}
+      </div>
     </div>
   );
 };

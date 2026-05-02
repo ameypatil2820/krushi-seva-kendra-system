@@ -8,6 +8,7 @@ import AdminRegister from './adminauth/pages/auth/AdminRegister';
 import Dashboard from './adminauth/pages/dashboard/Dashboard';
 import RoleManagement from './adminauth/pages/dashboard/RoleManagement';
 import UserManagement from './adminauth/pages/dashboard/UserManagement';
+import UserCreate from './adminauth/pages/dashboard/UserCreate';
 import ModulePage from './adminauth/pages/dashboard/ModulePage';
 import { 
   Suppliers, SupplierCreate, SupplierEdit, SupplierView,
@@ -122,11 +123,18 @@ const AppRoutes = () => {
           </ProtectedRoute>
         } />
 
-        <Route path="users" element={
-          <ProtectedRoute module="users" action="manage">
-            <UserManagement />
-          </ProtectedRoute>
-        } />
+        <Route path="users">
+          <Route index element={
+            <ProtectedRoute module="users" action="manage">
+              <UserManagement />
+            </ProtectedRoute>
+          } />
+          <Route path="create" element={
+            <ProtectedRoute module="users" action="manage">
+              <UserCreate />
+            </ProtectedRoute>
+          } />
+        </Route>
       </Route>
 
       <Route path="*" element={<Navigate to="/login" />} />

@@ -2,6 +2,8 @@ import React from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { Plus, Lock } from 'lucide-react';
 
+import '../../../mastermodel/styles/MasterModel.css';
+
 const ModulePage = ({ title, module }) => {
   const { hasPermission } = useAuth();
 
@@ -10,33 +12,55 @@ const ModulePage = ({ title, module }) => {
 
   if (!canView) {
     return (
-      <div className="flex-center" style={{ height: '60vh', flexDirection: 'column', gap: '20px' }}>
-        <div style={{ background: 'rgba(239, 68, 68, 0.1)', color: '#ef4444', padding: '30px', borderRadius: '50%' }}>
-          <Lock size={48} />
+      <div className="agro-container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '70vh' }}>
+        <div style={{ textAlign: 'center', maxWidth: '400px', padding: '40px', background: 'white', borderRadius: '20px', boxShadow: 'var(--shadow)', border: '1px solid var(--border-light)' }}>
+          <div style={{ background: '#fef2f2', color: '#ef4444', width: '80px', height: '80px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px' }}>
+            <Lock size={40} />
+          </div>
+          <h2 style={{ fontSize: '24px', fontWeight: '800', color: '#1e293b', marginBottom: '10px' }}>Access Denied</h2>
+          <p style={{ color: '#64748b', fontSize: '14px', lineHeight: '1.6' }}>You do not have the required permissions to access the <strong>{title}</strong> module. Please contact your administrator.</p>
         </div>
-        <h2 style={{ color: '#ef4444' }}>Access Denied</h2>
-        <p style={{ color: 'var(--text-secondary)' }}>You don't have permission to view this module.</p>
       </div>
     );
   }
 
   return (
-    <div className="animate-fade">
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' }}>
-        <h1 style={{ fontSize: '1.8rem', color: 'var(--primary)' }}>{title}</h1>
-        {canCreate && (
-          <button className="btn btn-primary">
-            <Plus size={18} />
-            Create New
-          </button>
-        )}
-      </div>
+    <div className="agro-container" style={{ padding: '0 25px' }}>
+      <div className="agro-unified-card" style={{ 
+        background: 'white', 
+        borderRadius: '16px', 
+        boxShadow: 'var(--shadow)',
+        border: '1px solid var(--border-light)',
+        marginTop: '5px',
+        overflow: 'hidden'
+      }}>
+        <div className="agro-header-compact" style={{ 
+          display: 'flex', 
+          alignItems: 'center', 
+          justifyContent: 'space-between', 
+          padding: '12px 20px',
+          borderBottom: '1px solid var(--border-light)',
+          background: 'white'
+        }}>
+          <div>
+            <h2 style={{ fontSize: '18px', marginBottom: '1px' }}>{title} Module</h2>
+            <p style={{ fontSize: '12px', margin: 0 }}>Management and oversight for {title}</p>
+          </div>
+          {canCreate && (
+            <button className="btn-agro btn-primary" style={{ height: '34px', padding: '0 12px', fontSize: '12px' }}>
+              <Plus size={16} /> Create New
+            </button>
+          )}
+        </div>
 
-      <div className="glass-card" style={{ padding: '40px', textAlign: 'center' }}>
-        <p style={{ color: 'var(--text-secondary)' }}>
-          This is the {title} module. Only users with <strong>{module}:view</strong> permission can see this, 
-          and only those with <strong>{module}:create</strong> can see the button above.
-        </p>
+        <div style={{ padding: '40px', textAlign: 'center' }}>
+          <div style={{ background: '#f8fafc', padding: '30px', borderRadius: '15px', border: '1px solid var(--border-light)', maxWidth: '600px', margin: '0 auto' }}>
+            <p style={{ color: '#64748b', fontSize: '15px', lineHeight: '1.6', margin: 0 }}>
+              Welcome to the <strong>{title}</strong> module. This section is currently under active development. 
+              Only users with <strong>{module}:view</strong> permissions can see this view.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );
