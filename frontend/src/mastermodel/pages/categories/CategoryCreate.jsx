@@ -55,15 +55,7 @@ const CategoryCreate = () => {
               <h3 style={{ fontSize: '13px', margin: 0, fontWeight: '700' }}>Category Details</h3>
             </div>
             
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
-              <FormField label="Category Name" name="name" value={formData.name} onChange={handleChange} required placeholder="e.g. Fertilizers" />
-              <div style={{ display: 'flex', alignItems: 'center', marginTop: '22px' }}>
-                <label style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', fontSize: '13px', fontWeight: '600' }}>
-                  <input type="checkbox" name="isActive" checked={formData.isActive} onChange={handleChange} style={{ width: '16px', height: '16px' }} />
-                  Active Status
-                </label>
-              </div>
-            </div>
+            <FormField label="Category Name" name="name" value={formData.name} onChange={handleChange} required placeholder="e.g. Fertilizers" />
             <FormField label="Description" name="description" type="textarea" value={formData.description} onChange={handleChange} placeholder="Category description..." />
           </div>
         </div>

@@ -62,8 +62,8 @@ const SearchableSelect = ({ label, options, value, onChange, placeholder, requir
   };
 
   return (
-    <div className="form-group" style={{ position: 'relative', marginBottom: '20px' }} ref={wrapperRef}>
-      <label style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+    <div className="form-group" style={{ position: 'relative' }} ref={wrapperRef}>
+      <label style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2px' }}>
         <span>{label} {required && <span style={{ color: 'var(--danger)' }}>*</span>}</span>
       </label>
       

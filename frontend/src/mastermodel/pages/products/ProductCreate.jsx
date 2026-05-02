@@ -49,96 +49,110 @@ const ProductCreate = () => {
   };
 
   return (
-    <div className="agro-container">
-      <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
-        <form onSubmit={handleFinalSave} className="agro-card" style={{ padding: 0, overflow: 'hidden' }}>
-          <div className="agro-card-header" style={{ padding: '30px', background: 'white' }}>
-            <div>
-              <h2 style={{ fontSize: '24px' }}>Register New Product</h2>
-              <p>Manage your stocks, pricing and categories for the inventory</p>
-            </div>
-            <button type="button" className="btn-agro btn-outline" onClick={() => navigate('/products')}>
-              <ArrowLeft size={18} /> Back to List
-            </button>
+    <div className="agro-container" style={{ padding: '0 25px' }}>
+      <form onSubmit={handleFinalSave} className="agro-unified-card" style={{ 
+        background: 'white', 
+        borderRadius: '16px', 
+        boxShadow: 'var(--shadow)',
+        border: '1px solid var(--border-light)',
+        marginTop: '5px',
+        overflow: 'hidden'
+      }}>
+        <div className="agro-header-compact" style={{ 
+          display: 'flex', 
+          alignItems: 'center', 
+          justifyContent: 'space-between', 
+          padding: '12px 20px',
+          borderBottom: '1px solid var(--border-light)',
+          background: 'white'
+        }}>
+          <div>
+            <h2 style={{ fontSize: '18px', marginBottom: '1px' }}>Register New Product</h2>
+            <p style={{ fontSize: '12px', margin: 0 }}>Manage stocks, pricing and categories</p>
           </div>
+          <button type="button" className="btn-agro btn-outline" onClick={() => navigate('/products')} style={{ height: '34px', padding: '0 12px', fontSize: '12px' }}>
+            <ArrowLeft size={16} /> Back
+          </button>
+        </div>
 
-          <div style={{ padding: '40px' }}>
-            <div style={{ maxWidth: '600px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '30px' }}>
-              <div>
-                <div className="form-section-title" style={{ marginBottom: '15px' }}>
-                  <Tag size={18} />
-                  <h3 style={{ fontSize: '14px', margin: 0 }}>Basic Information</h3>
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-                  <FormField label="Product Name" name="name" value={formData.name} onChange={handleChange} required placeholder="Enter product name" />
-                  <FormField label="Product Code" name="code" value={formData.code} onChange={handleChange} required placeholder="e.g. PRD001" />
-
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
-                    <SearchableSelect label="Category" options={categories} value={formData.category} onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value }))} required />
-                    <SearchableSelect label="Tax" options={taxes} value={formData.tax} onChange={(e) => setFormData(prev => ({ ...prev, tax: e.target.value }))} required placeholder="Select Tax %" />
-                  </div>
-
-                  <FormField label="Company" name="company" value={formData.company} onChange={handleChange} placeholder="e.g. ABC Ltd" />
-
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '15px' }}>
-                    <SearchableSelect label="Purchase Unit" options={['Box', 'Bag', 'Case', 'Crate', 'Drum', 'Nos']} value={formData.primaryUnit} onChange={(e) => setFormData(prev => ({ ...prev, primaryUnit: e.target.value }))} required />
-                    <SearchableSelect label="Sale Unit" options={['Nos', 'Kg', 'Ltr', 'Pcs', 'Gm', 'Ml', 'Packet']} value={formData.secondaryUnit} onChange={(e) => setFormData(prev => ({ ...prev, secondaryUnit: e.target.value }))} required />
-                    <FormField 
-                      label={formData.primaryUnit && formData.secondaryUnit ? `1 ${formData.primaryUnit} = ${formData.conversionFactor || '?'} ${formData.secondaryUnit}` : "Qty in 1 Unit"} 
-                      name="conversionFactor" 
-                      type="number" 
-                      value={formData.conversionFactor} 
-                      onChange={handleChange} 
-                      required 
-                      placeholder="e.g. 10" 
-                    />
-                  </div>
-                </div>
+        <div style={{ padding: '10px 15px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', maxWidth: '800px', margin: '0 auto' }}>
+            {/* Basic Info Section */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
+              <div className="form-section-title" style={{ display: 'flex', alignItems: 'center', gap: '5px', marginBottom: '0', color: 'var(--primary)' }}>
+                <Tag size={14} />
+                <h3 style={{ fontSize: '13px', margin: 0, fontWeight: '700' }}>Basic Information</h3>
+              </div>
+              
+              <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: '5px' }}>
+                <FormField label="Product Name" name="name" value={formData.name} onChange={handleChange} required placeholder="Enter product name" />
+                <FormField label="Product Code" name="code" value={formData.code} onChange={handleChange} required placeholder="e.g. PRD001" />
               </div>
 
-              <div>
-                <div className="form-section-title" style={{ marginBottom: '15px' }}>
-                  <Package size={18} />
-                  <h3 style={{ fontSize: '14px', margin: 0 }}>Stock & Status</h3>
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
-                    <FormField label="Current Stock" name="currentStock" type="number" value={formData.currentStock} onChange={handleChange} required placeholder="0" />
-                    <FormField label="Low Stock Alert" name="minStock" type="number" value={formData.minStock} onChange={handleChange} required placeholder="5" />
-                  </div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '5px' }}>
+                <SearchableSelect label="Category" options={categories} value={formData.category} onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value }))} required />
+                <SearchableSelect label="Tax" options={taxes} value={formData.tax} onChange={(e) => setFormData(prev => ({ ...prev, tax: e.target.value }))} required placeholder="Select Tax %" />
+              </div>
 
-                  <div style={{ marginTop: '10px', padding: '20px', background: 'var(--primary-soft)', borderRadius: '15px', border: '1px solid #dcfce7', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                    <div className="form-group" style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: 0 }}>
-                      <input type="checkbox" name="expiryRequired" id="expiryRequired" checked={formData.expiryRequired} onChange={handleChange} style={{ width: '18px', height: '18px', cursor: 'pointer', accentColor: 'var(--primary)' }} />
-                      <label htmlFor="expiryRequired" style={{ marginBottom: 0, cursor: 'pointer', textTransform: 'none', fontWeight: '700', fontSize: '13px', color: 'var(--primary)' }}>Enable Expiry Alerts</label>
-                    </div>
-                    <div className="form-group" style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: 0 }}>
-                      <input type="checkbox" name="isActive" id="isActive" checked={formData.isActive} onChange={handleChange} style={{ width: '18px', height: '18px', cursor: 'pointer', accentColor: 'var(--primary)' }} />
-                      <label htmlFor="isActive" style={{ marginBottom: 0, cursor: 'pointer', textTransform: 'none', fontWeight: '700', fontSize: '13px', color: 'var(--primary)' }}>Active Inventory Status</label>
-                    </div>
-                  </div>
-                </div>
+              <FormField label="Company" name="company" value={formData.company} onChange={handleChange} placeholder="e.g. ABC Ltd" />
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px' }}>
+                <SearchableSelect label="Purchase Unit" options={['Box', 'Bag', 'Case', 'Crate', 'Drum', 'Nos']} value={formData.primaryUnit} onChange={(e) => setFormData(prev => ({ ...prev, primaryUnit: e.target.value }))} required />
+                <SearchableSelect label="Sale Unit" options={['Nos', 'Kg', 'Ltr', 'Pcs', 'Gm', 'Ml', 'Packet']} value={formData.secondaryUnit} onChange={(e) => setFormData(prev => ({ ...prev, secondaryUnit: e.target.value }))} required />
+                <FormField 
+                  label="Conversion Factor" 
+                  name="conversionFactor" 
+                  type="number" 
+                  value={formData.conversionFactor} 
+                  onChange={handleChange} 
+                  required 
+                  placeholder="e.g. 10" 
+                />
+              </div>
+            </div>
+
+            {/* Stock & Alerts Section - Now below units */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', paddingTop: '8px', borderTop: '1px dashed var(--border-light)' }}>
+              <div className="form-section-title" style={{ display: 'flex', alignItems: 'center', gap: '5px', marginBottom: '0', color: 'var(--primary)' }}>
+                <Package size={14} />
+                <h3 style={{ fontSize: '13px', margin: 0, fontWeight: '700' }}>Stock & Alerts</h3>
+              </div>
+              
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                <FormField label="Current Stock" name="currentStock" type="number" value={formData.currentStock} onChange={handleChange} required placeholder="0" />
+                <FormField label="Low Stock Alert" name="minStock" type="number" value={formData.minStock} onChange={handleChange} required placeholder="5" />
+              </div>
+
+              <div style={{ marginTop: '2px', padding: '10px', background: 'var(--primary-soft)', borderRadius: '12px', border: '1px solid #dcfce7', display: 'flex', flexWrap: 'wrap', gap: '15px' }}>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', fontSize: '12px', fontWeight: '700', color: 'var(--primary)' }}>
+                  <input type="checkbox" name="expiryRequired" checked={formData.expiryRequired} onChange={handleChange} style={{ width: '15px', height: '15px', cursor: 'pointer' }} />
+                  Enable Expiry Alerts
+                </label>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', fontSize: '12px', fontWeight: '700', color: 'var(--primary)' }}>
+                  <input type="checkbox" name="isActive" checked={formData.isActive} onChange={handleChange} style={{ width: '15px', height: '15px', cursor: 'pointer' }} />
+                  Active Status
+                </label>
               </div>
             </div>
           </div>
+        </div>
 
-          <div style={{
-            padding: '25px 40px',
-            background: '#f9fafb',
-            borderTop: '1px solid var(--border-light)',
-            display: 'flex',
-            justifyContent: 'flex-end',
-            gap: '15px'
-          }}>
-            <button type="button" className="btn-agro btn-outline" onClick={() => navigate('/products')} style={{ minWidth: '120px' }}>
-              <X size={18} /> Cancel
-            </button>
-            <button type="submit" className="btn-agro btn-primary" style={{ minWidth: '180px' }}>
-              <Save size={18} /> Save Product
-            </button>
-          </div>
-        </form>
-      </div>
+        <div style={{ 
+          padding: '10px 20px', 
+          background: '#f8fafc', 
+          borderTop: '1px solid var(--border-light)', 
+          display: 'flex', 
+          justifyContent: 'flex-end', 
+          gap: '10px' 
+        }}>
+          <button type="button" className="btn-agro btn-outline" onClick={() => navigate('/products')} style={{ height: '36px', minWidth: '100px', fontSize: '13px' }}>
+            <X size={16} /> Cancel
+          </button>
+          <button type="submit" className="btn-agro btn-primary" style={{ height: '36px', minWidth: '140px', fontSize: '13px' }}>
+            <Save size={16} /> Save Product
+          </button>
+        </div>
+      </form>
     </div>
   );
 };
