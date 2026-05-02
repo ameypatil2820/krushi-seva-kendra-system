@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Outlet, useLocation, Navigate, useNavigate } from 'react-router-dom';
 import Sidebar from './Sidebar';
+import Footer from './Footer';
 import { motion } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
 import { Search, UserCircle } from 'lucide-react';
@@ -8,7 +9,16 @@ import { Search, UserCircle } from 'lucide-react';
 const Layout = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const mainContentRef = React.useRef(null);
   const { user, hasPermission } = useAuth();
+
+  // Reset scroll to top on route change
+  useEffect(() => {
+    if (mainContentRef.current) {
+      mainContentRef.current.scrollTo(0, 0);
+    }
+  }, [location.pathname]);
+
   const [searchQuery, setSearchQuery] = React.useState('');
   const [suggestions, setSuggestions] = React.useState([]);
   const [showSuggestions, setShowSuggestions] = React.useState(false);
@@ -149,13 +159,11 @@ const Layout = () => {
 
       {!isFullScreenPage && <Sidebar />}
 
-      <main className="main-content" style={{
+      <main ref={mainContentRef} className="main-content" style={{
         flex: 1,
         overflowY: 'auto',
         padding: '0',
-        background: 'var(--background)',
-        display: 'flex',
-        flexDirection: 'column'
+        background: 'var(--background)'
       }}>
         {/* Top Navbar */}
         {!isFullScreenPage && (
@@ -282,7 +290,7 @@ const Layout = () => {
           </header>
         )}
 
-        <div style={{ padding: '0', flex: 1, overflowX: 'hidden' }}>
+        <div style={{ padding: '0', overflowX: 'hidden' }}>
           <motion.div
             key={location.pathname}
             initial={{ opacity: 0, y: 10 }}
@@ -292,6 +300,8 @@ const Layout = () => {
             <Outlet />
           </motion.div>
         </div>
+
+        {!isFullScreenPage && <Footer />}
       </main>
     </div>
   );
