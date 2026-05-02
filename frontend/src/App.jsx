@@ -17,21 +17,27 @@ import {
   Products, ProductCreate, ProductEdit, ProductView 
 } from './mastermodel/pages';
 
+import SaleBill from './sales/SaleBill';
 import SaleEntry from './sales/SaleEntry';
 import Quotation from './sales/Quotation';
 import NewQuotation from './sales/NewQuotation';
 import SaleReturn from './sales/SaleReturn';
 import NewSaleReturn from './sales/NewSaleReturn';
+import ViewSaleReturn from './sales/ViewSaleReturn';
+import ViewSaleBill from './sales/ViewSaleBill';
 
+import PurchaseBill from './purchase/PurchaseBill';
+import ViewPurchaseBill from './purchase/ViewPurchaseBill';
 import PurchaseEntry from './purchase/PurchaseEntry';
 import PurchaseOrder from './purchase/PurchaseOrder';
 import NewPurchaseOrder from './purchase/NewPurchaseOrder';
+import ViewPurchaseOrder from './purchase/ViewPurchaseOrder';
 import PurchaseReturn from './purchase/PurchaseReturn';
 import NewPurchaseReturn from './purchase/NewPurchaseReturn';
-import StockManagement from './stock/StockManagement';
-import BillingDashboard from './bill/BillingDashboard';
-import NewCustomerBill from './bill/NewCustomerBill';
-import NewSupplierBill from './bill/NewSupplierBill';
+import ViewPurchaseReturn from './purchase/ViewPurchaseReturn';
+import StockMaster from './stock/StockMaster';
+import StockChild from './stock/StockChild';
+import ExpiryTracking from './stock/ExpiryTracking';
 
 const AppRoutes = () => {
   return (
@@ -77,32 +83,37 @@ const AppRoutes = () => {
         
         {/* Sales Routes */}
         <Route path="sales">
+          <Route path="bills" element={<SaleBill />} />
+          <Route path="bills/view/:id" element={<ViewSaleBill />} />
           <Route path="entry" element={<SaleEntry />} />
           <Route path="quotations" element={<Quotation />} />
           <Route path="quotations/new" element={<NewQuotation />} />
           <Route path="returns" element={<SaleReturn />} />
           <Route path="returns/new" element={<NewSaleReturn />} />
+          <Route path="returns/view/:id" element={<ViewSaleReturn />} />
           <Route index element={<ModulePage title="Sales" module="sale" />} />
         </Route>
         
         {/* Purchase Routes */}
         <Route path="purchase">
+          <Route path="bills" element={<PurchaseBill />} />
+          <Route path="bills/view/:id" element={<ViewPurchaseBill />} />
           <Route path="entry" element={<PurchaseEntry />} />
           <Route path="orders" element={<PurchaseOrder />} />
           <Route path="orders/new" element={<NewPurchaseOrder />} />
+          <Route path="orders/view/:id" element={<ViewPurchaseOrder />} />
           <Route path="returns" element={<PurchaseReturn />} />
           <Route path="returns/new" element={<NewPurchaseReturn />} />
+          <Route path="returns/view/:id" element={<ViewPurchaseReturn />} />
           <Route index element={<ModulePage title="Purchases" module="purchase" />} />
         </Route>
 
         {/* Stock Routes */}
-        <Route path="stock" element={<StockManagement />} />
-
-        {/* Billing Routes */}
-        <Route path="billing">
-          <Route index element={<BillingDashboard />} />
-          <Route path="customer/new" element={<NewCustomerBill />} />
-          <Route path="supplier/new" element={<NewSupplierBill />} />
+        <Route path="stock">
+          <Route index element={<Navigate to="master" />} />
+          <Route path="master" element={<StockMaster />} />
+          <Route path="child" element={<StockChild />} />
+          <Route path="expiry" element={<ExpiryTracking />} />
         </Route>
 
         <Route path="roles" element={

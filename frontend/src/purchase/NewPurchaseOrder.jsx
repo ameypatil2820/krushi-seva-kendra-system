@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Save, ArrowLeft, Plus, Trash2, Truck, Calendar, ShoppingBag, Package } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { MockService } from '../mastermodel/services/MockService';
@@ -8,6 +8,7 @@ const NewPurchaseOrder = () => {
   const navigate = useNavigate();
   const [suppliers, setSuppliers] = useState([]);
   const [products, setProducts] = useState([]);
+  const rowRefs = useRef({});
   const [master, setMaster] = useState({
     supplierId: '',
     orderDate: new Date().toISOString().split('T')[0],
@@ -23,9 +24,39 @@ const NewPurchaseOrder = () => {
   const [items, setItems] = useState([
     { id: Date.now(), productId: '', quantity: 1, expectedPrice: 0 }
   ]);
+  const rowToFocus = useRef(null);
 
-  const addItem = () => {
-    setItems([...items, { id: Date.now(), productId: '', quantity: 1, expectedPrice: 0 }]);
+  useEffect(() => {
+    if (rowToFocus.current) {
+      const el = rowRefs.current[rowToFocus.current];
+      if (el) {
+        el.focus();
+        rowToFocus.current = null;
+      }
+    }
+  }, [items]);
+
+  const addItem = (focusAfter = true) => {
+    const id = Date.now() + Math.random();
+    if (focusAfter) {
+      rowToFocus.current = id;
+    }
+    setItems([...items, { id, productId: '', quantity: 1, expectedPrice: 0 }]);
+  };
+
+  const handleProductEnterSelect = () => addItem();
+
+  const handleEnterNavigation = (e, index) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      if (index === items.length - 1) {
+        addItem();
+      } else {
+        const nextId = items[index + 1].id;
+        const el = rowRefs.current[nextId];
+        if (el) el.focus();
+      }
+    }
   };
 
   const removeItem = (id) => {
@@ -69,6 +100,8 @@ const NewPurchaseOrder = () => {
               value={master.supplierId}
               onChange={(val) => setMaster({...master, supplierId: val})}
               placeholder="Search Supplier..."
+              textColor="#0f172a"
+              bgColor="#ffffff"
             />
           </div>
           <div className="input-group">
@@ -97,7 +130,7 @@ const NewPurchaseOrder = () => {
       <div className="glass-card" style={{ padding: '25px', marginBottom: '25px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
           <h4 style={{ margin: 0 }}>Order Items</h4>
-          <button className="btn btn-primary" onClick={addItem}>
+          <button className="btn btn-primary" onClick={() => addItem(true)}>
             <Plus size={16} /> Add Product
           </button>
         </div>
@@ -113,24 +146,28 @@ const NewPurchaseOrder = () => {
             </tr>
           </thead>
           <tbody>
-            {items.map((item) => (
+            {items.map((item, idx) => (
               <tr key={item.id} style={{ borderBottom: '1px solid var(--glass-border)' }}>
                 <td style={{ padding: '8px', minWidth: '250px' }}>
                   <SearchableSelect 
                     options={products}
                     value={item.productId}
                     onChange={(val, data) => handleItemChange(item.id, 'productId', val, data)}
+                    onEnterSelect={handleProductEnterSelect}
                     placeholder="Search Product..."
                     icon={Package}
                     height="36px"
                     padding="0 8px"
+                    textColor="#0f172a"
+                    bgColor="#ffffff"
+                    inputRef={el => rowRefs.current[item.id] = el}
                   />
                 </td>
                 <td style={{ padding: '8px' }}>
-                  <input type="number" className="input-field" style={{ width: '100px' }} value={item.quantity} onChange={(e) => handleItemChange(item.id, 'quantity', e.target.value)} />
+                  <input type="number" className="input-field" style={{ width: '100px' }} value={item.quantity} onChange={(e) => handleItemChange(item.id, 'quantity', e.target.value)} onKeyDown={(e) => handleEnterNavigation(e, idx)} />
                 </td>
                 <td style={{ padding: '8px' }}>
-                  <input type="number" className="input-field" style={{ width: '120px' }} value={item.expectedPrice} onChange={(e) => handleItemChange(item.id, 'expectedPrice', e.target.value)} />
+                  <input type="number" className="input-field" style={{ width: '120px' }} value={item.expectedPrice} onChange={(e) => handleItemChange(item.id, 'expectedPrice', e.target.value)} onKeyDown={(e) => handleEnterNavigation(e, idx)} />
                 </td>
                 <td style={{ padding: '12px', fontWeight: '600' }}>₹{(item.quantity * item.expectedPrice).toFixed(2)}</td>
                 <td style={{ padding: '8px' }}>

@@ -17,11 +17,29 @@ const getInitialData = () => {
       { id: 2, name: 'GST 12%', percentage: 12, isActive: true, createdAt: new Date().toISOString() },
       { id: 3, name: 'GST 18%', percentage: 18, isActive: true, createdAt: new Date().toISOString() }
     ],
-    products: []
+    products: [
+      { id: 1, name: 'Urea 45%', salePrice: 300, costPrice: 250, tax: 5, batchNo: 'UR-2023-1', category: 'Fertilizers', stock: 850 },
+      { id: 2, name: 'DAP Fertilizer', salePrice: 1200, costPrice: 1000, tax: 12, batchNo: 'DAP-A1', category: 'Fertilizers', stock: 200 },
+      { id: 3, name: 'Pesticide X', salePrice: 500, costPrice: 400, tax: 18, batchNo: 'PX-99', category: 'Pesticides', stock: 10 },
+      { id: 4, name: 'Potash Fertilizer', salePrice: 800, costPrice: 650, tax: 5, batchNo: 'PK-01', category: 'Fertilizers', stock: 400 },
+      { id: 5, name: 'Calcium Nitrate', salePrice: 450, costPrice: 380, tax: 12, batchNo: 'CN-22', category: 'Fertilizers', stock: 300 },
+    ]
   };
 };
 
 let db = getInitialData();
+
+// If products are empty (old cached data), seed them
+if (!db.products || db.products.length === 0) {
+  db.products = [
+    { id: 1, name: 'Urea 45%', salePrice: 300, costPrice: 250, tax: 5, batchNo: 'UR-2023-1', category: 'Fertilizers', stock: 850 },
+    { id: 2, name: 'DAP Fertilizer', salePrice: 1200, costPrice: 1000, tax: 12, batchNo: 'DAP-A1', category: 'Fertilizers', stock: 200 },
+    { id: 3, name: 'Pesticide X', salePrice: 500, costPrice: 400, tax: 18, batchNo: 'PX-99', category: 'Pesticides', stock: 10 },
+    { id: 4, name: 'Potash Fertilizer', salePrice: 800, costPrice: 650, tax: 5, batchNo: 'PK-01', category: 'Fertilizers', stock: 400 },
+    { id: 5, name: 'Calcium Nitrate', salePrice: 450, costPrice: 380, tax: 12, batchNo: 'CN-22', category: 'Fertilizers', stock: 300 },
+  ];
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(db));
+}
 
 const saveDB = () => {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(db));

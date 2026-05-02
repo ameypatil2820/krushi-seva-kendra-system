@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Save, ArrowLeft, Plus, Trash2, Truck, Calendar, FileText, RotateCcw, Package } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { MockService } from '../mastermodel/services/MockService';
@@ -8,6 +8,7 @@ const NewPurchaseReturn = () => {
   const navigate = useNavigate();
   const [suppliers, setSuppliers] = useState([]);
   const [products, setProducts] = useState([]);
+  const rowRefs = useRef({});
   const [master, setMaster] = useState({
     purchaseId: '',
     supplierId: '',
@@ -24,6 +25,40 @@ const NewPurchaseReturn = () => {
   const [items, setItems] = useState([
     { id: Date.now(), productId: '', quantity: 1, purchasePrice: 0, amount: 0 }
   ]);
+  const rowToFocus = useRef(null);
+
+  useEffect(() => {
+    if (rowToFocus.current) {
+      const el = rowRefs.current[rowToFocus.current];
+      if (el) {
+        el.focus();
+        rowToFocus.current = null;
+      }
+    }
+  }, [items]);
+
+  const addItem = (focusAfter = true) => {
+    const id = Date.now() + Math.random();
+    if (focusAfter) {
+      rowToFocus.current = id;
+    }
+    setItems([...items, { id, productId: '', quantity: 1, purchasePrice: 0, amount: 0 }]);
+  };
+
+  const handleProductEnterSelect = () => addItem();
+
+  const handleEnterNavigation = (e, index) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      if (index === items.length - 1) {
+        addItem();
+      } else {
+        const nextId = items[index + 1].id;
+        const el = rowRefs.current[nextId];
+        if (el) el.focus();
+      }
+    }
+  };
 
   const handleItemChange = (id, field, value, extraData) => {
     const updatedItems = items.map(item => {
@@ -76,6 +111,8 @@ const NewPurchaseReturn = () => {
               value={master.supplierId}
               onChange={(val) => setMaster({...master, supplierId: val})}
               placeholder="Search Supplier..."
+              textColor="#0f172a"
+              bgColor="#ffffff"
             />
           </div>
           <div className="input-group">
@@ -114,24 +151,28 @@ const NewPurchaseReturn = () => {
             </tr>
           </thead>
           <tbody>
-            {items.map((item) => (
+            {items.map((item, idx) => (
               <tr key={item.id} style={{ borderBottom: '1px solid var(--glass-border)' }}>
                 <td style={{ padding: '8px', minWidth: '250px' }}>
                   <SearchableSelect 
                     options={products}
                     value={item.productId}
                     onChange={(val, data) => handleItemChange(item.id, 'productId', val, data)}
+                    onEnterSelect={handleProductEnterSelect}
                     placeholder="Search Product..."
                     icon={Package}
                     height="36px"
                     padding="0 8px"
+                    textColor="#0f172a"
+                    bgColor="#ffffff"
+                    inputRef={el => rowRefs.current[item.id] = el}
                   />
                 </td>
                 <td style={{ padding: '8px' }}>
-                  <input type="number" className="input-field" style={{ width: '80px' }} value={item.quantity} onChange={(e) => handleItemChange(item.id, 'quantity', e.target.value)} />
+                  <input type="number" className="input-field" style={{ width: '80px' }} value={item.quantity} onChange={(e) => handleItemChange(item.id, 'quantity', e.target.value)} onKeyDown={(e) => handleEnterNavigation(e, idx)} />
                 </td>
                 <td style={{ padding: '8px' }}>
-                  <input type="number" className="input-field" style={{ width: '120px' }} value={item.purchasePrice} onChange={(e) => handleItemChange(item.id, 'purchasePrice', e.target.value)} />
+                  <input type="number" className="input-field" style={{ width: '120px' }} value={item.purchasePrice} onChange={(e) => handleItemChange(item.id, 'purchasePrice', e.target.value)} onKeyDown={(e) => handleEnterNavigation(e, idx)} />
                 </td>
                 <td style={{ padding: '12px', fontWeight: '600' }}>₹{item.amount.toFixed(2)}</td>
                 <td style={{ padding: '8px' }}>
@@ -143,7 +184,7 @@ const NewPurchaseReturn = () => {
             ))}
           </tbody>
         </table>
-        <button className="btn btn-secondary" onClick={() => setItems([...items, { id: Date.now(), productId: '', quantity: 1, purchasePrice: 0, amount: 0 }])} style={{ marginTop: '15px' }}>
+        <button className="btn btn-secondary" onClick={() => addItem(true)} style={{ marginTop: '15px' }}>
           <Plus size={16} /> Add Product
         </button>
 
