@@ -28,65 +28,74 @@ const CustomerCreate = () => {
   };
 
   return (
-    <div className="agro-container">
-      <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
-        <form onSubmit={handleFinalSave} className="agro-card" style={{ padding: 0, overflow: 'hidden' }}>
-          <div className="agro-card-header" style={{ padding: '30px', background: 'white' }}>
-            <div>
-              <h2 style={{ fontSize: '24px' }}>New Customer Registration</h2>
-              <p>Fill in the details to register a new customer record</p>
+    <div className="agro-container" style={{ padding: '0 25px' }}>
+      <form onSubmit={handleFinalSave} className="agro-unified-card" style={{ 
+        background: 'white', 
+        borderRadius: '16px', 
+        boxShadow: 'var(--shadow)',
+        border: '1px solid var(--border-light)',
+        marginTop: '5px',
+        overflow: 'hidden'
+      }}>
+        <div className="agro-header-compact" style={{ 
+          display: 'flex', 
+          alignItems: 'center', 
+          justifyContent: 'space-between', 
+          padding: '12px 20px',
+          borderBottom: '1px solid var(--border-light)',
+          background: 'white'
+        }}>
+          <div>
+            <h2 style={{ fontSize: '18px', marginBottom: '1px' }}>New Customer Registration</h2>
+            <p style={{ fontSize: '12px', margin: 0 }}>Register a new farmer or customer record</p>
+          </div>
+          <button type="button" className="btn-agro btn-outline" onClick={() => navigate('/customers')} style={{ height: '34px', padding: '0 12px', fontSize: '12px' }}>
+            <ArrowLeft size={16} /> Back
+          </button>
+        </div>
+
+        <div style={{ padding: '15px 20px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
+            <div className="form-section-title" style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '0', color: 'var(--primary)' }}>
+              <User size={16} />
+              <h3 style={{ fontSize: '13px', margin: 0, fontWeight: '700' }}>Customer Information</h3>
             </div>
-            <button type="button" className="btn-agro btn-outline" onClick={() => navigate('/customers')}>
-              <ArrowLeft size={18} /> Back to List
-            </button>
-          </div>
+            
+            <FormField label="Full Name" name="name" value={formData.name} onChange={handleChange} required placeholder="Enter customer name" />
+            
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+              <FormField label="Mobile Number" name="mobile" value={formData.mobile} onChange={handleChange} required placeholder="10 digit number" />
+              <FormField label="Email Address" name="email" type="email" value={formData.email} onChange={handleChange} placeholder="Optional" />
+            </div>
 
-          <div style={{ padding: '40px' }}>
-            <div className="form-grid">
-              {/* Column 1: Personal Info */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                <div className="form-section-title" style={{ marginBottom: '10px' }}>
-                  <User size={18} />
-                  <h3 style={{ fontSize: '14px', margin: 0 }}>Personal Information</h3>
-                </div>
-                
-                <FormField label="Full Name" name="name" value={formData.name} onChange={handleChange} required placeholder="Enter customer name" />
-                <FormField label="Mobile Number" name="mobile" value={formData.mobile} onChange={handleChange} required placeholder="10 digit number" />
-                <FormField label="Email Address" name="email" type="email" value={formData.email} onChange={handleChange} placeholder="Optional" />
-                <FormField label="GST Number" name="gstNo" value={formData.gstNo} onChange={handleChange} placeholder="Optional GSTIN" />
-                
-
+            <FormField label="GST Number" name="gstNo" value={formData.gstNo} onChange={handleChange} placeholder="Optional GSTIN" />
+            
+            <div style={{ marginTop: '5px' }}>
+              <div className="form-section-title" style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '0', color: 'var(--primary)' }}>
+                <MapPin size={16} />
+                <h3 style={{ fontSize: '13px', margin: 0, fontWeight: '700' }}>Address Details</h3>
               </div>
-
-              {/* Column 2: Address Info */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                <div className="form-section-title" style={{ marginBottom: '10px' }}>
-                  <MapPin size={18} />
-                  <h3 style={{ fontSize: '14px', margin: 0 }}>Residential Address</h3>
-                </div>
-                
-                <FormField label="Full Address" name="address" type="textarea" value={formData.address} onChange={handleChange} required placeholder="Enter detailed address" />
-              </div>
+              <FormField label="Full Address" name="address" type="textarea" value={formData.address} onChange={handleChange} required placeholder="Enter detailed address" />
             </div>
           </div>
+        </div>
 
-          <div style={{ 
-            padding: '25px 40px', 
-            background: '#f9fafb', 
-            borderTop: '1px solid var(--border-light)', 
-            display: 'flex', 
-            justifyContent: 'flex-end', 
-            gap: '15px' 
-          }}>
-            <button type="button" className="btn-agro btn-outline" onClick={() => navigate('/customers')} style={{ minWidth: '120px' }}>
-              <X size={18} /> Cancel
-            </button>
-            <button type="submit" className="btn-agro btn-primary" style={{ minWidth: '180px' }}>
-              <Save size={18} /> Save Customer
-            </button>
-          </div>
-        </form>
-      </div>
+        <div style={{ 
+          padding: '10px 20px', 
+          background: '#f8fafc', 
+          borderTop: '1px solid var(--border-light)', 
+          display: 'flex', 
+          justifyContent: 'flex-end', 
+          gap: '10px' 
+        }}>
+          <button type="button" className="btn-agro btn-outline" onClick={() => navigate('/customers')} style={{ height: '36px', minWidth: '100px', fontSize: '13px' }}>
+            <X size={16} /> Cancel
+          </button>
+          <button type="submit" className="btn-agro btn-primary" style={{ height: '36px', minWidth: '140px', fontSize: '13px' }}>
+            <Save size={16} /> Save Customer
+          </button>
+        </div>
+      </form>
     </div>
   );
 };
