@@ -9,7 +9,13 @@ import Dashboard from './adminauth/pages/dashboard/Dashboard';
 import RoleManagement from './adminauth/pages/dashboard/RoleManagement';
 import UserManagement from './adminauth/pages/dashboard/UserManagement';
 import ModulePage from './adminauth/pages/dashboard/ModulePage';
-import { Suppliers, Customers, Categories, Taxes, Products } from './mastermodel/pages';
+import { 
+  Suppliers, SupplierCreate, SupplierEdit, SupplierView,
+  Customers, CustomerCreate, CustomerEdit, CustomerView,
+  Categories, CategoryCreate, CategoryEdit,
+  Taxes, TaxCreate, TaxEdit,
+  Products, ProductCreate, ProductEdit, ProductView 
+} from './mastermodel/pages';
 
 import SaleEntry from './sales/SaleEntry';
 import Quotation from './sales/Quotation';
@@ -38,12 +44,36 @@ const AppRoutes = () => {
         <Route path="dashboard" element={<Dashboard />} />
 
         {/* Master Model Routes */}
-        <Route path="products" element={<Products />} />
-        <Route path="customers" element={<Customers />} />
-        <Route path="suppliers" element={<Suppliers />} />
-        <Route path="categories" element={<Categories />} />
-        <Route path="taxes" element={<Taxes />} />
-        <Route path="tax" element={<Taxes />} />
+        <Route path="products">
+          <Route index element={<Products />} />
+          <Route path="create" element={<ProductCreate />} />
+          <Route path="edit/:id" element={<ProductEdit />} />
+          <Route path="view/:id" element={<ProductView />} />
+        </Route>
+        <Route path="customers">
+          <Route index element={<Customers />} />
+          <Route path="create" element={<CustomerCreate />} />
+          <Route path="edit/:id" element={<CustomerEdit />} />
+          <Route path="view/:id" element={<CustomerView />} />
+        </Route>
+        
+        <Route path="suppliers">
+          <Route index element={<Suppliers />} />
+          <Route path="create" element={<SupplierCreate />} />
+          <Route path="edit/:id" element={<SupplierEdit />} />
+          <Route path="view/:id" element={<SupplierView />} />
+        </Route>
+
+        <Route path="categories">
+          <Route index element={<Categories />} />
+          <Route path="create" element={<CategoryCreate />} />
+          <Route path="edit/:id" element={<CategoryEdit />} />
+        </Route>
+        <Route path="taxes">
+          <Route index element={<Taxes />} />
+          <Route path="create" element={<TaxCreate />} />
+          <Route path="edit/:id" element={<TaxEdit />} />
+        </Route>
         
         {/* Sales Routes */}
         <Route path="sales">

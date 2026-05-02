@@ -30,6 +30,11 @@ const saveDB = () => {
 export const MockService = {
   getAll: (module) => Promise.resolve(db[module] || []),
   
+  getById: (module, id) => {
+    const item = db[module].find(i => i.id === Number(id));
+    return Promise.resolve(item || null);
+  },
+  
   add: (module, item) => {
     const newItem = { 
       ...item, 

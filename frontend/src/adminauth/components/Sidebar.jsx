@@ -68,7 +68,7 @@ const Sidebar = () => {
       ]
     },
 
-    { name: 'Tax', icon: <Percent size={20} />, path: '/tax', module: 'tax', action: 'view' },
+    { name: 'Tax', icon: <Percent size={20} />, path: '/taxes', module: 'tax', action: 'view' },
     { name: 'Users', icon: <UserPlus size={20} />, path: '/users', module: 'users', action: 'manage' },
     { name: 'Roles', icon: <ShieldCheck size={20} />, path: '/roles', module: 'roles', action: 'manage' },
   ];
