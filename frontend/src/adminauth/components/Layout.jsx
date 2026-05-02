@@ -282,7 +282,7 @@ const Layout = () => {
           </header>
         )}
 
-        <div style={{ padding: '10px 0', flex: 1 }}>
+        <div style={{ padding: '40px', flex: 1, overflowX: 'hidden' }}>
           <motion.div
             key={location.pathname}
             initial={{ opacity: 0, y: 10 }}
