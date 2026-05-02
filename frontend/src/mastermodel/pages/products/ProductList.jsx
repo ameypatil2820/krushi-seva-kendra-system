@@ -18,13 +18,13 @@ const ProductList = () => {
     { header: 'Code', accessor: 'code' },
     { header: 'Category', accessor: 'category' },
     {
-      header: 'Available Qty (नग)',
+      header: 'Current Stock',
       render: (row) => {
         const isLowStock = Number(row.currentStock) <= Number(row.minStock);
         return (
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <span style={{ fontWeight: '700', color: isLowStock ? '#ef4444' : '#16a34a' }}>
-              {row.currentStock || 0} {row.unit}
+              {row.currentStock || 0} {row.secondaryUnit}
             </span>
             {isLowStock && (
               <span className="badge badge-danger" style={{ fontSize: '10px', padding: '2px 8px' }}>
