@@ -111,7 +111,7 @@ const NewPurchaseOrder = () => {
               className="input-field"
               value={master.orderDate}
               onChange={(e) => setMaster({...master, orderDate: e.target.value})}
-              style={{ colorScheme: 'dark' }}
+              
             />
           </div>
           <div className="input-group">
@@ -121,7 +121,7 @@ const NewPurchaseOrder = () => {
               className="input-field"
               value={master.expiryDate}
               onChange={(e) => setMaster({...master, expiryDate: e.target.value})}
-              style={{ colorScheme: 'dark' }}
+              
             />
           </div>
         </div>
