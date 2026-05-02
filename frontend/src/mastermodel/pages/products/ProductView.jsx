@@ -97,26 +97,28 @@ const ProductView = () => {
                 </div>
 
                 <div style={{ padding: '16px', background: '#fcfcfc', borderRadius: '12px', border: '1px solid #f3f4f6' }}>
-                  <label style={{ display: 'block', color: '#9ca3af', fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', marginBottom: '6px' }}>Packing / Unit</label>
-                  <div style={{ fontSize: '16px', color: '#111827', fontWeight: '700' }}>{formData.packing || 'N/A'} {formData.unit}</div>
-                </div>
-
-                <div style={{ padding: '16px', background: '#fcfcfc', borderRadius: '12px', border: '1px solid #f3f4f6' }}>
                   <label style={{ display: 'block', color: '#9ca3af', fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', marginBottom: '6px' }}>Company</label>
                   <div style={{ fontSize: '16px', color: '#111827', fontWeight: '700' }}>{formData.company || 'N/A'}</div>
                 </div>
 
                 <div style={{ padding: '16px', background: '#fcfcfc', borderRadius: '12px', border: '1px solid #f3f4f6' }}>
-                  <label style={{ display: 'block', color: '#9ca3af', fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', marginBottom: '6px' }}>Available Quantity (नग)</label>
+                  <label style={{ display: 'block', color: '#9ca3af', fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', marginBottom: '6px' }}>Unit Conversion</label>
+                  <div style={{ fontSize: '15px', color: '#111827', fontWeight: '700' }}>
+                    1 {formData.primaryUnit} = {formData.conversionFactor} {formData.secondaryUnit}
+                  </div>
+                </div>
+
+                <div style={{ padding: '16px', background: '#fcfcfc', borderRadius: '12px', border: '1px solid #f3f4f6' }}>
+                  <label style={{ display: 'block', color: '#9ca3af', fontSize: '11px', fontWeight: '700', textTransform: 'uppercase', marginBottom: '6px' }}>Current Stock</label>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
                     <div style={{ fontSize: '24px', color: Number(formData.currentStock) <= Number(formData.minStock) ? '#ef4444' : '#16a34a', fontWeight: '800' }}>
-                      {formData.currentStock || 0} {formData.unit}
+                      {formData.currentStock || 0} {formData.secondaryUnit}
                     </div>
                     {Number(formData.currentStock) <= Number(formData.minStock) && (
                       <span className="badge badge-danger" style={{ padding: '4px 12px' }}>⚠️ Low Stock Warning</span>
                     )}
                   </div>
-                  <div style={{ fontSize: '12px', color: '#6b7280', marginTop: '5px' }}>Minimum Level: {formData.minStock} {formData.unit}</div>
+                  <div style={{ fontSize: '12px', color: '#6b7280', marginTop: '5px' }}>Low Stock Alert: {formData.minStock} {formData.secondaryUnit}</div>
                 </div>
 
                 <div style={{ padding: '16px', background: '#fcfcfc', borderRadius: '12px', border: '1px solid #f3f4f6' }}>

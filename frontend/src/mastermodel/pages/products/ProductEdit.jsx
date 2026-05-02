@@ -16,7 +16,7 @@ const ProductEdit = () => {
   const [formData, setFormData] = useState({
     name: '', code: '', category: '', tax: '',
     company: '', primaryUnit: '', secondaryUnit: '', conversionFactor: '', 
-    packing: '', minStock: '', currentStock: '',
+    minStock: '', currentStock: '',
     expiryRequired: false, isActive: true
   });
 
@@ -96,12 +96,18 @@ const ProductEdit = () => {
                   <FormField label="Company" name="company" value={formData.company} onChange={handleChange} placeholder="e.g. ABC Ltd" />
 
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '15px' }}>
-                    <SearchableSelect label="Primary Unit (Purchase)" options={['Box', 'Bag', 'Case', 'Crate', 'Drum', 'Nos']} value={formData.primaryUnit} onChange={(e) => setFormData(prev => ({ ...prev, primaryUnit: e.target.value }))} required />
-                    <SearchableSelect label="Secondary Unit (Sale)" options={['Nos', 'Kg', 'Ltr', 'Pcs', 'Gm', 'Ml', 'Packet']} value={formData.secondaryUnit} onChange={(e) => setFormData(prev => ({ ...prev, secondaryUnit: e.target.value }))} required />
-                    <FormField label="Conversion Factor" name="conversionFactor" type="number" value={formData.conversionFactor} onChange={handleChange} required placeholder="e.g. 10" />
+                    <SearchableSelect label="Purchase Unit" options={['Box', 'Bag', 'Case', 'Crate', 'Drum', 'Nos']} value={formData.primaryUnit} onChange={(e) => setFormData(prev => ({ ...prev, primaryUnit: e.target.value }))} required />
+                    <SearchableSelect label="Sale Unit" options={['Nos', 'Kg', 'Ltr', 'Pcs', 'Gm', 'Ml', 'Packet']} value={formData.secondaryUnit} onChange={(e) => setFormData(prev => ({ ...prev, secondaryUnit: e.target.value }))} required />
+                    <FormField 
+                      label={formData.primaryUnit && formData.secondaryUnit ? `1 ${formData.primaryUnit} = ${formData.conversionFactor || '?'} ${formData.secondaryUnit}` : "Qty in 1 Unit"} 
+                      name="conversionFactor" 
+                      type="number" 
+                      value={formData.conversionFactor} 
+                      onChange={handleChange} 
+                      required 
+                      placeholder="e.g. 10" 
+                    />
                   </div>
-
-                  <FormField label="Packing Details" name="packing" value={formData.packing} onChange={handleChange} placeholder="e.g. 500ml x 10 Bottles" />
                 </div>
               </div>
 
@@ -112,8 +118,8 @@ const ProductEdit = () => {
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
-                    <FormField label="Available Quantity" name="currentStock" type="number" value={formData.currentStock} onChange={handleChange} required placeholder="0" />
-                    <FormField label="Min Stock Level" name="minStock" type="number" value={formData.minStock} onChange={handleChange} required placeholder="5" />
+                    <FormField label="Current Stock" name="currentStock" type="number" value={formData.currentStock} onChange={handleChange} required placeholder="0" />
+                    <FormField label="Low Stock Alert" name="minStock" type="number" value={formData.minStock} onChange={handleChange} required placeholder="5" />
                   </div>
 
                   <div style={{ marginTop: '10px', padding: '20px', background: 'var(--primary-soft)', borderRadius: '15px', border: '1px solid #dcfce7', display: 'flex', flexDirection: 'column', gap: '12px' }}>

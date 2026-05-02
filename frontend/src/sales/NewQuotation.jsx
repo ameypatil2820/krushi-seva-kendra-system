@@ -124,7 +124,7 @@ const NewQuotation = () => {
               className="input-field"
               value={master.date}
               onChange={(e) => setMaster({...master, date: e.target.value})}
-              style={{ colorScheme: 'dark' }}
+              
             />
           </div>
           <div className="input-group">
@@ -134,7 +134,7 @@ const NewQuotation = () => {
               className="input-field"
               value={master.validUntil}
               onChange={(e) => setMaster({...master, validUntil: e.target.value})}
-              style={{ colorScheme: 'dark' }}
+              
             />
           </div>
         </div>

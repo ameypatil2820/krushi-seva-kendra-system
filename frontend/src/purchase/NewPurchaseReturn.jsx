@@ -122,7 +122,7 @@ const NewPurchaseReturn = () => {
               className="input-field"
               value={master.returnDate}
               onChange={(e) => setMaster({...master, returnDate: e.target.value})}
-              style={{ colorScheme: 'dark' }}
+              
             />
           </div>
         </div>
