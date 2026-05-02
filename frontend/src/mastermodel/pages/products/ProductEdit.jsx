@@ -118,8 +118,8 @@ const ProductEdit = () => {
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
-                    <FormField label="Available Quantity" name="currentStock" type="number" value={formData.currentStock} onChange={handleChange} required placeholder="0" />
-                    <FormField label="Min Stock Level" name="minStock" type="number" value={formData.minStock} onChange={handleChange} required placeholder="5" />
+                    <FormField label="Current Stock" name="currentStock" type="number" value={formData.currentStock} onChange={handleChange} required placeholder="0" />
+                    <FormField label="Low Stock Alert" name="minStock" type="number" value={formData.minStock} onChange={handleChange} required placeholder="5" />
                   </div>
 
                   <div style={{ marginTop: '10px', padding: '20px', background: 'var(--primary-soft)', borderRadius: '15px', border: '1px solid #dcfce7', display: 'flex', flexDirection: 'column', gap: '12px' }}>
