@@ -157,7 +157,7 @@ const NewSaleReturn = () => {
           <tbody>
             {items.map((item, idx) => (
               <tr key={item.id} style={{ borderBottom: '1px solid var(--glass-border)' }}>
-                <td style={{ padding: '8px', minWidth: '250px' }}>
+                <td style={{ padding: '8px', width: '200px' }}>
                   <SearchableSelect 
                     options={products}
                     value={item.productId}
