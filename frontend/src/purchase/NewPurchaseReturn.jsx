@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { MockService } from '../mastermodel/services/MockService';
 import SearchableSelect from './SearchableSelect';
 
+import '../mastermodel/styles/MasterModel.css';
+
 const NewPurchaseReturn = () => {
   const navigate = useNavigate();
   const [suppliers, setSuppliers] = useState([]);
@@ -81,124 +83,127 @@ const NewPurchaseReturn = () => {
   };
 
   return (
-    <div className="animate-fade">
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '25px' }}>
-        <div>
-          <h2 style={{ color: '#f59e0b', margin: 0 }}>New Purchase Return</h2>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Return items to your supplier</p>
+    <div className="agro-container" style={{ padding: '0 25px' }}>
+      <div className="agro-unified-card" style={{ 
+        background: 'white', 
+        borderRadius: '16px', 
+        boxShadow: 'var(--shadow)',
+        border: '1px solid var(--border-light)',
+        marginTop: '5px',
+        overflow: 'hidden'
+      }}>
+        <div className="agro-header-compact" style={{ 
+          display: 'flex', 
+          alignItems: 'center', 
+          justifyContent: 'space-between', 
+          padding: '12px 20px',
+          borderBottom: '1px solid var(--border-light)',
+          background: 'white'
+        }}>
+          <div>
+            <h2 style={{ fontSize: '18px', marginBottom: '1px', color: '#ef4444' }}>New Purchase Return</h2>
+            <p style={{ fontSize: '12px', margin: 0 }}>Return items to your supplier</p>
+          </div>
+          <button className="btn-agro btn-outline" onClick={() => navigate('/purchase/returns')} style={{ height: '34px', padding: '0 12px', fontSize: '12px' }}>
+            <ArrowLeft size={16} /> Back
+          </button>
         </div>
-        <button className="btn btn-secondary" onClick={() => navigate('/purchase/returns')}>
-          <ArrowLeft size={18} /> Back to List
-        </button>
-      </div>
 
-      <div className="glass-card" style={{ padding: '25px', marginBottom: '25px' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px' }}>
-          <div className="input-group">
-            <label><FileText size={14} /> Original Purchase ID</label>
-            <input 
-              type="text" 
-              className="input-field" 
-              placeholder="e.g. PUR-101"
-              value={master.purchaseId}
-              onChange={(e) => setMaster({...master, purchaseId: e.target.value})}
-            />
-          </div>
-          <div className="input-group">
-            <label><Truck size={14} /> Supplier</label>
-            <SearchableSelect 
-              options={suppliers}
-              value={master.supplierId}
-              onChange={(val) => setMaster({...master, supplierId: val})}
-              placeholder="Search Supplier..."
-              textColor="#0f172a"
-              bgColor="#ffffff"
-            />
-          </div>
-          <div className="input-group">
-            <label><Calendar size={14} /> Return Date</label>
-            <input 
-              type="date" 
-              className="input-field"
-              value={master.returnDate}
-              onChange={(e) => setMaster({...master, returnDate: e.target.value})}
-              
-            />
-          </div>
-        </div>
-        <div className="input-group" style={{ marginTop: '20px' }}>
-          <label>Reason for Return</label>
-          <textarea 
-            className="input-field" 
-            placeholder="Reason (e.g. Damaged goods, Wrong items...)"
-            value={master.reason}
-            onChange={(e) => setMaster({...master, reason: e.target.value})}
-            style={{ minHeight: '80px' }}
-          ></textarea>
-        </div>
-      </div>
-
-      <div className="glass-card" style={{ padding: '25px', marginBottom: '25px' }}>
-        <h4 style={{ marginBottom: '20px' }}>Return Items</h4>
-        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-          <thead>
-            <tr style={{ textAlign: 'left', borderBottom: '1px solid var(--border)' }}>
-              <th style={{ padding: '12px' }}>Product Name</th>
-              <th style={{ padding: '12px' }}>Quantity</th>
-              <th style={{ padding: '12px' }}>Purchase Price</th>
-              <th style={{ padding: '12px' }}>Amount</th>
-              <th style={{ padding: '12px' }}></th>
-            </tr>
-          </thead>
-          <tbody>
-            {items.map((item, idx) => (
-              <tr key={item.id} style={{ borderBottom: '1px solid var(--glass-border)' }}>
-                <td style={{ padding: '8px', width: '200px' }}>
-                  <SearchableSelect 
-                    options={products}
-                    value={item.productId}
-                    onChange={(val, data) => handleItemChange(item.id, 'productId', val, data)}
-                    onEnterSelect={handleProductEnterSelect}
-                    placeholder="Search Product..."
-                    icon={Package}
+        <div style={{ padding: '15px 20px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+            {/* Return Info Section */}
+            <div style={{ padding: '12px', background: '#fef2f2', borderRadius: '12px', border: '1px solid #fee2e2' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '10px', color: '#ef4444' }}>
+                <RotateCcw size={16} />
+                <h3 style={{ fontSize: '13px', margin: 0, fontWeight: '700' }}>Return Details</h3>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr 1fr', gap: '10px' }}>
+                <div className="form-group" style={{ margin: 0 }}>
+                  <label style={{ fontSize: '12px', marginBottom: '3px' }}>Purchase ID</label>
+                  <input type="text" className="form-control" style={{ height: '36px', fontSize: '13px' }} placeholder="PUR-101" value={master.purchaseId} onChange={(e) => setMaster({...master, purchaseId: e.target.value})} />
+                </div>
+                <div className="form-group" style={{ margin: 0 }}>
+                  <label style={{ fontSize: '12px', marginBottom: '3px' }}>Supplier</label>
+                  <SearchableSelect
+                    options={suppliers}
+                    value={master.supplierId}
+                    onChange={(val) => setMaster({...master, supplierId: val})}
+                    placeholder="Search Supplier..."
                     height="36px"
-                    padding="0 8px"
-                    textColor="#0f172a"
-                    bgColor="#ffffff"
-                    inputRef={el => rowRefs.current[item.id] = el}
                   />
-                </td>
-                <td style={{ padding: '8px' }}>
-                  <input type="number" className="input-field" style={{ width: '80px' }} value={item.quantity} onChange={(e) => handleItemChange(item.id, 'quantity', e.target.value)} onKeyDown={(e) => handleEnterNavigation(e, idx)} />
-                </td>
-                <td style={{ padding: '8px' }}>
-                  <input type="number" className="input-field" style={{ width: '120px' }} value={item.purchasePrice} onChange={(e) => handleItemChange(item.id, 'purchasePrice', e.target.value)} onKeyDown={(e) => handleEnterNavigation(e, idx)} />
-                </td>
-                <td style={{ padding: '12px', fontWeight: '600' }}>₹{item.amount.toFixed(2)}</td>
-                <td style={{ padding: '8px' }}>
-                  <button onClick={() => setItems(items.filter(i => i.id !== item.id))} style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer' }}>
-                    <Trash2 size={18} />
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        <button className="btn btn-secondary" onClick={() => addItem(true)} style={{ marginTop: '15px' }}>
-          <Plus size={16} /> Add Product
-        </button>
+                </div>
+                <div className="form-group" style={{ margin: 0 }}>
+                  <label style={{ fontSize: '12px', marginBottom: '3px' }}>Return Date</label>
+                  <input type="date" className="form-control" style={{ height: '36px', fontSize: '13px' }} value={master.returnDate} onChange={(e) => setMaster({...master, returnDate: e.target.value})} />
+                </div>
+              </div>
+              <div className="form-group" style={{ margin: '10px 0 0 0' }}>
+                <label style={{ fontSize: '12px', marginBottom: '3px' }}>Reason for Return</label>
+                <textarea className="form-control" style={{ fontSize: '13px', minHeight: '60px', resize: 'none' }} placeholder="Reason..." value={master.reason} onChange={(e) => setMaster({...master, reason: e.target.value})} />
+              </div>
+            </div>
 
-        <div style={{ marginTop: '30px', textAlign: 'right' }}>
-          <p style={{ color: 'var(--text-secondary)', marginBottom: '5px' }}>Total Return Value</p>
-          <h2 style={{ color: '#f59e0b', margin: 0 }}>₹{items.reduce((sum, i) => sum + i.amount, 0).toFixed(2)}</h2>
+            {/* Item Table Section */}
+            <div style={{ border: '1px solid var(--border-light)', borderRadius: '12px', overflow: 'hidden' }}>
+              <div style={{ padding: '10px 15px', background: '#f8fafc', borderBottom: '1px solid var(--border-light)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--primary)' }}>
+                  <Package size={16} />
+                  <h3 style={{ fontSize: '13px', margin: 0, fontWeight: '700' }}>Return Items</h3>
+                </div>
+                <button className="btn-agro btn-primary" onClick={addItem} style={{ height: '28px', padding: '0 10px', fontSize: '11px' }}>
+                  <Plus size={14} /> Add Row
+                </button>
+              </div>
+              <div className="agro-table-wrapper-simple" style={{ overflowX: 'auto' }}>
+                <table className="agro-table" style={{ border: 'none' }}>
+                  <thead>
+                    <tr>
+                      <th style={{ width: '250px' }}>Product Name</th>
+                      <th style={{ width: '100px' }}>Quantity</th>
+                      <th style={{ width: '120px' }}>Purchase Price</th>
+                      <th style={{ width: '150px' }}>Amount</th>
+                      <th style={{ width: '40px' }}></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {items.map((item, idx) => (
+                      <tr key={item.id}>
+                        <td>
+                          <SearchableSelect
+                            options={products}
+                            value={item.productId}
+                            onChange={(val, data) => handleItemChange(item.id, 'productId', val, data)}
+                            onEnterSelect={handleProductEnterSelect}
+                            placeholder="Search Product..."
+                            height="34px"
+                            inputRef={el => rowRefs.current[item.id] = el}
+                          />
+                        </td>
+                        <td><input type="number" className="form-control" style={{ height: '34px', fontSize: '13px' }} value={item.quantity} onChange={(e) => handleItemChange(item.id, 'quantity', e.target.value)} onKeyDown={(e) => handleEnterNavigation(e, idx)} /></td>
+                        <td><input type="number" className="form-control" style={{ height: '34px', fontSize: '13px' }} value={item.purchasePrice} onChange={(e) => handleItemChange(item.id, 'purchasePrice', e.target.value)} onKeyDown={(e) => handleEnterNavigation(e, idx)} /></td>
+                        <td style={{ fontSize: '13px', fontWeight: '700' }}>₹{item.amount.toFixed(2)}</td>
+                        <td style={{ textAlign: 'center' }}>
+                          <button onClick={() => setItems(items.filter(i => i.id !== item.id))} style={{ border: 'none', background: 'none', color: '#ef4444', cursor: 'pointer' }}><Trash2 size={16} /></button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '20px', marginTop: '5px' }}>
+              <div style={{ textAlign: 'right', padding: '15px 25px', background: '#fef2f2', borderRadius: '12px', border: '1px solid #fee2e2', minWidth: '220px' }}>
+                <p style={{ margin: '0 0 5px 0', fontSize: '12px', color: '#ef4444' }}>Total Return Value</p>
+                <h2 style={{ margin: 0, fontSize: '24px', fontWeight: '800', color: '#ef4444' }}>₹{items.reduce((sum, i) => sum + i.amount, 0).toFixed(2)}</h2>
+                <div style={{ display: 'flex', gap: '10px', marginTop: '15px' }}>
+                  <button className="btn-agro btn-outline" onClick={() => navigate('/purchase/returns')} style={{ flex: 1, height: '38px', fontSize: '13px' }}>Cancel</button>
+                  <button className="btn-agro btn-primary" style={{ flex: 1, height: '38px', fontSize: '13px', background: '#ef4444' }}><RotateCcw size={18} /> Confirm Return</button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-
-      <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '15px' }}>
-        <button className="btn btn-secondary" onClick={() => navigate('/purchase/returns')}>Cancel</button>
-        <button className="btn" style={{ background: '#f59e0b', color: 'white', padding: '10px 30px' }}>
-          <RotateCcw size={18} /> Confirm Return
-        </button>
       </div>
     </div>
   );

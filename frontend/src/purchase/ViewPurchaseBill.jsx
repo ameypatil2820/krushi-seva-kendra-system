@@ -3,6 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, FileText, Calendar, User, Package, IndianRupee, Printer, CheckCircle, Clock } from 'lucide-react';
 import { MockService } from '../mastermodel/services/MockService';
 
+import '../mastermodel/styles/MasterModel.css';
+
 const ViewPurchaseBill = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -54,7 +56,7 @@ const ViewPurchaseBill = () => {
   };
 
   return (
-    <div className="animate-fade print-area">
+    <div className="agro-container print-area" style={{ padding: '0 25px' }}>
       <style>
         {`
           @media screen {
@@ -64,6 +66,9 @@ const ViewPurchaseBill = () => {
             .print-only-header { display: block !important; margin-bottom: 30px; text-align: center; border-bottom: 2px solid #000; padding-bottom: 15px; }
             .print-only-header h1 { margin: 0 0 5px 0; font-size: 24px; color: #000; letter-spacing: 1px; }
             .print-only-header p { margin: 0; font-size: 14px; color: #444; }
+            .no-print { display: none !important; }
+            .agro-container { padding: 0 !important; }
+            .agro-unified-card { border: none !important; box-shadow: none !important; }
           }
         `}
       </style>
@@ -74,129 +79,127 @@ const ViewPurchaseBill = () => {
         <p>Purchase Bill / Inward Documentation</p>
       </div>
 
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '25px' }}>
-        <div>
-          <h2 style={{ color: 'var(--primary)', margin: 0, display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <FileText size={24} /> Purchase Bill Details
-          </h2>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginTop: '5px' }}>
-            Viewing details for Bill ID: <strong style={{ color: 'white' }}>{billData.id}</strong>
-          </p>
-        </div>
-        <div className="no-print" style={{ display: 'flex', gap: '10px' }}>
-          <button className="btn btn-secondary" onClick={() => window.print()}>
-            <Printer size={18} /> Print
-          </button>
-          <button className="btn btn-secondary" onClick={() => navigate('/purchase/bills')}>
-            <ArrowLeft size={18} /> Back
-          </button>
-        </div>
-      </div>
-
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '25px' }}>
-        {/* General Details Card */}
-        <div className="glass-card" style={{ padding: '25px' }}>
-          <h4 style={{ marginBottom: '20px', borderBottom: '1px solid var(--border)', paddingBottom: '10px', color: 'var(--primary)' }}>General Info</h4>
-          
-          <div style={{ display: 'grid', gridTemplateColumns: '120px 1fr', gap: '15px', fontSize: '0.95rem' }}>
-            <div style={{ color: 'var(--text-secondary)' }}>Bill ID</div>
-            <div style={{ fontWeight: '600' }}>{billData.id}</div>
-
-            <div style={{ color: 'var(--text-secondary)' }}>Bill Date</div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <Calendar size={14} color="var(--text-secondary)" /> {billData.billDate}
-            </div>
-
-            <div style={{ color: 'var(--text-secondary)' }}>Payment Mode</div>
-            <div>{billData.paymentType}</div>
-
-            <div style={{ color: 'var(--text-secondary)' }}>Status</div>
-            <div>{getStatusBadge(billData.status)}</div>
+      <div className="agro-unified-card" style={{ 
+        background: 'white', 
+        borderRadius: '16px', 
+        boxShadow: 'var(--shadow)',
+        border: '1px solid var(--border-light)',
+        marginTop: '5px',
+        overflow: 'hidden'
+      }}>
+        <div className="agro-header-compact" style={{ 
+          display: 'flex', 
+          alignItems: 'center', 
+          justifyContent: 'space-between', 
+          padding: '15px 20px',
+          borderBottom: '1px solid var(--border-light)',
+          background: 'white'
+        }}>
+          <div>
+            <h2 style={{ fontSize: '18px', marginBottom: '1px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <FileText size={20} color="var(--primary)" /> Purchase Bill: {billData.id}
+            </h2>
+            <p style={{ fontSize: '12px', margin: 0 }}>Reviewing inward stock documentation</p>
+          </div>
+          <div className="no-print" style={{ display: 'flex', gap: '10px' }}>
+            <button className="btn-agro btn-outline" onClick={() => window.print()} style={{ height: '34px', padding: '0 12px', fontSize: '12px' }}>
+              <Printer size={16} /> Print
+            </button>
+            <button className="btn-agro btn-outline" onClick={() => navigate('/purchase/bills')} style={{ height: '34px', padding: '0 12px', fontSize: '12px' }}>
+              <ArrowLeft size={16} /> Back
+            </button>
           </div>
         </div>
 
-        {/* Supplier Details Card */}
-        <div className="glass-card" style={{ padding: '25px' }}>
-          <h4 style={{ marginBottom: '20px', borderBottom: '1px solid var(--border)', paddingBottom: '10px', color: 'var(--primary)' }}>Supplier Info</h4>
-          
-          <div style={{ display: 'grid', gridTemplateColumns: '120px 1fr', gap: '15px', fontSize: '0.95rem' }}>
-            <div style={{ color: 'var(--text-secondary)' }}>Supplier ID</div>
-            <div>{billData.supplierId}</div>
+        <div style={{ padding: '20px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '20px', marginBottom: '20px' }}>
+            {/* General Info */}
+            <div style={{ padding: '15px', background: '#f8fafc', borderRadius: '12px', border: '1px solid var(--border-light)' }}>
+              <h3 style={{ fontSize: '13px', margin: '0 0 12px 0', fontWeight: '700', color: 'var(--primary)', borderBottom: '1px solid #e2e8f0', paddingBottom: '8px' }}>General Details</h3>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '15px' }}>
+                <div>
+                  <label style={{ fontSize: '11px', color: '#64748b', display: 'block', marginBottom: '2px' }}>Bill Date</label>
+                  <div style={{ fontSize: '13px', fontWeight: '600' }}>{billData.billDate}</div>
+                </div>
+                <div>
+                  <label style={{ fontSize: '11px', color: '#64748b', display: 'block', marginBottom: '2px' }}>Payment Mode</label>
+                  <div style={{ fontSize: '13px', fontWeight: '600' }}>{billData.paymentType}</div>
+                </div>
+                <div>
+                  <label style={{ fontSize: '11px', color: '#64748b', display: 'block', marginBottom: '2px' }}>Status</label>
+                  <div>{getStatusBadge(billData.status)}</div>
+                </div>
+              </div>
+            </div>
 
-            <div style={{ color: 'var(--text-secondary)' }}>Supplier Name</div>
-            <div style={{ fontWeight: '600', display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <User size={16} color="var(--primary)" /> {billData.supplierName}
+            {/* Supplier Info */}
+            <div style={{ padding: '15px', background: '#f8fafc', borderRadius: '12px', border: '1px solid var(--border-light)' }}>
+              <h3 style={{ fontSize: '13px', margin: '0 0 12px 0', fontWeight: '700', color: 'var(--primary)', borderBottom: '1px solid #e2e8f0', paddingBottom: '8px' }}>Supplier Info</h3>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '12px' }}>
+                <div>
+                  <label style={{ fontSize: '11px', color: '#64748b', display: 'block', marginBottom: '2px' }}>Supplier Name</label>
+                  <div style={{ fontSize: '14px', fontWeight: '700', color: 'var(--primary)' }}>{billData.supplierName}</div>
+                  <div style={{ fontSize: '11px', color: '#64748b' }}>ID: {billData.supplierId}</div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
 
-      {/* Bill Products Table */}
-      <div className="glass-card" style={{ padding: '25px' }}>
-        <h4 style={{ marginBottom: '20px', borderBottom: '1px solid var(--border)', paddingBottom: '10px', color: 'var(--primary)' }}>Inward Products</h4>
-        
-        <div style={{ overflowX: 'auto' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-            <thead>
-              <tr style={{ background: 'rgba(255, 255, 255, 0.05)', textAlign: 'left' }}>
-                <th style={{ padding: '12px 15px' }}>Product</th>
-                <th style={{ padding: '12px 15px' }}>Batch</th>
-                <th style={{ padding: '12px 15px', textAlign: 'center' }}>Qty</th>
-                <th style={{ padding: '12px 15px', textAlign: 'right' }}>Purchase Price (₹)</th>
-                <th style={{ padding: '12px 15px', textAlign: 'right' }}>Tax (%)</th>
-                <th style={{ padding: '12px 15px', textAlign: 'right' }}>Total (₹)</th>
-              </tr>
-            </thead>
-            <tbody>
-              {items.map((item) => (
-                <tr key={item.id} style={{ borderBottom: '1px solid var(--glass-border)' }}>
-                  <td style={{ padding: '12px 15px' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontWeight: '500' }}>
-                      <Package size={16} color="var(--text-secondary)" />
-                      {item.productName}
-                    </div>
-                  </td>
-                  <td style={{ padding: '12px 15px', color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
-                    {item.batchNo}
-                  </td>
-                  <td style={{ padding: '12px 15px', textAlign: 'center', fontWeight: '600' }}>
-                    {item.quantity}
-                  </td>
-                  <td style={{ padding: '12px 15px', textAlign: 'right' }}>
-                    {item.purchasePrice.toFixed(2)}
-                  </td>
-                  <td style={{ padding: '12px 15px', textAlign: 'right', color: 'var(--text-secondary)' }}>
-                    {item.taxPercent}%
-                  </td>
-                  <td style={{ padding: '12px 15px', textAlign: 'right', fontWeight: '600' }}>
-                    {item.amount.toFixed(2)}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-            <tfoot>
-              <tr style={{ background: 'rgba(255, 255, 255, 0.02)' }}>
-                <td colSpan="5" style={{ padding: '15px', textAlign: 'right', color: 'var(--text-secondary)' }}>Sub Total:</td>
-                <td style={{ padding: '15px', textAlign: 'right', fontWeight: '600' }}>₹{billData.totalAmount.toFixed(2)}</td>
-              </tr>
-              <tr style={{ background: 'rgba(255, 255, 255, 0.02)' }}>
-                <td colSpan="5" style={{ padding: '15px', textAlign: 'right', color: 'var(--text-secondary)' }}>Total Tax:</td>
-                <td style={{ padding: '15px', textAlign: 'right', fontWeight: '600' }}>₹{billData.taxAmount.toFixed(2)}</td>
-              </tr>
-              <tr style={{ background: 'rgba(255, 255, 255, 0.05)' }}>
-                <td colSpan="5" style={{ padding: '15px', textAlign: 'right', fontWeight: '700', fontSize: '1.1rem', color: 'var(--primary)' }}>Grand Total:</td>
-                <td style={{ padding: '15px', textAlign: 'right', fontWeight: '700', fontSize: '1.1rem', color: 'var(--primary)' }}>₹{billData.grandTotal.toFixed(2)}</td>
-              </tr>
-              <tr>
-                <td colSpan="5" style={{ padding: '15px', textAlign: 'right', color: 'var(--success)', fontWeight: '600' }}>Paid Amount:</td>
-                <td style={{ padding: '15px', textAlign: 'right', color: 'var(--success)', fontWeight: '600' }}>₹{billData.paidAmount.toFixed(2)}</td>
-              </tr>
-              <tr>
-                <td colSpan="5" style={{ padding: '15px', textAlign: 'right', color: 'var(--danger)', fontWeight: '600' }}>Due Amount:</td>
-                <td style={{ padding: '15px', textAlign: 'right', color: 'var(--danger)', fontWeight: '600' }}>₹{billData.dueAmount.toFixed(2)}</td>
-              </tr>
-            </tfoot>
-          </table>
+          {/* Product Table */}
+          <div style={{ border: '1px solid var(--border-light)', borderRadius: '12px', overflow: 'hidden' }}>
+            <div className="agro-table-wrapper-simple">
+              <table className="agro-table" style={{ border: 'none' }}>
+                <thead>
+                  <tr>
+                    <th>Product</th>
+                    <th>Batch</th>
+                    <th style={{ textAlign: 'center' }}>Qty</th>
+                    <th style={{ textAlign: 'right' }}>Price (₹)</th>
+                    <th style={{ textAlign: 'right' }}>Tax (%)</th>
+                    <th style={{ textAlign: 'right' }}>Total (₹)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {items.map((item) => (
+                    <tr key={item.id}>
+                      <td style={{ fontWeight: '600' }}>{item.productName}</td>
+                      <td style={{ color: '#64748b', fontSize: '12px' }}>{item.batchNo}</td>
+                      <td style={{ textAlign: 'center', fontWeight: '700' }}>{item.quantity}</td>
+                      <td style={{ textAlign: 'right' }}>{item.purchasePrice.toFixed(2)}</td>
+                      <td style={{ textAlign: 'right', color: '#64748b' }}>{item.taxPercent}%</td>
+                      <td style={{ textAlign: 'right', fontWeight: '700' }}>₹{item.amount.toFixed(2)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* Summary Footer */}
+          <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px' }}>
+            <div style={{ width: '300px', padding: '15px', background: '#f8fafc', borderRadius: '12px', border: '1px solid var(--border-light)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', fontSize: '13px' }}>
+                <span style={{ color: '#64748b' }}>Sub Total:</span>
+                <span style={{ fontWeight: '600' }}>₹{billData.totalAmount.toFixed(2)}</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', fontSize: '13px' }}>
+                <span style={{ color: '#64748b' }}>Total Tax:</span>
+                <span style={{ fontWeight: '600' }}>₹{billData.taxAmount.toFixed(2)}</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', margin: '10px 0', paddingTop: '10px', borderTop: '1px dashed #cbd5e1' }}>
+                <span style={{ fontWeight: '700', color: 'var(--primary)' }}>Grand Total:</span>
+                <span style={{ fontWeight: '800', color: 'var(--primary)', fontSize: '16px' }}>₹{billData.grandTotal.toFixed(2)}</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '5px', fontSize: '13px', color: '#166534' }}>
+                <span>Paid Amount:</span>
+                <span style={{ fontWeight: '700' }}>₹{billData.paidAmount.toFixed(2)}</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13px', color: '#ef4444' }}>
+                <span>Due Balance:</span>
+                <span style={{ fontWeight: '700' }}>₹{billData.dueAmount.toFixed(2)}</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
