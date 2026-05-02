@@ -13,7 +13,8 @@ const ProductCreate = () => {
 
   const [formData, setFormData] = useState({
     name: '', code: '', category: '', tax: '',
-    company: '', unit: '', packing: '', minStock: '', currentStock: '',
+    company: '', primaryUnit: '', secondaryUnit: '', conversionFactor: '', 
+    minStock: '', currentStock: '',
     expiryRequired: false, isActive: true
   });
 
@@ -79,9 +80,18 @@ const ProductCreate = () => {
 
                   <FormField label="Company" name="company" value={formData.company} onChange={handleChange} placeholder="e.g. ABC Ltd" />
 
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
-                    <SearchableSelect label="Unit" options={['Nos', 'Kg', 'Ltr', 'Bag', 'Pkt', 'Gm', 'Ml', 'Pcs']} value={formData.unit} onChange={(e) => setFormData(prev => ({ ...prev, unit: e.target.value }))} required />
-                    <FormField label="Packing" name="packing" value={formData.packing} onChange={handleChange} placeholder="e.g. 500ml, 1kg" />
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '15px' }}>
+                    <SearchableSelect label="Purchase Unit" options={['Box', 'Bag', 'Case', 'Crate', 'Drum', 'Nos']} value={formData.primaryUnit} onChange={(e) => setFormData(prev => ({ ...prev, primaryUnit: e.target.value }))} required />
+                    <SearchableSelect label="Sale Unit" options={['Nos', 'Kg', 'Ltr', 'Pcs', 'Gm', 'Ml', 'Packet']} value={formData.secondaryUnit} onChange={(e) => setFormData(prev => ({ ...prev, secondaryUnit: e.target.value }))} required />
+                    <FormField 
+                      label={formData.primaryUnit && formData.secondaryUnit ? `1 ${formData.primaryUnit} = ${formData.conversionFactor || '?'} ${formData.secondaryUnit}` : "Qty in 1 Unit"} 
+                      name="conversionFactor" 
+                      type="number" 
+                      value={formData.conversionFactor} 
+                      onChange={handleChange} 
+                      required 
+                      placeholder="e.g. 10" 
+                    />
                   </div>
                 </div>
               </div>
@@ -93,7 +103,7 @@ const ProductCreate = () => {
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
-                    <FormField label="Available Quantity (नग)" name="currentStock" type="number" value={formData.currentStock} onChange={handleChange} required placeholder="0" />
+                    <FormField label="Available Quantity" name="currentStock" type="number" value={formData.currentStock} onChange={handleChange} required placeholder="0" />
                     <FormField label="Min Stock Level" name="minStock" type="number" value={formData.minStock} onChange={handleChange} required placeholder="5" />
                   </div>
 
