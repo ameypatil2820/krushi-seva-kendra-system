@@ -202,7 +202,7 @@ const PurchaseEntry = () => {
         <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '900px' }}>
           <thead>
             <tr style={{ textAlign: 'left', borderBottom: '1px solid var(--border)' }}>
-              <th style={{ padding: '12px', minWidth: '220px' }}>Product Name</th>
+              <th style={{ padding: '12px', width: '200px' }}>Product Name</th>
               <th style={{ padding: '12px', width: '80px' }}>Qty</th>
               <th style={{ padding: '12px', width: '110px' }}>Purchase Price</th>
               <th style={{ padding: '12px', width: '100px' }}>Sale Price</th>
@@ -218,7 +218,7 @@ const PurchaseEntry = () => {
             {children.map((child, idx) => (
               <tr key={child.id} style={{ borderBottom: '1px solid var(--glass-border)' }}>
                 {/* Product — batch sub-text */}
-                <td style={{ padding: '8px', minWidth: '220px' }}>
+                <td style={{ padding: '8px', width: '200px' }}>
                   <SearchableSelect
                     options={products}
                     value={child.productId}

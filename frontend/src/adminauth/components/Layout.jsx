@@ -115,6 +115,11 @@ const Layout = () => {
     };
   }, [permissionClasses]);
 
+  // Determine if current page is a create/entry page that should be fullscreen
+  const isFullScreenPage = location.pathname.endsWith('/new') || 
+                           location.pathname.endsWith('/entry') || 
+                           location.pathname.includes('/view/');
+
   return (
     <div className={`layout-container ${permissionClasses}`} style={{ display: 'flex', height: '100vh', overflow: 'hidden' }}>
       <style>
@@ -141,7 +146,9 @@ const Layout = () => {
           }
         `}
       </style>
-      <Sidebar />
+      
+      {!isFullScreenPage && <Sidebar />}
+      
       <main className="main-content" style={{
         flex: 1,
         overflowY: 'auto',
@@ -151,123 +158,125 @@ const Layout = () => {
         flexDirection: 'column'
       }}>
         {/* Top Navbar */}
-        <header style={{
-          height: '90px',
-          margin: '20px 25px 10px 25px',
-          background: 'transparent',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          padding: '0 40px',
-          position: 'relative',
-          zIndex: 90
-        }}>
-          {/* Search Section on the Left */}
-          <div style={{ flex: 2, display: 'flex', justifyContent: 'flex-start' }}>
-            <div style={{ position: 'relative', width: '100%', maxWidth: '500px' }}>
-              <input
-                type="text"
-                placeholder="Search menu items..."
-                value={searchQuery}
-                onChange={handleSearchChange}
-                onFocus={() => searchQuery.length > 0 && setShowSuggestions(true)}
-                style={{
-                  width: '100%',
-                  padding: '14px 24px 14px 54px',
-                  borderRadius: '12px',
-                  background: 'transparent',
-                  border: '1px solid #e2e8f0',
-                  fontSize: '15px',
-                  fontWeight: '500',
-                  color: 'var(--text-main)',
-                  transition: 'all 0.3s ease',
-                  outline: 'none'
-                }}
-              />
-              
-              {/* Search Suggestions Dropdown */}
-              {showSuggestions && suggestions.length > 0 && (
-                <div style={{
-                  position: 'absolute',
-                  top: '110%',
-                  left: 0,
-                  right: 0,
-                  background: 'white',
-                  borderRadius: '12px',
-                  boxShadow: '0 10px 25px rgba(0,0,0,0.1)',
-                  border: '1px solid #e2e8f0',
-                  zIndex: 100,
-                  overflow: 'hidden',
-                  padding: '8px'
-                }}>
-                  {suggestions.map((item) => (
-                    <div
-                      key={item.path}
-                      onClick={() => handleSuggestionClick(item.path)}
-                      style={{
-                        padding: '12px 16px',
-                        borderRadius: '8px',
-                        cursor: 'pointer',
-                        fontSize: '14px',
-                        fontWeight: '600',
-                        color: 'var(--text-main)',
-                        transition: 'background 0.2s',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between'
-                      }}
-                      onMouseOver={(e) => e.currentTarget.style.background = '#f1f5f9'}
-                      onMouseOut={(e) => e.currentTarget.style.background = 'transparent'}
-                    >
-                      <span>{item.name}</span>
-                      <span style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: '500' }}>Go to page →</span>
-                    </div>
-                  ))}
-                </div>
-              )}
-              {/* Close suggestions when clicking outside - simplified for now */}
-              {showSuggestions && (
-                <div 
-                  style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 99 }}
-                  onClick={() => setShowSuggestions(false)}
+        {!isFullScreenPage && (
+          <header style={{
+            height: '90px',
+            margin: '20px 25px 10px 25px',
+            background: 'transparent',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            padding: '0 40px',
+            position: 'relative',
+            zIndex: 90
+          }}>
+            {/* Search Section on the Left */}
+            <div style={{ flex: 2, display: 'flex', justifyContent: 'flex-start' }}>
+              <div style={{ position: 'relative', width: '100%', maxWidth: '500px' }}>
+                <input
+                  type="text"
+                  placeholder="Search menu items..."
+                  value={searchQuery}
+                  onChange={handleSearchChange}
+                  onFocus={() => searchQuery.length > 0 && setShowSuggestions(true)}
+                  style={{
+                    width: '100%',
+                    padding: '14px 24px 14px 54px',
+                    borderRadius: '12px',
+                    background: 'transparent',
+                    border: '1px solid #e2e8f0',
+                    fontSize: '15px',
+                    fontWeight: '500',
+                    color: 'var(--text-main)',
+                    transition: 'all 0.3s ease',
+                    outline: 'none'
+                  }}
                 />
-              )}
-              <div style={{ position: 'absolute', left: '18px', top: '50%', transform: 'translateY(-50%)', display: 'flex', alignItems: 'center' }}>
-                <Search size={20} color="var(--text-muted)" />
+                
+                {/* Search Suggestions Dropdown */}
+                {showSuggestions && suggestions.length > 0 && (
+                  <div style={{
+                    position: 'absolute',
+                    top: '110%',
+                    left: 0,
+                    right: 0,
+                    background: 'white',
+                    borderRadius: '12px',
+                    boxShadow: '0 10px 25px rgba(0,0,0,0.1)',
+                    border: '1px solid #e2e8f0',
+                    zIndex: 100,
+                    overflow: 'hidden',
+                    padding: '8px'
+                  }}>
+                    {suggestions.map((item) => (
+                      <div
+                        key={item.path}
+                        onClick={() => handleSuggestionClick(item.path)}
+                        style={{
+                          padding: '12px 16px',
+                          borderRadius: '8px',
+                          cursor: 'pointer',
+                          fontSize: '14px',
+                          fontWeight: '600',
+                          color: 'var(--text-main)',
+                          transition: 'background 0.2s',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between'
+                        }}
+                        onMouseOver={(e) => e.currentTarget.style.background = '#f1f5f9'}
+                        onMouseOut={(e) => e.currentTarget.style.background = 'transparent'}
+                      >
+                        <span>{item.name}</span>
+                        <span style={{ fontSize: '11px', color: 'var(--text-muted)', fontWeight: '500' }}>Go to page →</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                {/* Close suggestions when clicking outside - simplified for now */}
+                {showSuggestions && (
+                  <div 
+                    style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 99 }}
+                    onClick={() => setShowSuggestions(false)}
+                  />
+                )}
+                <div style={{ position: 'absolute', left: '18px', top: '50%', transform: 'translateY(-50%)', display: 'flex', alignItems: 'center' }}>
+                  <Search size={20} color="var(--text-muted)" />
+                </div>
               </div>
             </div>
-          </div>
 
-          {/* Spacer Middle */}
-          <div style={{ flex: 1 }}></div>
+            {/* Spacer Middle */}
+            <div style={{ flex: 1 }}></div>
 
-          {/* User Profile / Login Symbol on the Right */}
-          <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
-            <div style={{
-              width: '45px',
-              height: '45px',
-              borderRadius: '50%',
-              border: '2px solid var(--primary)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: 'pointer',
-              transition: 'all 0.2s ease',
-              color: 'var(--primary)',
-              fontWeight: '800',
-              fontSize: '18px'
-            }}
-              onMouseEnter={e => {
-                e.currentTarget.style.transform = 'scale(1.1)';
+            {/* User Profile / Login Symbol on the Right */}
+            <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
+              <div style={{
+                width: '45px',
+                height: '45px',
+                borderRadius: '50%',
+                border: '2px solid var(--primary)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease',
+                color: 'var(--primary)',
+                fontWeight: '800',
+                fontSize: '18px'
               }}
-              onMouseLeave={e => {
-                e.currentTarget.style.transform = 'scale(1)';
-              }}
-            >
-              {user?.name?.charAt(0).toUpperCase() || 'A'}
+                onMouseEnter={e => {
+                  e.currentTarget.style.transform = 'scale(1.1)';
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.transform = 'scale(1)';
+                }}
+              >
+                {user?.name?.charAt(0).toUpperCase() || 'A'}
+              </div>
             </div>
-          </div>
-        </header>
+          </header>
+        )}
 
         <div style={{ padding: '40px', flex: 1 }}>
           <motion.div
