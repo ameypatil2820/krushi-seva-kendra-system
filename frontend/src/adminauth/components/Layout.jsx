@@ -152,15 +152,19 @@ const Layout = () => {
       }}>
         {/* Top Navbar */}
         <header style={{
-          height: '90px',
-          margin: '20px 25px 10px 25px',
-          background: 'transparent',
+          minHeight: '80px',
+          height: 'auto',
+          margin: '20px 25px 0 25px',
+          background: 'white',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          padding: '0 40px',
+          padding: '10px 30px',
+          borderRadius: '16px',
+          boxShadow: 'var(--shadow)',
           position: 'relative',
-          zIndex: 90
+          zIndex: 90,
+          border: '1px solid var(--border-light)'
         }}>
           {/* Search Section on the Left */}
           <div style={{ flex: 2, display: 'flex', justifyContent: 'flex-start' }}>
@@ -269,7 +273,7 @@ const Layout = () => {
           </div>
         </header>
 
-        <div style={{ padding: '40px', flex: 1 }}>
+        <div style={{ padding: '10px 0', flex: 1 }}>
           <motion.div
             key={location.pathname}
             initial={{ opacity: 0, y: 10 }}
