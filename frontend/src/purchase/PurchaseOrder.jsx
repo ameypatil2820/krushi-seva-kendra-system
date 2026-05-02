@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ShoppingBag, Search, Filter, Plus, Calendar, User, CheckCircle, Clock, AlertCircle } from 'lucide-react';
 
+import '../mastermodel/styles/MasterModel.css';
+
 const PurchaseOrder = () => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
@@ -29,97 +31,97 @@ const PurchaseOrder = () => {
   };
 
   return (
-    <div className="animate-fade">
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '25px' }}>
-        <div>
-          <h2 style={{ color: 'var(--primary)', margin: 0 }}>Purchase Orders</h2>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Manage your inventory orders and suppliers</p>
-        </div>
-        <button 
-          className="btn btn-primary"
-          onClick={() => navigate('/purchase/orders/new')}
-        >
-          <Plus size={18} /> New Order
-        </button>
-      </div>
+    <div className="agro-container" style={{ padding: '0 25px' }}>
+      <div className="agro-unified-card" style={{ 
+        background: 'white', 
+        borderRadius: '16px', 
+        boxShadow: 'var(--shadow)',
+        border: '1px solid var(--border-light)',
+        marginTop: '5px',
+        overflow: 'hidden'
+      }}>
+        <div className="agro-header-compact" style={{ 
+          display: 'flex', 
+          alignItems: 'center', 
+          justifyContent: 'space-between', 
+          padding: '20px 25px',
+          borderBottom: '1px solid var(--border-light)',
+          background: 'white'
+        }}>
+          <div style={{ flexShrink: 0 }}>
+            <h2 style={{ marginBottom: '2px', fontSize: '20px' }}>Purchase Orders</h2>
+            <p style={{ margin: 0, fontSize: '13px' }}>Manage your inventory orders and suppliers</p>
+          </div>
 
-      <div className="glass-card" style={{ padding: '20px', marginBottom: '25px', display: 'flex', gap: '15px', alignItems: 'center' }}>
-        <div style={{ position: 'relative', flex: 1 }}>
-          <Search style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-secondary)' }} size={18} />
-          <input 
-            type="text" 
-            className="input-field" 
-            placeholder="Search orders by ID or Supplier..." 
-            style={{ paddingLeft: '40px' }} 
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flex: 1, justifyContent: 'center' }}>
+            <div style={{ position: 'relative', width: '100%', maxWidth: '300px' }}>
+              <input 
+                type="text" 
+                placeholder="Search orders..." 
+                className="form-control" 
+                style={{ paddingLeft: '15px', paddingRight: '12px', height: '38px', fontSize: '13px', borderRadius: '10px', border: '1px solid var(--border)' }}
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
+            <select 
+              className="form-control" 
+              style={{ width: '130px', height: '38px', fontSize: '13px', borderRadius: '10px', background: '#f8fafc', border: '1px solid var(--border)' }}
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value)}
+            >
+              <option value="All">All Status</option>
+              <option value="Pending">Pending</option>
+              <option value="Completed">Completed</option>
+              <option value="Cancelled">Cancelled</option>
+            </select>
+          </div>
+
+          <button className="btn-agro btn-primary" onClick={() => navigate('/purchase/orders/new')} style={{ height: '38px', padding: '0 16px' }}>
+            <Plus size={18} /> New Order
+          </button>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <Filter size={18} color="var(--text-secondary)" />
-          <select 
-            className="input-field" 
-            style={{ width: '150px' }}
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
-          >
-            <option value="All">All Status</option>
-            <option value="Pending">Pending</option>
-            <option value="Completed">Completed</option>
-            <option value="Cancelled">Cancelled</option>
-          </select>
+
+        <div style={{ padding: '10px' }}>
+          <div className="agro-table-container agro-table-wrapper-simple">
+            <table className="agro-table">
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>Supplier ID</th>
+                  <th>Order Date</th>
+                  <th>Expiry Date</th>
+                  <th>Status</th>
+                  <th style={{ textAlign: 'right' }}>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredOrders.map((order) => (
+                  <tr key={order.id}>
+                    <td style={{ fontWeight: '700', fontSize: '13px', color: 'var(--primary)' }}>{order.id}</td>
+                    <td>{order.supplierId}</td>
+                    <td>{order.orderDate}</td>
+                    <td>{order.expiryDate}</td>
+                    <td>{getStatusBadge(order.status)}</td>
+                    <td style={{ textAlign: 'right' }}>
+                      <button 
+                        className="btn-agro btn-outline" 
+                        onClick={() => navigate(`/purchase/orders/view/${order.id}`)}
+                        style={{ padding: '4px 12px', height: '28px', fontSize: '11px' }}
+                      >
+                        View
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+                {filteredOrders.length === 0 && (
+                  <tr><td colSpan="6" style={{ textAlign: 'center', padding: '30px' }}>No records found.</td></tr>
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
-
-      <div className="glass-card" style={{ overflow: 'hidden' }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-          <thead>
-            <tr style={{ background: 'rgba(255, 255, 255, 0.05)', textAlign: 'left' }}>
-              <th style={{ padding: '15px 20px' }}>Order ID</th>
-              <th style={{ padding: '15px 20px' }}>Supplier ID</th>
-              <th style={{ padding: '15px 20px' }}>Order Date</th>
-              <th style={{ padding: '15px 20px' }}>Expiry Date</th>
-              <th style={{ padding: '15px 20px' }}>Status</th>
-              <th style={{ padding: '15px 20px' }}>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredOrders.map((order) => (
-              <tr key={order.id} style={{ borderBottom: '1px solid var(--glass-border)', transition: 'background 0.3s' }} className="hover-row">
-                <td style={{ padding: '15px 20px', fontWeight: '600' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <ShoppingBag size={16} color="var(--primary)" />
-                    {order.id}
-                  </div>
-                </td>
-                <td style={{ padding: '15px 20px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <User size={14} color="var(--text-secondary)" />
-                    {order.supplierId}
-                  </div>
-                </td>
-                <td style={{ padding: '15px 20px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <Calendar size={14} color="var(--text-secondary)" />
-                    {order.orderDate}
-                  </div>
-                </td>
-                <td style={{ padding: '15px 20px' }}>{order.expiryDate}</td>
-                <td style={{ padding: '15px 20px' }}>{getStatusBadge(order.status)}</td>
-                <td style={{ padding: '15px 20px' }}>
-                  <button className="btn btn-secondary" onClick={() => navigate(`/purchase/orders/view/${order.id}`)} style={{ padding: '5px 12px', fontSize: '0.8rem' }}>View Details</button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      <style>{`
-        .hover-row:hover {
-          background: rgba(255, 255, 255, 0.02);
-        }
-      `}</style>
     </div>
   );
 };

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { RotateCcw, Search, AlertCircle, Calendar, User, FileText, IndianRupee } from 'lucide-react';
 
+import '../mastermodel/styles/MasterModel.css';
+
 const PurchaseReturn = () => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
@@ -17,93 +19,92 @@ const PurchaseReturn = () => {
   );
 
   return (
-    <div className="animate-fade">
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '25px' }}>
-        <div>
-          <h2 style={{ color: '#ef4444', margin: 0 }}>Purchase Returns</h2>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Record and manage returned items to suppliers</p>
-        </div>
-        <button 
-          className="btn" 
-          style={{ background: '#ef4444', color: 'white' }}
-          onClick={() => navigate('/purchase/returns/new')}
-        >
-          <RotateCcw size={18} /> Process Return
-        </button>
-      </div>
+    <div className="agro-container" style={{ padding: '0 25px' }}>
+      <div className="agro-unified-card" style={{ 
+        background: 'white', 
+        borderRadius: '16px', 
+        boxShadow: 'var(--shadow)',
+        border: '1px solid var(--border-light)',
+        marginTop: '5px',
+        overflow: 'hidden'
+      }}>
+        <div className="agro-header-compact" style={{ 
+          display: 'flex', 
+          alignItems: 'center', 
+          justifyContent: 'space-between', 
+          padding: '20px 25px',
+          borderBottom: '1px solid var(--border-light)',
+          background: 'white'
+        }}>
+          <div style={{ flexShrink: 0 }}>
+            <h2 style={{ marginBottom: '2px', fontSize: '20px', color: '#ef4444' }}>Purchase Returns</h2>
+            <p style={{ margin: 0, fontSize: '13px' }}>Record and manage returned items to suppliers</p>
+          </div>
 
-      <div className="glass-card" style={{ padding: '20px', marginBottom: '25px', display: 'flex', gap: '15px', alignItems: 'center' }}>
-        <div style={{ position: 'relative', flex: 1 }}>
-          <Search style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-secondary)' }} size={18} />
-          <input 
-            type="text" 
-            className="input-field" 
-            placeholder="Search returns by ID, Purchase ID or Supplier..." 
-            style={{ paddingLeft: '40px' }} 
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </div>
-      </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flex: 1, justifyContent: 'center' }}>
+            <div style={{ position: 'relative', width: '100%', maxWidth: '400px' }}>
+              <input 
+                type="text" 
+                placeholder="Search returns..." 
+                className="form-control" 
+                style={{ paddingLeft: '15px', paddingRight: '12px', height: '38px', fontSize: '13px', borderRadius: '10px', border: '1px solid var(--border)' }}
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
+          </div>
 
-      <div className="glass-card" style={{ overflow: 'hidden' }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-          <thead>
-            <tr style={{ background: 'rgba(255, 255, 255, 0.05)', textAlign: 'left' }}>
-              <th style={{ padding: '15px 20px' }}>Return ID</th>
-              <th style={{ padding: '15px 20px' }}>Purchase ID</th>
-              <th style={{ padding: '15px 20px' }}>Supplier</th>
-              <th style={{ padding: '15px 20px' }}>Date</th>
-              <th style={{ padding: '15px 20px' }}>Total Amount</th>
-              <th style={{ padding: '15px 20px' }}>Reason</th>
-              <th style={{ padding: '15px 20px' }}>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredReturns.map((item) => (
-              <tr key={item.id} style={{ borderBottom: '1px solid var(--glass-border)' }}>
-                <td style={{ padding: '15px 20px', fontWeight: '600', color: '#ef4444' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <RotateCcw size={16} />
-                    {item.id}
-                  </div>
-                </td>
-                <td style={{ padding: '15px 20px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <FileText size={14} color="var(--text-secondary)" />
-                    {item.purchaseId}
-                  </div>
-                </td>
-                <td style={{ padding: '15px 20px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <User size={14} color="var(--text-secondary)" />
-                    {item.supplierId}
-                  </div>
-                </td>
-                <td style={{ padding: '15px 20px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <Calendar size={14} color="var(--text-secondary)" />
-                    {item.returnDate}
-                  </div>
-                </td>
-                <td style={{ padding: '15px 20px', fontWeight: '700' }}>
-                   <span style={{ display: 'flex', alignItems: 'center' }}>
-                     <IndianRupee size={14} /> {item.totalAmount.toFixed(2)}
-                   </span>
-                </td>
-                <td style={{ padding: '15px 20px' }}>
-                  <span style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.85rem' }}>
-                    <AlertCircle size={14} color="#f59e0b" />
-                    {item.reason}
-                  </span>
-                </td>
-                <td style={{ padding: '15px 20px' }}>
-                  <button className="btn btn-secondary" onClick={() => navigate(`/purchase/returns/view/${item.id}`)} style={{ padding: '5px 12px', fontSize: '0.8rem' }}>View</button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+          <button className="btn-agro btn-primary" onClick={() => navigate('/purchase/returns/new')} style={{ height: '38px', padding: '0 16px', background: '#ef4444' }}>
+            <RotateCcw size={18} /> New Return
+          </button>
+        </div>
+
+        <div style={{ padding: '10px' }}>
+          <div className="agro-table-container agro-table-wrapper-simple">
+            <table className="agro-table">
+              <thead>
+                <tr>
+                  <th>Return ID</th>
+                  <th>Purchase ID</th>
+                  <th>Supplier</th>
+                  <th>Date</th>
+                  <th>Total Amount</th>
+                  <th>Reason</th>
+                  <th style={{ textAlign: 'right' }}>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredReturns.map((item) => (
+                  <tr key={item.id}>
+                    <td style={{ fontWeight: '700', fontSize: '13px', color: '#ef4444' }}>{item.id}</td>
+                    <td>{item.purchaseId}</td>
+                    <td>{item.supplierId}</td>
+                    <td>{item.returnDate}</td>
+                    <td style={{ fontWeight: '700' }}>₹{item.totalAmount.toFixed(2)}</td>
+                    <td>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px' }}>
+                        <AlertCircle size={14} color="#f59e0b" />
+                        {item.reason}
+                      </div>
+                    </td>
+                    <td style={{ textAlign: 'right' }}>
+                      <button 
+                        className="btn-agro btn-outline" 
+                        onClick={() => navigate(`/purchase/returns/view/${item.id}`)}
+                        style={{ padding: '4px 12px', height: '28px', fontSize: '11px' }}
+                      >
+                        View
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+                {filteredReturns.length === 0 && (
+                  <tr><td colSpan="7" style={{ textAlign: 'center', padding: '30px' }}>No records found.</td></tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   );
