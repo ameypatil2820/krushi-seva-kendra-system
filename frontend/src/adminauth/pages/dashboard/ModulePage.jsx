@@ -26,18 +26,18 @@ const ModulePage = ({ title, module }) => {
 
   return (
     <div className="agro-container" style={{ padding: '0 25px' }}>
-      <div className="agro-unified-card" style={{ 
-        background: 'white', 
-        borderRadius: '16px', 
+      <div className="agro-unified-card" style={{
+        background: 'white',
+        borderRadius: '16px',
         boxShadow: 'var(--shadow)',
         border: '1px solid var(--border-light)',
         marginTop: '5px',
         overflow: 'hidden'
       }}>
-        <div className="agro-header-compact" style={{ 
-          display: 'flex', 
-          alignItems: 'center', 
-          justifyContent: 'space-between', 
+        <div className="agro-header-compact" style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
           padding: '12px 20px',
           borderBottom: '1px solid var(--border-light)',
           background: 'white'
@@ -56,7 +56,7 @@ const ModulePage = ({ title, module }) => {
         <div style={{ padding: '40px', textAlign: 'center' }}>
           <div style={{ background: '#f8fafc', padding: '30px', borderRadius: '15px', border: '1px solid var(--border-light)', maxWidth: '600px', margin: '0 auto' }}>
             <p style={{ color: '#64748b', fontSize: '15px', lineHeight: '1.6', margin: 0 }}>
-              Welcome to the <strong>{title}</strong> module. This section is currently under active development. 
+              Welcome to the <strong>{title}</strong> module. This section is currently under active development.
               Only users with <strong>{module}:view</strong> permissions can see this view.
             </p>
           </div>

@@ -28,21 +28,16 @@ const PurchaseBill = () => {
     switch (status) {
       case 'Paid': return <span className="badge badge-success" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}><CheckCircle size={12} /> Paid</span>;
       case 'Partial': return <span className="badge badge-warning" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}><Clock size={12} /> Partial</span>;
-      case 'Unpaid': return <span className="badge badge-danger" style={{ display: 'inline-flex', alignItems: 'center', gap: '4px' }}><Clock size={12} /> Unpaid</span>;
+      case 'Paid': return <span className="badge badge-success"><CheckCircle size={12} /> Paid</span>;
+      case 'Partial': return <span className="badge badge-warning"><Clock size={12} /> Partial</span>;
+      case 'Unpaid': return <span className="badge badge-danger"><Clock size={12} /> Unpaid</span>;
       default: return <span className="badge">{status}</span>;
     }
   };
 
   return (
-    <div className="agro-container" style={{ padding: '0 25px' }}>
-      <div className="agro-unified-card" style={{
-        background: 'white',
-        borderRadius: '16px',
-        boxShadow: 'var(--shadow)',
-        border: '1px solid var(--border-light)',
-        marginTop: '5px',
-        overflow: 'hidden'
-      }}>
+    <div className="agro-container">
+      <div className="agro-unified-card">
         <div className="agro-header-compact" style={{
           display: 'flex',
           alignItems: 'center',

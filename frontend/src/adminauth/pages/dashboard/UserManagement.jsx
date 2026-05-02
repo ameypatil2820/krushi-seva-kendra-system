@@ -33,18 +33,18 @@ const UserManagement = () => {
 
   return (
     <div className="agro-container" style={{ padding: '25px 25px 0 25px' }}>
-      <div className="agro-unified-card" style={{ 
-        background: 'white', 
-        borderRadius: '16px', 
+      <div className="agro-unified-card" style={{
+        background: 'white',
+        borderRadius: '16px',
         boxShadow: 'var(--shadow)',
         border: '1px solid var(--border-light)',
         marginTop: '5px',
         overflow: 'hidden'
       }}>
-        <div className="agro-header-compact" style={{ 
-          display: 'flex', 
-          alignItems: 'center', 
-          justifyContent: 'space-between', 
+        <div className="agro-header-compact" style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
           padding: '15px 20px',
           borderBottom: '1px solid var(--border-light)',
           background: 'white'
@@ -74,15 +74,15 @@ const UserManagement = () => {
                   <tr key={u.id}>
                     <td>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                        <div style={{ 
-                          width: '32px', 
-                          height: '32px', 
-                          borderRadius: '8px', 
-                          background: '#f1f5f9', 
+                        <div style={{
+                          width: '32px',
+                          height: '32px',
+                          borderRadius: '8px',
+                          background: '#f1f5f9',
                           color: 'var(--primary)',
-                          display: 'flex', 
-                          alignItems: 'center', 
-                          justifyContent: 'center', 
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
                           fontWeight: '700',
                           fontSize: '14px'
                         }}>
@@ -93,10 +93,10 @@ const UserManagement = () => {
                     </td>
                     <td style={{ fontSize: '13px', color: '#64748b' }}>{u.email}</td>
                     <td>
-                      <span style={{ 
-                        padding: '4px 10px', 
-                        borderRadius: '6px', 
-                        fontSize: '11px', 
+                      <span style={{
+                        padding: '4px 10px',
+                        borderRadius: '6px',
+                        fontSize: '11px',
                         fontWeight: '700',
                         background: u.role === 'Admin' ? '#fef3c7' : '#f1f5f9',
                         color: u.role === 'Admin' ? '#d97706' : 'var(--primary)',

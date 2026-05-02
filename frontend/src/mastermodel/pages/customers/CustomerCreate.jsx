@@ -28,15 +28,8 @@ const CustomerCreate = () => {
   };
 
   return (
-    <div className="agro-container" style={{ padding: '0 25px' }}>
-      <form onSubmit={handleFinalSave} className="agro-unified-card" style={{
-        background: 'white',
-        borderRadius: '16px',
-        boxShadow: 'var(--shadow)',
-        border: '1px solid var(--border-light)',
-        marginTop: '5px',
-        overflow: 'hidden'
-      }}>
+    <div className="agro-container">
+      <form onSubmit={handleFinalSave} className="agro-unified-card">
         <div className="agro-header-compact" style={{
           display: 'flex',
           alignItems: 'center',

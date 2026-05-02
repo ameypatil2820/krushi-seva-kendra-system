@@ -45,15 +45,8 @@ const CustomerList = () => {
   const handleView = (item) => navigate(`/customers/view/${item.id}`);
 
   return (
-    <div className="agro-container" style={{ padding: '0 25px' }}>
-      <div className="agro-unified-card" style={{
-        background: 'white',
-        borderRadius: '16px',
-        boxShadow: 'var(--shadow)',
-        border: '1px solid var(--border-light)',
-        marginTop: '5px',
-        overflow: 'hidden'
-      }}>
+    <div className="agro-container">
+      <div className="agro-unified-card">
         <div className="agro-header-compact" style={{
           display: 'flex',
           alignItems: 'center',

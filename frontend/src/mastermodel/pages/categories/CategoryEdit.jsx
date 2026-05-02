@@ -40,18 +40,18 @@ const CategoryEdit = () => {
 
   return (
     <div className="agro-container" style={{ padding: '25px 25px 0 25px' }}>
-      <form onSubmit={handleFinalSave} className="agro-unified-card" style={{ 
-        background: 'white', 
-        borderRadius: '16px', 
+      <form onSubmit={handleFinalSave} className="agro-unified-card" style={{
+        background: 'white',
+        borderRadius: '16px',
         boxShadow: 'var(--shadow)',
         border: '1px solid var(--border-light)',
         marginTop: '5px',
         overflow: 'hidden'
       }}>
-        <div className="agro-header-compact" style={{ 
-          display: 'flex', 
-          alignItems: 'center', 
-          justifyContent: 'space-between', 
+        <div className="agro-header-compact" style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
           padding: '15px 20px',
           borderBottom: '1px solid var(--border-light)',
           background: 'white'
@@ -71,19 +71,19 @@ const CategoryEdit = () => {
               <Layers size={16} />
               <h3 style={{ fontSize: '13px', margin: 0, fontWeight: '700' }}>Category Details</h3>
             </div>
-            
+
             <FormField label="Category Name" name="name" value={formData.name} onChange={handleChange} required placeholder="e.g. Fertilizers" />
             <FormField label="Description" name="description" type="textarea" value={formData.description} onChange={handleChange} placeholder="Category description..." />
           </div>
         </div>
 
-        <div style={{ 
-          padding: '10px 20px', 
-          background: '#f8fafc', 
-          borderTop: '1px solid var(--border-light)', 
-          display: 'flex', 
-          justifyContent: 'flex-end', 
-          gap: '10px' 
+        <div style={{
+          padding: '10px 20px',
+          background: '#f8fafc',
+          borderTop: '1px solid var(--border-light)',
+          display: 'flex',
+          justifyContent: 'flex-end',
+          gap: '10px'
         }}>
           <button type="button" className="btn-agro btn-outline" onClick={() => navigate('/categories')} style={{ height: '36px', minWidth: '100px', fontSize: '13px' }}>
             <X size={16} /> Cancel

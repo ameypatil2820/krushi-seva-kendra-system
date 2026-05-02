@@ -40,17 +40,23 @@ const TaxEdit = () => {
 
   return (
     <div className="agro-container">
-      <div style={{ maxWidth: '600px', margin: '0 auto' }}>
-        <form onSubmit={handleFinalSave} className="agro-card" style={{ padding: 0, overflow: 'hidden' }}>
-          <div className="agro-card-header" style={{ padding: '30px', background: 'white' }}>
-            <div>
-              <h2 style={{ fontSize: '24px' }}>Update Tax Configuration</h2>
-              <p>Configure GST and other tax rates</p>
-            </div>
-            <button type="button" className="btn-agro btn-outline" onClick={() => navigate('/taxes')}>
-              <ArrowLeft size={18} /> Back to List
-            </button>
+      <form onSubmit={handleFinalSave} className="agro-unified-card">
+        <div className="agro-header-compact" style={{ 
+          display: 'flex', 
+          alignItems: 'center', 
+          justifyContent: 'space-between', 
+          padding: '12px 20px',
+          borderBottom: '1px solid var(--border-light)',
+          background: 'white'
+        }}>
+          <div>
+            <h2 style={{ fontSize: '18px', marginBottom: '1px' }}>Update Tax Configuration</h2>
+            <p style={{ fontSize: '12px', margin: 0 }}>Configure GST and other tax rates</p>
           </div>
+          <button type="button" className="btn-agro btn-outline" onClick={() => navigate('/taxes')} style={{ height: '34px', padding: '0 12px', fontSize: '12px' }}>
+            <ArrowLeft size={16} /> Back
+          </button>
+        </div>
 
           <div style={{ padding: '40px' }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
@@ -79,8 +85,7 @@ const TaxEdit = () => {
               <Save size={18} /> Update Tax
             </button>
           </div>
-        </form>
-      </div>
+      </form>
     </div>
   );
 };
