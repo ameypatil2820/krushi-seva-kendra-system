@@ -75,10 +75,10 @@ const ProductCreate = () => {
           </button>
         </div>
 
-        <div style={{ padding: '10px 15px' }}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', maxWidth: '800px', margin: '0 auto' }}>
+        <div style={{ padding: '15px 20px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {/* Basic Info Section */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
               <div className="form-section-title" style={{ display: 'flex', alignItems: 'center', gap: '5px', marginBottom: '0', color: 'var(--primary)' }}>
                 <Tag size={14} />
                 <h3 style={{ fontSize: '13px', margin: 0, fontWeight: '700' }}>Basic Information</h3>
@@ -123,16 +123,7 @@ const ProductCreate = () => {
                 <FormField label="Low Stock Alert" name="minStock" type="number" value={formData.minStock} onChange={handleChange} required placeholder="5" />
               </div>
 
-              <div style={{ marginTop: '2px', padding: '10px', background: 'var(--primary-soft)', borderRadius: '12px', border: '1px solid #dcfce7', display: 'flex', flexWrap: 'wrap', gap: '15px' }}>
-                <label style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', fontSize: '12px', fontWeight: '700', color: 'var(--primary)' }}>
-                  <input type="checkbox" name="expiryRequired" checked={formData.expiryRequired} onChange={handleChange} style={{ width: '15px', height: '15px', cursor: 'pointer' }} />
-                  Enable Expiry Alerts
-                </label>
-                <label style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', fontSize: '12px', fontWeight: '700', color: 'var(--primary)' }}>
-                  <input type="checkbox" name="isActive" checked={formData.isActive} onChange={handleChange} style={{ width: '15px', height: '15px', cursor: 'pointer' }} />
-                  Active Status
-                </label>
-              </div>
+
             </div>
           </div>
         </div>

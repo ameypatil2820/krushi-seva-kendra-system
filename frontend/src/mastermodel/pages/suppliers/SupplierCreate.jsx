@@ -55,7 +55,7 @@ const SupplierCreate = () => {
         </div>
 
         <div style={{ padding: '15px 20px' }}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
             <div className="form-section-title" style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '0', color: 'var(--primary)' }}>
               <User size={16} />
               <h3 style={{ fontSize: '13px', margin: 0, fontWeight: '700' }}>Business Information</h3>
