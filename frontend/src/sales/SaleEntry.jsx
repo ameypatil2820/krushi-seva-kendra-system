@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { Plus, Trash2, Save, ArrowLeft, Calendar, User, CreditCard, IndianRupee, Package } from 'lucide-react';
 import { MockService } from '../mastermodel/services/MockService';
 import SearchableSelect from './SearchableSelect';
+import '../mastermodel/styles/MasterModel.css';
 
 const newRow = () => ({
   id: Date.now() + Math.random(),
@@ -153,205 +154,175 @@ const SaleEntry = () => {
   };
 
   return (
-    <div className="animate-fade">
-      {/* Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '25px' }}>
-        <div>
-          <h2 style={{ color: 'var(--primary)', margin: 0 }}>New Sale Entry</h2>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Create a new sales invoice</p>
-        </div>
-        <button className="btn btn-secondary" onClick={() => navigate(location.state?.quotationData ? '/sales/quotations' : '/sales/bills')}>
-          <ArrowLeft size={18} /> Back to List
-        </button>
-      </div>
-
-      {/* Master Section — Customer + Date only */}
-      <div className="glass-card" style={{ padding: '25px', marginBottom: '25px', position: 'relative', zIndex: 10 }}>
-        <h4 style={{ marginBottom: '20px', borderBottom: '1px solid var(--border)', paddingBottom: '10px' }}>Invoice Details</h4>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '20px' }}>
-          <div className="input-group">
-            <label><User size={14} /> Customer</label>
-            <SearchableSelect
-              options={customers}
-              value={master.customerId}
-              onChange={(val) => handleMasterChange('customerId', val)}
-              placeholder="Search Customer..."
-              textColor="#0f172a"
-              bgColor="#ffffff"
-            />
+    <div className="agro-container" style={{ padding: '0 25px' }}>
+      <div className="agro-unified-card" style={{ 
+        background: 'white', 
+        borderRadius: '16px', 
+        boxShadow: 'var(--shadow)',
+        border: '1px solid var(--border-light)',
+        marginTop: '5px',
+        overflow: 'hidden'
+      }}>
+        <div className="agro-header-compact" style={{ 
+          display: 'flex', 
+          alignItems: 'center', 
+          justifyContent: 'space-between', 
+          padding: '12px 20px',
+          borderBottom: '1px solid var(--border-light)',
+          background: 'white'
+        }}>
+          <div>
+            <h2 style={{ fontSize: '18px', marginBottom: '1px' }}>New Sale Entry</h2>
+            <p style={{ fontSize: '12px', margin: 0 }}>Create a new sales invoice</p>
           </div>
-          <div className="input-group">
-            <label><Calendar size={14} /> Bill Date</label>
-            <input
-              type="date"
-              className="input-field"
-              value={master.billDate}
-              onChange={(e) => handleMasterChange('billDate', e.target.value)}
-            />
-          </div>
-        </div>
-      </div>
-
-      {/* Product Table */}
-      <div className="glass-card" style={{ padding: '25px', marginBottom: '25px', overflowX: 'auto' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-          <h4 style={{ margin: 0 }}>Products</h4>
-          <button className="btn btn-primary" onClick={addChildRow} style={{ padding: '5px 15px', fontSize: '0.85rem' }}>
-            <Plus size={16} /> Add Row
+          <button className="btn-agro btn-outline" onClick={() => navigate(location.state?.quotationData ? '/sales/quotations' : '/sales/bills')} style={{ height: '34px', padding: '0 12px', fontSize: '12px' }}>
+            <ArrowLeft size={16} /> Back
           </button>
         </div>
 
-        <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: '700px' }}>
-          <thead>
-            <tr style={{ textAlign: 'left', borderBottom: '1px solid var(--border)' }}>
-              <th style={{ padding: '12px', width: '200px' }}>Product Name</th>
-              <th style={{ padding: '12px', width: '80px' }}>Qty</th>
-              <th style={{ padding: '12px', width: '110px' }}>Sale Rate</th>
-              <th style={{ padding: '12px', width: '70px' }}>Tax %</th>
-              <th style={{ padding: '12px', width: '100px' }}>Tax Amt</th>
-              <th style={{ padding: '12px', width: '110px' }}>Amount</th>
-              <th style={{ padding: '12px', width: '40px' }}></th>
-            </tr>
-          </thead>
-          <tbody>
-            {children.map((child, idx) => (
-              <tr key={child.id} style={{ borderBottom: '1px solid var(--glass-border)' }}>
-                {/* Product Name — batch shown below as sub-text */}
-                <td style={{ padding: '8px', width: '200px' }}>
+        <div style={{ padding: '15px 20px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+            {/* Invoice Details Section */}
+            <div style={{ padding: '12px', background: '#f8fafc', borderRadius: '12px', border: '1px solid var(--border-light)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '10px', color: 'var(--primary)' }}>
+                <User size={16} />
+                <h3 style={{ fontSize: '13px', margin: 0, fontWeight: '700' }}>Invoice Details</h3>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: '10px' }}>
+                <div className="form-group" style={{ margin: 0 }}>
+                  <label style={{ fontSize: '12px', marginBottom: '3px' }}>Customer</label>
                   <SearchableSelect
-                    options={products}
-                    value={child.productId}
-                    onChange={(val, data) => handleChildChange(child.id, 'productId', val, data)}
-                    onEnterSelect={() => handleProductEnterSelect(child.id)}
-                    placeholder="Search Product..."
-                    icon={Package}
+                    options={customers}
+                    value={master.customerId}
+                    onChange={(val) => handleMasterChange('customerId', val)}
+                    placeholder="Search Customer..."
                     height="36px"
-                    padding="0 8px"
-                    textColor="#0f172a"
-                    bgColor="#ffffff"
-                    inputRef={el => rowRefs.current[child.id] = el}
                   />
-                  {child.batchNo && (
-                    <div style={{ fontSize: '11px', color: 'var(--text-secondary)', marginTop: '3px', paddingLeft: '4px' }}>
-                      Batch: <strong>{child.batchNo}</strong>
-                    </div>
-                  )}
-                </td>
-
-                {/* Qty */}
-                <td style={{ padding: '8px' }}>
+                </div>
+                <div className="form-group" style={{ margin: 0 }}>
+                  <label style={{ fontSize: '12px', marginBottom: '3px' }}>Bill Date</label>
                   <input
-                    type="number"
-                    className="input-field"
-                    style={{ padding: '6px', width: '70px' }}
-                    value={child.quantity}
-                    onChange={(e) => handleChildChange(child.id, 'quantity', e.target.value)}
-                    onKeyDown={(e) => handleEnterNavigation(e, idx)}
+                    type="date"
+                    className="form-control"
+                    style={{ height: '36px', fontSize: '13px' }}
+                    value={master.billDate}
+                    onChange={(e) => handleMasterChange('billDate', e.target.value)}
                   />
-                </td>
+                </div>
+              </div>
+            </div>
 
-                {/* Sale Rate */}
-                <td style={{ padding: '8px' }}>
-                  <input
-                    type="number"
-                    className="input-field"
-                    style={{ padding: '6px', width: '100px' }}
-                    value={child.saleRate}
-                    onChange={(e) => handleChildChange(child.id, 'saleRate', e.target.value)}
-                    onKeyDown={(e) => handleEnterNavigation(e, idx)}
-                  />
-                </td>
+            {/* Product Table Section */}
+            <div style={{ border: '1px solid var(--border-light)', borderRadius: '12px', overflow: 'hidden' }}>
+              <div style={{ padding: '10px 15px', background: '#f8fafc', borderBottom: '1px solid var(--border-light)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--primary)' }}>
+                  <Package size={16} />
+                  <h3 style={{ fontSize: '13px', margin: 0, fontWeight: '700' }}>Products</h3>
+                </div>
+                <button className="btn-agro btn-primary" onClick={addChildRow} style={{ height: '28px', padding: '0 10px', fontSize: '11px' }}>
+                  <Plus size={14} /> Add Row
+                </button>
+              </div>
+              <div className="agro-table-wrapper-simple" style={{ overflowX: 'auto' }}>
+                <table className="agro-table" style={{ border: 'none' }}>
+                  <thead>
+                    <tr>
+                      <th style={{ width: '250px' }}>Product Name</th>
+                      <th style={{ width: '80px' }}>Qty</th>
+                      <th style={{ width: '100px' }}>Rate</th>
+                      <th style={{ width: '70px' }}>Tax %</th>
+                      <th style={{ width: '100px' }}>Tax Amt</th>
+                      <th style={{ width: '100px' }}>Amount</th>
+                      <th style={{ width: '40px' }}></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {children.map((child, idx) => (
+                      <tr key={child.id}>
+                        <td>
+                          <SearchableSelect
+                            options={products}
+                            value={child.productId}
+                            onChange={(val, data) => handleChildChange(child.id, 'productId', val, data)}
+                            onEnterSelect={() => handleProductEnterSelect(child.id)}
+                            placeholder="Search Product..."
+                            height="34px"
+                            inputRef={el => rowRefs.current[child.id] = el}
+                          />
+                          {child.batchNo && <div style={{ fontSize: '10px', color: 'var(--text-muted)', marginTop: '2px' }}>Batch: {child.batchNo}</div>}
+                        </td>
+                        <td>
+                          <input type="number" className="form-control" style={{ height: '34px', fontSize: '13px' }} value={child.quantity} onChange={(e) => handleChildChange(child.id, 'quantity', e.target.value)} onKeyDown={(e) => handleEnterNavigation(e, idx)} />
+                        </td>
+                        <td>
+                          <input type="number" className="form-control" style={{ height: '34px', fontSize: '13px' }} value={child.saleRate} onChange={(e) => handleChildChange(child.id, 'saleRate', e.target.value)} onKeyDown={(e) => handleEnterNavigation(e, idx)} />
+                        </td>
+                        <td>
+                          <input type="number" className="form-control" style={{ height: '34px', fontSize: '13px' }} value={child.taxPercent} onChange={(e) => handleChildChange(child.id, 'taxPercent', e.target.value)} onKeyDown={(e) => handleEnterNavigation(e, idx)} />
+                        </td>
+                        <td style={{ fontSize: '13px' }}>₹{child.taxAmount.toFixed(2)}</td>
+                        <td style={{ fontSize: '13px', fontWeight: '700' }}>₹{child.amount.toFixed(2)}</td>
+                        <td style={{ textAlign: 'center' }}>
+                          <button onClick={() => removeChildRow(child.id)} style={{ border: 'none', background: 'none', color: '#ef4444', cursor: 'pointer' }}><Trash2 size={16} /></button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
 
-                {/* Tax % */}
-                <td style={{ padding: '8px' }}>
-                  <input
-                    type="number"
-                    className="input-field"
-                    style={{ padding: '6px', width: '60px' }}
-                    value={child.taxPercent}
-                    onChange={(e) => handleChildChange(child.id, 'taxPercent', e.target.value)}
-                    onKeyDown={(e) => handleEnterNavigation(e, idx)}
-                  />
-                </td>
+            {/* Summary Section */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+              <div style={{ padding: '15px', background: '#f8fafc', borderRadius: '12px', border: '1px solid var(--border-light)' }}>
+                <h3 style={{ fontSize: '13px', margin: '0 0 10px 0', fontWeight: '700', color: 'var(--primary)' }}>Payment Info</h3>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <label style={{ fontSize: '12px' }}>Payment Type</label>
+                    <select className="form-control" style={{ width: '120px', height: '32px', fontSize: '12px' }} value={master.paymentType} onChange={(e) => handleMasterChange('paymentType', e.target.value)}>
+                      <option value="Cash">Cash</option>
+                      <option value="Bank">Bank</option>
+                      <option value="UPI">UPI</option>
+                      <option value="Credit">Credit</option>
+                    </select>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <label style={{ fontSize: '12px' }}>Discount (₹)</label>
+                    <input type="number" className="form-control" style={{ width: '120px', height: '32px', fontSize: '12px' }} value={master.discount} onChange={(e) => handleMasterChange('discount', e.target.value)} />
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <label style={{ fontSize: '12px' }}>Paid Amount (₹)</label>
+                    <input type="number" className="form-control" style={{ width: '120px', height: '32px', fontSize: '12px' }} value={master.paidAmount} onChange={(e) => handleMasterChange('paidAmount', e.target.value)} />
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: '#ef4444', fontWeight: '700', borderTop: '1px dashed #cbd5e1', paddingTop: '8px', marginTop: '4px' }}>
+                    <label style={{ fontSize: '12px' }}>Balance Due</label>
+                    <span style={{ fontSize: '14px' }}>₹{master.dueAmount.toFixed(2)}</span>
+                  </div>
+                </div>
+              </div>
 
-                {/* Tax Amount (read-only) */}
-                <td style={{ padding: '12px', color: 'var(--text-secondary)' }}>₹{child.taxAmount.toFixed(2)}</td>
-
-                {/* Amount (read-only) */}
-                <td style={{ padding: '12px', fontWeight: '600' }}>₹{child.amount.toFixed(2)}</td>
-
-                {/* Delete */}
-                <td style={{ padding: '8px' }}>
-                  <button onClick={() => removeChildRow(child.id)} style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer' }}>
-                    <Trash2 size={18} />
+              <div style={{ padding: '15px', background: 'var(--primary-soft)', borderRadius: '12px', border: '1px solid #dcfce7' }}>
+                <h3 style={{ fontSize: '13px', margin: '0 0 10px 0', fontWeight: '700', color: 'var(--primary)' }}>Bill Summary</h3>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
+                    <span>Subtotal</span>
+                    <span>₹{master.subtotal.toFixed(2)}</span>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px' }}>
+                    <span>Total Tax</span>
+                    <span>₹{master.taxAmount.toFixed(2)}</span>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '16px', fontWeight: '800', color: 'var(--primary)', borderTop: '1px solid #dcfce7', paddingTop: '10px', marginTop: '10px' }}>
+                    <span>Grand Total</span>
+                    <span>₹{master.grandTotal.toFixed(2)}</span>
+                  </div>
+                  <button className="btn-agro btn-primary" style={{ width: '100%', marginTop: '15px', height: '40px', fontSize: '14px' }}>
+                    <Save size={18} /> Complete Sale
                   </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      {/* Summary + Payment */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '25px' }}>
-        
-        {/* Payment Info — Payment Type moved HERE */}
-        <div className="glass-card" style={{ padding: '25px' }}>
-          <h4 style={{ marginBottom: '20px' }}>Payment Info</h4>
-          <div style={{ display: 'grid', gap: '15px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <label><CreditCard size={14} style={{ marginRight: '6px' }} />Payment Type</label>
-              <select
-                className="input-field"
-                style={{ width: '140px' }}
-                value={master.paymentType}
-                onChange={(e) => handleMasterChange('paymentType', e.target.value)}
-              >
-                <option value="Cash">Cash</option>
-                <option value="Bank">Bank Transfer</option>
-                <option value="UPI">UPI</option>
-                <option value="Credit">Credit</option>
-              </select>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <label>Discount</label>
-              <input type="number" className="input-field" style={{ width: '120px' }} value={master.discount} onChange={(e) => handleMasterChange('discount', e.target.value)} />
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <label>Paid Amount</label>
-              <input type="number" className="input-field" style={{ width: '120px' }} value={master.paidAmount} onChange={(e) => handleMasterChange('paidAmount', e.target.value)} />
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: '#ef4444', fontWeight: '600' }}>
-              <label>Balance Due</label>
-              <span>₹{master.dueAmount.toFixed(2)}</span>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-
-        {/* Bill Total */}
-        <div className="glass-card" style={{ padding: '25px', background: 'rgba(59, 130, 246, 0.1)' }}>
-          <h4 style={{ marginBottom: '20px' }}>Bill Total</h4>
-          <div style={{ display: 'grid', gap: '12px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <span>Total Quantity</span>
-              <span style={{ fontWeight: '600' }}>{master.totalQuantity}</span>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <span>Subtotal</span>
-              <span style={{ fontWeight: '600' }}>₹{master.subtotal.toFixed(2)}</span>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <span>GST / Tax Amount</span>
-              <span style={{ fontWeight: '600' }}>₹{master.taxAmount.toFixed(2)}</span>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '1.2rem', fontWeight: '800', marginTop: '10px', color: '#3b82f6', borderTop: '1px solid var(--border)', paddingTop: '10px' }}>
-              <span>Grand Total</span>
-              <span>₹{master.grandTotal.toFixed(2)}</span>
-            </div>
-          </div>
-          <button className="btn" style={{ width: '100%', marginTop: '20px', height: '50px', fontSize: '1.1rem', background: '#3b82f6', color: 'white' }}>
-            <Save size={20} /> Complete Sale
-          </button>
         </div>
       </div>
     </div>

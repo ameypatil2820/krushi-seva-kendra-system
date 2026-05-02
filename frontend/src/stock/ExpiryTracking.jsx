@@ -30,60 +30,75 @@ const ExpiryTracking = () => {
   }, []);
 
   return (
-    <div className="agro-container">
-      <div className="page-header">
-        <div className="page-title-area">
-          <div className="page-title">
-            <h1>Expiry Tracking</h1>
-            <p>Monitor products nearing expiration and blocked items</p>
+    <div className="agro-container" style={{ padding: '0 25px' }}>
+      <div className="agro-unified-card" style={{ 
+        background: 'white', 
+        borderRadius: '16px', 
+        boxShadow: 'var(--shadow)',
+        border: '1px solid var(--border-light)',
+        marginTop: '5px',
+        overflow: 'hidden'
+      }}>
+        <div className="agro-header-compact" style={{ 
+          display: 'flex', 
+          alignItems: 'center', 
+          justifyContent: 'space-between', 
+          padding: '20px 25px',
+          borderBottom: '1px solid var(--border-light)',
+          background: 'white'
+        }}>
+          <div style={{ flexShrink: 0 }}>
+            <h2 style={{ marginBottom: '2px', fontSize: '20px' }}>Expiry Tracking</h2>
+            <p style={{ margin: 0, fontSize: '13px' }}>Monitor products nearing expiration and blocked items</p>
           </div>
+          <div style={{ width: '150px' }}></div>
         </div>
-      </div>
-
-      <div className="agro-card" style={{ padding: '20px' }}>
-        <div className="table-responsive">
-          <table className="agro-table">
-            <thead>
-              <tr>
-                <th>Alert Type</th>
-                <th>Product Name</th>
-                <th>Batch No</th>
-                <th>Qty Remaining</th>
-                <th>Expire Date</th>
-                <th>Action Required</th>
-              </tr>
-            </thead>
-            <tbody>
-              {expiryAlerts.map(item => (
-                <tr key={item.id} style={{ background: item.expiryInfo.type === 'danger' ? '#fef2f2' : '#fffbeb' }}>
-                  <td>
-                    <span className={`badge badge-${item.expiryInfo.type}`} style={{ display: 'flex', alignItems: 'center', gap: '5px', width: 'max-content' }}>
-                      <AlertTriangle size={14} />
-                      {item.expiryInfo.type === 'danger' ? 'Expired' : 'Expiring Soon'}
-                    </span>
-                  </td>
-                  <td style={{ fontWeight: '600' }}>{item.productName}</td>
-                  <td>{item.batchNo}</td>
-                  <td style={{ fontWeight: '700' }}>{item.quantityAvailable}</td>
-                  <td>{item.expireDate}</td>
-                  <td>
-                    {item.expiryInfo.type === 'danger' ? (
-                      <span style={{ color: '#ef4444', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '5px' }}>
-                        <XCircle size={16} /> Blocked for Sale
-                      </span>
-                    ) : (
-                      <span style={{ color: '#d97706', fontWeight: '600' }}>
-                        Clear stock in {item.expiryInfo.days} days
-                      </span>
-                    )}
-                  </td>
+        
+        <div style={{ padding: '10px' }}>
+          <div className="agro-table-container agro-table-wrapper-simple">
+            <table className="agro-table">
+              <thead>
+                <tr>
+                  <th>Alert Type</th>
+                  <th>Product Name</th>
+                  <th>Batch No</th>
+                  <th>Qty Remaining</th>
+                  <th>Expire Date</th>
+                  <th>Action Required</th>
                 </tr>
-              ))}
-              {expiryAlerts.length === 0 && (
-                <tr><td colSpan="6" style={{ textAlign: 'center', padding: '30px' }}>No expiry alerts at the moment. All stock is safe.</td></tr>
-              )}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {expiryAlerts.map(item => (
+                  <tr key={item.id} style={{ background: item.expiryInfo.type === 'danger' ? '#fef2f2' : '#fffbeb' }}>
+                    <td>
+                      <span className={`badge badge-${item.expiryInfo.type}`} style={{ display: 'flex', alignItems: 'center', gap: '5px', width: 'max-content', fontSize: '11px' }}>
+                        <AlertTriangle size={14} />
+                        {item.expiryInfo.type === 'danger' ? 'Expired' : 'Expiring Soon'}
+                      </span>
+                    </td>
+                    <td style={{ fontWeight: '600' }}>{item.productName}</td>
+                    <td>{item.batchNo}</td>
+                    <td style={{ fontWeight: '700' }}>{item.quantityAvailable}</td>
+                    <td>{item.expireDate}</td>
+                    <td>
+                      {item.expiryInfo.type === 'danger' ? (
+                        <span style={{ color: '#ef4444', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '5px', fontSize: '13px' }}>
+                          <XCircle size={16} /> Blocked for Sale
+                        </span>
+                      ) : (
+                        <span style={{ color: '#d97706', fontWeight: '600', fontSize: '13px' }}>
+                          Clear stock in {item.expiryInfo.days} days
+                        </span>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+                {expiryAlerts.length === 0 && (
+                  <tr><td colSpan="6" style={{ textAlign: 'center', padding: '30px' }}>No expiry alerts at the moment. All stock is safe.</td></tr>
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>

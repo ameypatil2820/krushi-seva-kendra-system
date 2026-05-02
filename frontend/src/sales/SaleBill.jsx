@@ -32,113 +32,107 @@ const SaleBill = () => {
   };
 
   return (
-    <div className="animate-fade">
-      {/* Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '25px' }}>
-        <div>
-          <h2 style={{ color: 'var(--primary)', margin: 0 }}>Sale Bills</h2>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>View and manage all customer sale bills</p>
-        </div>
-        <button
-          className="btn btn-primary"
-          onClick={() => navigate('/sales/entry')}
-        >
-          <Plus size={18} /> New Sale Bill
-        </button>
-      </div>
+    <div className="agro-container" style={{ padding: '0 25px' }}>
+      <div className="agro-unified-card" style={{ 
+        background: 'white', 
+        borderRadius: '16px', 
+        boxShadow: 'var(--shadow)',
+        border: '1px solid var(--border-light)',
+        marginTop: '5px',
+        overflow: 'hidden'
+      }}>
+        <div className="agro-header-compact" style={{ 
+          display: 'flex', 
+          alignItems: 'center', 
+          justifyContent: 'space-between', 
+          padding: '20px 25px',
+          borderBottom: '1px solid var(--border-light)',
+          background: 'white'
+        }}>
+          <div style={{ flexShrink: 0 }}>
+            <h2 style={{ marginBottom: '2px', fontSize: '20px' }}>Sale Bills</h2>
+            <p style={{ margin: 0, fontSize: '13px' }}>View and manage all customer sale bills</p>
+          </div>
 
-      {/* Filters */}
-      <div className="glass-card" style={{ padding: '20px', marginBottom: '25px', display: 'flex', gap: '15px', alignItems: 'center' }}>
-        <div style={{ position: 'relative', flex: 1 }}>
-          <Search style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-secondary)' }} size={18} />
-          <input
-            type="text"
-            className="input-field"
-            placeholder="Search by Bill ID or Customer..."
-            style={{ paddingLeft: '40px' }}
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </div>
-        <select
-          className="input-field"
-          style={{ width: '160px' }}
-          value={statusFilter}
-          onChange={(e) => setStatusFilter(e.target.value)}
-        >
-          <option value="All">All Status</option>
-          <option value="Paid">Paid</option>
-          <option value="Partial">Partial</option>
-          <option value="Unpaid">Unpaid</option>
-        </select>
-      </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flex: 1, justifyContent: 'center' }}>
+            <div style={{ position: 'relative', width: '100%', maxWidth: '300px' }}>
+              <input 
+                type="text" 
+                placeholder="Search bills..." 
+                className="form-control" 
+                style={{ paddingLeft: '15px', paddingRight: '12px', height: '38px', fontSize: '13px', borderRadius: '10px', border: '1px solid var(--border)' }}
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
+            <select 
+              className="form-control" 
+              style={{ width: '130px', height: '38px', fontSize: '13px', borderRadius: '10px', background: '#f8fafc', border: '1px solid var(--border)' }}
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value)}
+            >
+              <option value="All">All Status</option>
+              <option value="Paid">Paid</option>
+              <option value="Partial">Partial</option>
+              <option value="Unpaid">Unpaid</option>
+            </select>
+          </div>
 
-      {/* Table */}
-      <div className="glass-card" style={{ overflow: 'hidden' }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-          <thead>
-            <tr style={{ background: 'rgba(255,255,255,0.05)', textAlign: 'left' }}>
-              <th style={{ padding: '15px 20px' }}>Bill ID</th>
-              <th style={{ padding: '15px 20px' }}>Customer</th>
-              <th style={{ padding: '15px 20px' }}>Date</th>
-              <th style={{ padding: '15px 20px' }}>Grand Total</th>
-              <th style={{ padding: '15px 20px' }}>Paid</th>
-              <th style={{ padding: '15px 20px' }}>Due</th>
-              <th style={{ padding: '15px 20px' }}>Payment</th>
-              <th style={{ padding: '15px 20px' }}>Status</th>
-              <th style={{ padding: '15px 20px' }}>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredBills.map((bill) => (
-              <tr key={bill.id} style={{ borderBottom: '1px solid var(--glass-border)' }}>
-                <td style={{ padding: '15px 20px', fontWeight: '600' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <FileText size={16} color="var(--primary)" />
-                    {bill.id}
-                  </div>
-                </td>
-                <td style={{ padding: '15px 20px' }}>
-                  <div style={{ fontWeight: '600' }}>{bill.customerName}</div>
-                  <div style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>{bill.customerId}</div>
-                </td>
-                <td style={{ padding: '15px 20px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <Calendar size={14} color="var(--text-secondary)" />
-                    {bill.billDate}
-                  </div>
-                </td>
-                <td style={{ padding: '15px 20px', fontWeight: '700' }}>
-                  <span style={{ display: 'flex', alignItems: 'center' }}>
-                    <IndianRupee size={14} /> {bill.grandTotal.toFixed(2)}
-                  </span>
-                </td>
-                <td style={{ padding: '15px 20px', color: '#10b981', fontWeight: '600' }}>
-                  ₹{bill.paidAmount.toFixed(2)}
-                </td>
-                <td style={{ padding: '15px 20px', color: bill.dueAmount > 0 ? '#ef4444' : '#6b7280', fontWeight: '600' }}>
-                  ₹{bill.dueAmount.toFixed(2)}
-                </td>
-                <td style={{ padding: '15px 20px' }}>
-                  <span style={{ background: 'rgba(255,255,255,0.1)', padding: '3px 10px', borderRadius: '6px', fontSize: '13px' }}>
-                    {bill.paymentType}
-                  </span>
-                </td>
-                <td style={{ padding: '15px 20px' }}>{getStatusBadge(bill.status)}</td>
-                <td style={{ padding: '15px 20px' }}>
-                  <button className="btn btn-secondary" onClick={() => navigate(`/sales/bills/view/${bill.id}`)} style={{ padding: '5px 12px', fontSize: '0.8rem' }}>View</button>
-                </td>
-              </tr>
-            ))}
-            {filteredBills.length === 0 && (
-              <tr>
-                <td colSpan="8" style={{ textAlign: 'center', padding: '40px', color: 'var(--text-secondary)' }}>
-                  No bills found.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+          <button className="btn-agro btn-primary" onClick={() => navigate('/sales/entry')} style={{ height: '38px', padding: '0 16px' }}>
+            <Plus size={18} /> New Sale Bill
+          </button>
+        </div>
+        
+        <div style={{ padding: '10px' }}>
+          <div className="agro-table-container agro-table-wrapper-simple">
+            <table className="agro-table">
+              <thead>
+                <tr>
+                  <th>Bill ID</th>
+                  <th>Customer</th>
+                  <th>Date</th>
+                  <th>Total</th>
+                  <th>Paid</th>
+                  <th>Due</th>
+                  <th>Payment</th>
+                  <th>Status</th>
+                  <th style={{ textAlign: 'right' }}>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredBills.map((bill) => (
+                  <tr key={bill.id}>
+                    <td style={{ fontWeight: '700', fontSize: '13px', color: 'var(--primary)' }}>{bill.id}</td>
+                    <td>
+                      <div style={{ fontWeight: '600' }}>{bill.customerName}</div>
+                      <div style={{ fontSize: '11px', color: 'var(--text-muted)' }}>{bill.customerId}</div>
+                    </td>
+                    <td>{bill.billDate}</td>
+                    <td style={{ fontWeight: '700' }}>₹{bill.grandTotal.toFixed(2)}</td>
+                    <td style={{ color: '#16a34a', fontWeight: '600' }}>₹{bill.paidAmount.toFixed(2)}</td>
+                    <td style={{ color: bill.dueAmount > 0 ? '#ef4444' : 'inherit', fontWeight: '600' }}>₹{bill.dueAmount.toFixed(2)}</td>
+                    <td>
+                      <span style={{ background: '#f1f5f9', padding: '3px 8px', borderRadius: '5px', fontSize: '11px' }}>{bill.paymentType}</span>
+                    </td>
+                    <td>{getStatusBadge(bill.status)}</td>
+                    <td style={{ textAlign: 'right' }}>
+                      <button 
+                        className="btn-agro btn-outline" 
+                        onClick={() => navigate(`/sales/bills/view/${bill.id}`)}
+                        style={{ padding: '4px 12px', height: '28px', fontSize: '11px' }}
+                      >
+                        View
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+                {filteredBills.length === 0 && (
+                  <tr><td colSpan="9" style={{ textAlign: 'center', padding: '30px' }}>No records found.</td></tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   );

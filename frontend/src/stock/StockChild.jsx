@@ -33,67 +33,85 @@ const StockChild = () => {
   }, [searchTerm]);
 
   return (
-    <div className="agro-container">
-      <div className="page-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <div className="page-title-area">
-          <div className="page-title">
-            <h1>Stock Child (Batches)</h1>
-            <p>Detailed batch-wise stock tracking</p>
+    <div className="agro-container" style={{ padding: '0 25px' }}>
+      <div className="agro-unified-card" style={{ 
+        background: 'white', 
+        borderRadius: '16px', 
+        boxShadow: 'var(--shadow)',
+        border: '1px solid var(--border-light)',
+        marginTop: '5px',
+        overflow: 'hidden'
+      }}>
+        <div className="agro-header-compact" style={{ 
+          display: 'flex', 
+          alignItems: 'center', 
+          justifyContent: 'space-between', 
+          padding: '20px 25px',
+          borderBottom: '1px solid var(--border-light)',
+          background: 'white'
+        }}>
+          <div style={{ flexShrink: 0 }}>
+            <h2 style={{ marginBottom: '2px', fontSize: '20px' }}>Stock Child (Batches)</h2>
+            <p style={{ margin: 0, fontSize: '13px' }}>Detailed batch-wise stock tracking</p>
           </div>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flex: 1, justifyContent: 'center' }}>
+            <div style={{ position: 'relative', width: '100%', maxWidth: '400px' }}>
+              <input 
+                type="text" 
+                placeholder="Search batches..." 
+                className="form-control" 
+                style={{ paddingLeft: '15px', paddingRight: '12px', height: '38px', fontSize: '13px', borderRadius: '10px', border: '1px solid var(--border)' }}
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
+          </div>
+
+          <div style={{ width: '150px' }}></div> {/* Spacer */}
         </div>
         
-        <div className="search-bar" style={{ display: 'flex', alignItems: 'center', background: 'white', padding: '8px 16px', borderRadius: '12px', border: '1px solid #e5e7eb', width: '300px' }}>
-          <Search size={18} color="#9ca3af" />
-          <input 
-            type="text" 
-            placeholder="Search batches..." 
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            style={{ border: 'none', outline: 'none', marginLeft: '10px', width: '100%', fontSize: '14px' }}
-          />
-        </div>
-      </div>
-
-      <div className="agro-card" style={{ padding: '20px' }}>
-        <div className="table-responsive">
-          <table className="agro-table">
-            <thead>
-              <tr>
-                <th>Product Name</th>
-                <th>Batch No</th>
-                <th>Purchase ID</th>
-                <th>Qty Available</th>
-                <th>Cost Price (₹)</th>
-                <th>MRP (₹)</th>
-                <th>Expire Date</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredBatches.map(item => {
-                const expiry = getExpiryStatus(item.expireDate);
-                return (
-                  <tr key={item.id}>
-                    <td style={{ fontWeight: '600' }}>{item.productName}</td>
-                    <td><span style={{ background: '#f3f4f6', padding: '4px 8px', borderRadius: '4px', fontSize: '13px' }}>{item.batchNo}</span></td>
-                    <td>{item.purchaseId}</td>
-                    <td><span style={{ fontWeight: '700' }}>{item.quantityAvailable}</span></td>
-                    <td>{item.costPrice}</td>
-                    <td>{item.mrp}</td>
-                    <td>{item.expireDate}</td>
-                    <td>
-                      <span className={`badge badge-${expiry.type}`} style={{ fontSize: '12px' }}>
-                        {expiry.status}
-                      </span>
-                    </td>
-                  </tr>
-                );
-              })}
-              {filteredBatches.length === 0 && (
-                <tr><td colSpan="8" style={{ textAlign: 'center', padding: '30px' }}>No batches found.</td></tr>
-              )}
-            </tbody>
-          </table>
+        <div style={{ padding: '10px' }}>
+          <div className="agro-table-container agro-table-wrapper-simple">
+            <table className="agro-table">
+              <thead>
+                <tr>
+                  <th>Product Name</th>
+                  <th>Batch No</th>
+                  <th>Purchase ID</th>
+                  <th>Qty Available</th>
+                  <th>Cost Price (₹)</th>
+                  <th>MRP (₹)</th>
+                  <th>Expire Date</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredBatches.map(item => {
+                  const expiry = getExpiryStatus(item.expireDate);
+                  return (
+                    <tr key={item.id}>
+                      <td style={{ fontWeight: '600' }}>{item.productName}</td>
+                      <td><span style={{ background: '#f3f4f6', padding: '4px 8px', borderRadius: '4px', fontSize: '12px' }}>{item.batchNo}</span></td>
+                      <td>{item.purchaseId}</td>
+                      <td><span style={{ fontWeight: '700' }}>{item.quantityAvailable}</span></td>
+                      <td>{item.costPrice}</td>
+                      <td>{item.mrp}</td>
+                      <td>{item.expireDate}</td>
+                      <td>
+                        <span className={`badge badge-${expiry.type}`} style={{ fontSize: '11px' }}>
+                          {expiry.status}
+                        </span>
+                      </td>
+                    </tr>
+                  );
+                })}
+                {filteredBatches.length === 0 && (
+                  <tr><td colSpan="8" style={{ textAlign: 'center', padding: '30px' }}>No batches found.</td></tr>
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
