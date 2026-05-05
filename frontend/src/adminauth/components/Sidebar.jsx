@@ -104,7 +104,7 @@ const Sidebar = () => {
       width: '280px', 
       height: '100vh', 
       background: 'linear-gradient(180deg, #064e3b 0%, #065f46 100%)', 
-      padding: '30px 20px', 
+      padding: '20px 15px', 
       display: 'flex', 
       flexDirection: 'column',
       color: 'white',
@@ -112,19 +112,19 @@ const Sidebar = () => {
       zIndex: 100,
       position: 'relative'
     }}>
-      <div className="brand" style={{ marginBottom: '50px', textAlign: 'left', padding: '0 10px' }}>
+      <div className="brand" style={{ marginBottom: '20px', textAlign: 'left', padding: '0 10px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-          <div style={{ width: '50px', height: '50px', background: 'rgba(255,255,255,0.1)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', backdropFilter: 'blur(10px)' }}>
-            <img src={logo} alt="Logo" style={{ width: '35px', height: '35px' }} />
+          <div style={{ width: '55px', height: '55px', background: 'rgba(255,255,255,0.12)', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', backdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.1)' }}>
+            <img src={logo} alt="Logo" style={{ width: '40px', height: '40px' }} />
           </div>
           <div>
-            <h2 style={{ fontSize: '20px', fontWeight: '800', letterSpacing: '0.5px', margin: 0 }}>AGRO SEVA</h2>
-            <p style={{ fontSize: '10px', color: '#34d399', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '1px' }}>Management System</p>
+            <h2 style={{ fontSize: '22px', fontWeight: '900', letterSpacing: '0.5px', margin: 0, color: 'white' }}>AGRO SEVA</h2>
+            <p style={{ fontSize: '11px', color: '#34d399', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '1.5px', marginTop: '2px' }}>Management System</p>
           </div>
         </div>
       </div>
 
-      <nav style={{ display: 'flex', flexDirection: 'column', gap: '8px', flex: 1, overflowY: 'auto', paddingRight: '5px' }}>
+      <nav style={{ display: 'flex', flexDirection: 'column', gap: '4px', flex: 1, overflowY: 'auto', paddingRight: '5px' }}>
         {filteredMenu.map((item) => (
           <div key={item.name + (item.path || '')}>
             {item.children ? (
@@ -135,15 +135,22 @@ const Sidebar = () => {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
-                    padding: '14px 16px',
-                    borderRadius: '12px',
+                    padding: '10px 14px',
+                    borderRadius: '10px',
                     color: location.pathname.startsWith(`/${item.id}`) ? 'white' : 'rgba(255,255,255,0.7)',
                     cursor: 'pointer',
                     transition: 'all 0.3s',
-                    background: location.pathname.startsWith(`/${item.id}`) ? 'rgba(255,255,255,0.1)' : 'transparent'
+                    background: location.pathname.startsWith(`/${item.id}`) ? '#10b981' : 'transparent',
+                    borderLeft: location.pathname.startsWith(`/${item.id}`) ? '4px solid #34d399' : '4px solid transparent'
                   }}
-                  onMouseOver={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.1)'}
-                  onMouseOut={(e) => e.currentTarget.style.background = location.pathname.startsWith(`/${item.id}`) ? 'rgba(255,255,255,0.1)' : 'transparent'}
+                  onMouseOver={(e) => {
+                    e.currentTarget.style.background = location.pathname.startsWith(`/${item.id}`) ? '#10b981' : 'rgba(255,255,255,0.1)';
+                    if (!location.pathname.startsWith(`/${item.id}`)) e.currentTarget.style.borderLeft = '4px solid rgba(52, 211, 153, 0.3)';
+                  }}
+                  onMouseOut={(e) => {
+                    e.currentTarget.style.background = location.pathname.startsWith(`/${item.id}`) ? '#10b981' : 'transparent';
+                    e.currentTarget.style.borderLeft = location.pathname.startsWith(`/${item.id}`) ? '4px solid #34d399' : '4px solid transparent';
+                  }}
                 >
                   <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
                     {item.icon}
@@ -163,14 +170,15 @@ const Sidebar = () => {
                           display: 'flex',
                           alignItems: 'center',
                           gap: '12px',
-                          padding: '12px 16px',
-                          borderRadius: '10px',
+                          padding: '8px 12px',
+                          borderRadius: '8px',
                           color: isActive ? 'white' : 'rgba(255,255,255,0.6)',
-                          background: isActive ? '#10b981' : 'transparent',
+                          background: isActive ? '#059669' : 'transparent',
                           textDecoration: 'none',
                           transition: 'all 0.3s',
-                          fontSize: '14px',
-                          fontWeight: isActive ? '700' : '500'
+                          fontSize: '13px',
+                          fontWeight: isActive ? '700' : '500',
+                          borderLeft: isActive ? '3px solid #34d399' : '3px solid transparent'
                         })}
                       >
                         {child.icon}
@@ -188,14 +196,15 @@ const Sidebar = () => {
                   display: 'flex',
                   alignItems: 'center',
                   gap: '15px',
-                  padding: '14px 16px',
-                  borderRadius: '12px',
-                  color: isActive ? 'white' : 'rgba(255,255,255,0.7)',
+                  padding: '10px 14px',
+                  borderRadius: '10px',
+                  color: isActive ? 'white' : 'rgba(255,255,255,0.85)',
                   background: isActive ? '#10b981' : 'transparent',
                   textDecoration: 'none',
                   transition: 'all 0.3s',
-                  fontWeight: isActive ? '700' : '500',
-                  fontSize: '15px'
+                  fontWeight: isActive ? '700' : '600',
+                  fontSize: '14px',
+                  borderLeft: isActive ? '4px solid #34d399' : '4px solid transparent'
                 })}
               >
                 {item.icon}

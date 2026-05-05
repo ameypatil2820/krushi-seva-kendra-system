@@ -175,19 +175,20 @@ const Layout = () => {
         {/* Top Navbar */}
         {!isFullScreenPage && (
           <header style={{
-            minHeight: '80px',
-            height: 'auto',
-            margin: '20px 25px 0 25px',
+            minHeight: '65px',
+            height: '65px',
+            margin: '0',
             background: 'white',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            padding: '10px 30px',
-            borderRadius: '16px',
-            boxShadow: 'var(--shadow)',
-            position: 'relative',
-            zIndex: 90,
-            border: '1px solid var(--border-light)'
+            padding: '0 30px',
+            borderRadius: '0',
+            boxShadow: '0 4px 6px -1px rgba(0,0,0,0.02)',
+            position: 'sticky',
+            top: 0,
+            zIndex: 100,
+            borderBottom: '2px solid rgba(16, 185, 129, 0.1)'
           }}>
             {/* Search Section on the Left */}
             <div style={{ flex: 2, display: 'flex', justifyContent: 'flex-start' }}>
@@ -200,8 +201,8 @@ const Layout = () => {
                   onFocus={() => searchQuery.length > 0 && setShowSuggestions(true)}
                   style={{
                     width: '100%',
-                    padding: '14px 24px 14px 54px',
-                    borderRadius: '12px',
+                    padding: '10px 20px 10px 48px',
+                    borderRadius: '10px',
                     background: 'transparent',
                     border: '1px solid #e2e8f0',
                     fontSize: '15px',
