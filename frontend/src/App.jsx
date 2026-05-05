@@ -149,6 +149,11 @@ const AppRoutes = () => {
               <UserCreate />
             </ProtectedRoute>
           } />
+          <Route path="edit/:id" element={
+            <ProtectedRoute module="users" action="manage">
+              <UserCreate />
+            </ProtectedRoute>
+          } />
         </Route>
 
         <Route path="profile" element={<BusinessProfile />} />
