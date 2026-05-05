@@ -163,7 +163,10 @@ const Layout = () => {
         flex: 1,
         overflowY: 'auto',
         padding: '0',
-        background: 'var(--background)'
+        background: 'var(--background)',
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '100vh'
       }}>
         {/* Top Navbar */}
         {!isFullScreenPage && (
