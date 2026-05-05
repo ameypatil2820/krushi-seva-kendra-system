@@ -6,28 +6,36 @@ import '../../../mastermodel/styles/MasterModel.css';
 
 import { useNavigate } from 'react-router-dom';
 
+import ConfirmModal from '../../../mastermodel/components/ConfirmModal';
+
 const UserManagement = () => {
   const navigate = useNavigate();
   const [users, setUsers] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [userToDelete, setUserToDelete] = useState(null);
 
   useEffect(() => {
     initializeStorage();
     setUsers(getFromStorage(STORAGE_KEYS.USERS) || []);
   }, []);
 
-  const handleDelete = (id) => {
-    if (window.confirm('Are you sure you want to delete this user?')) {
+  const handleDeleteClick = (user) => {
+    if (user.role === 'Admin') {
+      alert('Cannot delete Admin account');
+      return;
+    }
+    setUserToDelete(user);
+    setIsModalOpen(true);
+  };
+
+  const handleConfirmDelete = () => {
+    if (userToDelete) {
       const currentUsers = getFromStorage(STORAGE_KEYS.USERS) || [];
-      const userToDelete = currentUsers.find(u => u.id === id);
-
-      if (userToDelete?.role === 'Admin') {
-        alert('Cannot delete Admin account');
-        return;
-      }
-
-      const updatedUsers = currentUsers.filter(u => u.id !== id);
+      const updatedUsers = currentUsers.filter(u => u.id !== userToDelete.id);
       setUsers(updatedUsers);
       setToStorage(STORAGE_KEYS.USERS, updatedUsers);
+      setIsModalOpen(false);
+      setUserToDelete(null);
     }
   };
 
@@ -111,7 +119,7 @@ const UserManagement = () => {
                           <button onClick={() => navigate(`/users/edit/${u.id}`)} style={{ background: 'none', border: 'none', color: 'var(--primary)', cursor: 'pointer', padding: '5px' }}>
                             <Edit3 size={16} />
                           </button>
-                          <button onClick={() => handleDelete(u.id)} style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', padding: '5px' }}>
+                          <button onClick={() => handleDeleteClick(u)} style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', padding: '5px' }}>
                             <Trash2 size={16} />
                           </button>
                         </div>
@@ -124,6 +132,13 @@ const UserManagement = () => {
           </div>
         </div>
       </div>
+      <ConfirmModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        onConfirm={handleConfirmDelete} 
+        title="Delete User Account?" 
+        message={`Are you sure you want to delete ${userToDelete?.name}? This action cannot be undone.`} 
+      />
     </div>
   );
 };
