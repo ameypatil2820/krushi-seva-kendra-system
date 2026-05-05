@@ -26,6 +26,8 @@ const Layout = () => {
   // Sidebar Menu Items for Search
   const menuItems = [
     { name: 'Dashboard', path: '/dashboard' },
+    { name: 'Business Profile', path: '/profile' },
+    { name: 'User Profile', path: '/user-profile' },
     { name: 'Category', path: '/categories', module: 'category', action: 'view' },
     { name: 'Products', path: '/products', module: 'product', action: 'view' },
     { name: 'Customers', path: '/customers', module: 'customer', action: 'view' },

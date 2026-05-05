@@ -9,6 +9,8 @@ import Dashboard from './adminauth/pages/dashboard/Dashboard';
 import RoleManagement from './adminauth/pages/dashboard/RoleManagement';
 import UserManagement from './adminauth/pages/dashboard/UserManagement';
 import UserCreate from './adminauth/pages/dashboard/UserCreate';
+import BusinessProfile from './adminauth/pages/dashboard/BusinessProfile';
+import UserProfile from './adminauth/pages/dashboard/UserProfile';
 import ModulePage from './adminauth/pages/dashboard/ModulePage';
 import { 
   Suppliers, SupplierCreate, SupplierEdit, SupplierView,
@@ -135,6 +137,9 @@ const AppRoutes = () => {
             </ProtectedRoute>
           } />
         </Route>
+
+        <Route path="profile" element={<BusinessProfile />} />
+        <Route path="user-profile" element={<UserProfile />} />
       </Route>
 
       <Route path="*" element={<Navigate to="/login" />} />

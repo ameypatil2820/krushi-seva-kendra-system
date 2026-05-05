@@ -20,7 +20,8 @@ import {
   ClipboardList,
   Box,
   Clock,
-  AlertCircle
+  AlertCircle,
+  Store
 } from 'lucide-react';
 
 import logo from '../../assets/logo.png';
@@ -84,6 +85,8 @@ const Sidebar = () => {
     { name: 'Tax', icon: <Percent size={20} />, path: '/taxes', module: 'tax', action: 'view' },
     { name: 'Users', icon: <UserPlus size={20} />, path: '/users', module: 'users', action: 'manage' },
     { name: 'Roles', icon: <ShieldCheck size={20} />, path: '/roles', module: 'roles', action: 'manage' },
+    { name: 'User Profile', icon: <Users size={20} />, path: '/user-profile' },
+    { name: 'Business Profile', icon: <Store size={20} />, path: '/profile' },
   ];
 
   const filterItem = (item) => {
