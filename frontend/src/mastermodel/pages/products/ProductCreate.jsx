@@ -100,6 +100,7 @@ const ProductCreate = () => {
                   onChange={handleChange}
                   required
                   placeholder="e.g. 10"
+                  hint={(formData.primaryUnit && formData.secondaryUnit) ? `1 ${formData.primaryUnit} = ${formData.conversionFactor || '?'} ${formData.secondaryUnit}` : ""}
                 />
               </div>
             </div>
@@ -113,7 +114,17 @@ const ProductCreate = () => {
 
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
                 <FormField label="Current Stock" name="currentStock" type="number" value={formData.currentStock} onChange={handleChange} required placeholder="0" />
-                <FormField label="Low Stock Alert" name="minStock" type="number" value={formData.minStock} onChange={handleChange} required placeholder="5" />
+                <FormField 
+                  label="Low Stock Alert" 
+                  name="minStock" 
+                  type="number" 
+                  value={formData.minStock} 
+                  onChange={handleChange} 
+                  required 
+                  placeholder="5" 
+                  hint={formData.currentStock !== "" && formData.minStock !== "" ? (Number(formData.currentStock) < Number(formData.minStock) ? `Low by ${Number(formData.minStock) - Number(formData.currentStock)}` : "Stock Sufficient") : ""}
+                  hintColor={formData.currentStock !== "" && formData.minStock !== "" ? (Number(formData.currentStock) < Number(formData.minStock) ? "#ef4444" : "#16a34a") : ""}
+                />
               </div>
 
 
