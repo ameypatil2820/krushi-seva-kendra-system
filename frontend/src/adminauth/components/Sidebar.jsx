@@ -25,7 +25,7 @@ import {
   Store
 } from 'lucide-react';
 
-import logo from '../../assets/logo.png';
+import logo from '../../assets/premium_logo.png';
 
 const Sidebar = () => {
   const { user, logout, hasPermission } = useAuth();
@@ -54,11 +54,11 @@ const Sidebar = () => {
     { name: 'Products', icon: <Package size={20} />, path: '/products', module: 'product', action: 'view' },
     { name: 'Customers', icon: <UserCheck size={20} />, path: '/customers', module: 'customer', action: 'view' },
     { name: 'Suppliers', icon: <Truck size={20} />, path: '/suppliers', module: 'supplier', action: 'view' },
-    
+
     // Stock Group
-    { 
-      name: 'Stock', 
-      icon: <Box size={20} />, 
+    {
+      name: 'Stock',
+      icon: <Box size={20} />,
       id: 'stock',
       children: [
         { name: 'Stock Master', icon: <Package size={18} />, path: '/stock/master', module: 'stock', action: 'view' },
@@ -66,11 +66,11 @@ const Sidebar = () => {
         { name: 'Expiry Tracking', icon: <Clock size={18} />, path: '/stock/expiry', module: 'stock', action: 'view' }
       ]
     },
-    
+
     // Sales Group
-    { 
-      name: 'Sales', 
-      icon: <ShoppingCart size={20} />, 
+    {
+      name: 'Sales',
+      icon: <ShoppingCart size={20} />,
       id: 'sales',
       children: [
         { name: 'Sale Bill', icon: <ShoppingCart size={18} />, path: '/sales/bills', module: 'sale', action: 'view' },
@@ -80,9 +80,9 @@ const Sidebar = () => {
     },
 
     // Purchase Group
-    { 
-      name: 'Purchase', 
-      icon: <Truck size={20} />, 
+    {
+      name: 'Purchase',
+      icon: <Truck size={20} />,
       id: 'purchase',
       children: [
         { name: 'Purchase Bill', icon: <FileText size={18} />, path: '/purchase/bills', module: 'purchase', action: 'view' },
@@ -109,12 +109,12 @@ const Sidebar = () => {
   const filteredMenu = menuItems.map(filterItem).filter(Boolean);
 
   return (
-    <aside className="sidebar" style={{ 
-      width: '280px', 
-      height: '100vh', 
-      background: 'linear-gradient(180deg, #064e3b 0%, #065f46 100%)', 
-      padding: '20px 15px', 
-      display: 'flex', 
+    <aside className="sidebar" style={{
+      width: '280px',
+      height: '100vh',
+      background: 'linear-gradient(180deg, #064e3b 0%, #065f46 100%)',
+      padding: '20px 15px',
+      display: 'flex',
       flexDirection: 'column',
       color: 'white',
       boxShadow: '4px 0 24px rgba(0,0,0,0.1)',
@@ -123,8 +123,20 @@ const Sidebar = () => {
     }}>
       <div className="brand" style={{ marginBottom: '20px', textAlign: 'left', padding: '0 10px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-          <div style={{ width: '55px', height: '55px', background: 'rgba(255,255,255,0.12)', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', backdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.1)' }}>
-            <img src={logo} alt="Logo" style={{ width: '40px', height: '40px' }} />
+          <div style={{
+            width: '55px',
+            height: '55px',
+            background: 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.02) 100%)',
+            borderRadius: '16px', // Premium Squircle (Apple/iOS Style)
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            boxShadow: '0 8px 24px rgba(0,0,0,0.15), inset 0 1px 1px rgba(255,255,255,0.2)',
+            border: '1px solid rgba(255, 255, 255, 0.15)',
+            backdropFilter: 'blur(12px)', // Glass effect
+            overflow: 'hidden'
+          }}>
+            <img src={logo} alt="AgroSeva Logo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           </div>
           <div>
             <h2 style={{ fontSize: '22px', fontWeight: '900', letterSpacing: '0.5px', margin: 0, color: 'white' }}>AGRO SEVA</h2>
@@ -138,7 +150,7 @@ const Sidebar = () => {
           <div key={item.name + (item.path || '')}>
             {item.children ? (
               <>
-                <div 
+                <div
                   onClick={() => toggleGroup(item.id)}
                   style={{
                     display: 'flex',
@@ -173,7 +185,7 @@ const Sidebar = () => {
                     <ChevronDown size={16} />
                   </motion.div>
                 </div>
-                
+
                 <AnimatePresence initial={false}>
                   {openGroups[item.id] && (
                     <motion.div
