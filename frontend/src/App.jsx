@@ -1,4 +1,6 @@
 import React from 'react';
+import { Toaster } from 'react-hot-toast';
+import ScrollToTop from './mastermodel/components/ScrollToTop';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './adminauth/context/AuthContext';
 import Layout from './adminauth/components/Layout';
@@ -165,8 +167,6 @@ const AppRoutes = () => {
   );
 };
 
-import { Toaster } from 'react-hot-toast';
-import ScrollToTop from './mastermodel/components/ScrollToTop';
 
 function App() {
   return (
