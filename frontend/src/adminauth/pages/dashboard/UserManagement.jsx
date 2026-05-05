@@ -66,7 +66,7 @@ const UserManagement = () => {
                   <th>User Details</th>
                   <th>Email</th>
                   <th>Access Role</th>
-                  <th style={{ textAlign: 'right' }}>Actions</th>
+                  <th style={{ textAlign: 'left' }}>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -105,7 +105,7 @@ const UserManagement = () => {
                         {u.role}
                       </span>
                     </td>
-                    <td style={{ textAlign: 'right' }}>
+                    <td style={{ textAlign: 'left' }}>
                       {u.role !== 'Admin' && (
                         <button onClick={() => handleDelete(u.id)} style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', padding: '5px' }}>
                           <Trash2 size={16} />

@@ -93,7 +93,7 @@ const PurchaseBill = () => {
                   <th>Due</th>
                   <th>Payment</th>
                   <th>Status</th>
-                  <th style={{ textAlign: 'right' }}>Actions</th>
+                  <th style={{ textAlign: 'left' }}>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -112,7 +112,7 @@ const PurchaseBill = () => {
                       <span style={{ background: '#f1f5f9', padding: '3px 8px', borderRadius: '5px', fontSize: '11px' }}>{bill.paymentType}</span>
                     </td>
                     <td>{getStatusBadge(bill.status)}</td>
-                    <td style={{ textAlign: 'right' }}>
+                    <td style={{ textAlign: 'left' }}>
                       <button
                         className="btn-agro btn-outline"
                         onClick={() => navigate(`/purchase/bills/view/${bill.id}`)}

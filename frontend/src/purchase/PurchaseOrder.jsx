@@ -85,7 +85,7 @@ const PurchaseOrder = () => {
                   <th>Order Date</th>
                   <th>Expiry Date</th>
                   <th>Status</th>
-                  <th style={{ textAlign: 'right' }}>Actions</th>
+                  <th style={{ textAlign: 'left' }}>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -96,7 +96,7 @@ const PurchaseOrder = () => {
                     <td>{order.orderDate}</td>
                     <td>{order.expiryDate}</td>
                     <td>{getStatusBadge(order.status)}</td>
-                    <td style={{ textAlign: 'right' }}>
+                    <td style={{ textAlign: 'left' }}>
                       <button
                         className="btn-agro btn-outline"
                         onClick={() => navigate(`/purchase/orders/view/${order.id}`)}

@@ -63,7 +63,7 @@ const PurchaseReturn = () => {
                   <th>Date</th>
                   <th>Total Amount</th>
                   <th>Reason</th>
-                  <th style={{ textAlign: 'right' }}>Actions</th>
+                  <th style={{ textAlign: 'left' }}>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -80,7 +80,7 @@ const PurchaseReturn = () => {
                         {item.reason}
                       </div>
                     </td>
-                    <td style={{ textAlign: 'right' }}>
+                    <td style={{ textAlign: 'left' }}>
                       <button
                         className="btn-agro btn-outline"
                         onClick={() => navigate(`/purchase/returns/view/${item.id}`)}

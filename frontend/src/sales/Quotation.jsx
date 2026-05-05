@@ -85,7 +85,7 @@ const Quotation = () => {
                   <th>Date</th>
                   <th>Total Amount</th>
                   <th>Status</th>
-                  <th style={{ textAlign: 'right' }}>Actions</th>
+                  <th style={{ textAlign: 'left' }}>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -99,7 +99,7 @@ const Quotation = () => {
                     <td>{item.date}</td>
                     <td style={{ fontWeight: '700' }}>₹{item.totalAmount.toFixed(2)}</td>
                     <td>{getStatusBadge(item.status)}</td>
-                    <td style={{ textAlign: 'right' }}>
+                    <td style={{ textAlign: 'left' }}>
                       <button
                         className="btn-agro btn-outline"
                         onClick={() => navigate('/sales/entry', { state: { quotationData: item } })}

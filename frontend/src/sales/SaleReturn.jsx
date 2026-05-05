@@ -63,7 +63,7 @@ const SaleReturn = () => {
                   <th>Date</th>
                   <th>Amount</th>
                   <th>Reason</th>
-                  <th style={{ textAlign: 'right' }}>Actions</th>
+                  <th style={{ textAlign: 'left' }}>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -83,7 +83,7 @@ const SaleReturn = () => {
                         {item.reason}
                       </span>
                     </td>
-                    <td style={{ textAlign: 'right' }}>
+                    <td style={{ textAlign: 'left' }}>
                       <button
                         className="btn-agro btn-outline"
                         onClick={() => navigate(`/sales/returns/view/${item.id}`)}

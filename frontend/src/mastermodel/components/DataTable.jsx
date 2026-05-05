@@ -58,7 +58,7 @@ const DataTable = ({ columns, data, onEdit, onDelete, onView, title, hideControl
               {columns.map((col, index) => (
                 <th key={index}>{col.header}</th>
               ))}
-              <th style={{ textAlign: 'right', paddingRight: '30px' }}>Actions</th>
+              <th style={{ textAlign: 'left' }}>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -70,8 +70,8 @@ const DataTable = ({ columns, data, onEdit, onDelete, onView, title, hideControl
                       {col.render ? col.render(row) : row[col.accessor]}
                     </td>
                   ))}
-                  <td style={{ textAlign: 'right', paddingRight: '20px' }}>
-                    <div className="action-icons">
+                  <td style={{ textAlign: 'left' }}>
+                    <div className="action-icons" style={{ justifyContent: 'flex-start' }}>
                       {onView && (
                         <button className="action-btn btn-view" onClick={() => onView(row)} title="View Details">
                           <Eye size={18} />
