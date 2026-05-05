@@ -272,7 +272,7 @@ const SaleEntry = () => {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <label style={{ fontSize: '12px' }}>Payment Type</label>
-                    <select className="form-control" style={{ width: '120px', height: '32px', fontSize: '12px' }} value={master.paymentType} onChange={(e) => handleMasterChange('paymentType', e.target.value)}>
+                    <select className="form-control" style={{ width: '120px', height: '36px', fontSize: '13px', padding: '0 10px' }} value={master.paymentType} onChange={(e) => handleMasterChange('paymentType', e.target.value)}>
                       <option value="Cash">Cash</option>
                       <option value="Bank">Bank</option>
                       <option value="UPI">UPI</option>

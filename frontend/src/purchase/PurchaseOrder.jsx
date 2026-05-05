@@ -59,7 +59,7 @@ const PurchaseOrder = () => {
             </div>
             <select
               className="form-control"
-              style={{ width: '130px', height: '38px', fontSize: '13px', borderRadius: '10px', background: '#f8fafc', border: '1px solid var(--border)' }}
+              style={{ width: '130px', height: '40px', fontSize: '13px', borderRadius: '10px', background: '#f8fafc', border: '1px solid var(--border)', padding: '0 12px' }}
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
             >
