@@ -206,40 +206,6 @@ const Sidebar = () => {
         ))}
       </nav>
 
-      <div style={{ marginTop: 'auto', paddingTop: '30px', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
-        <div style={{ padding: '0 15px', marginBottom: '25px', display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <div style={{ width: '40px', height: '40px', borderRadius: '50%', background: '#10b981', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '800', fontSize: '18px' }}>
-            {user?.name?.charAt(0)}
-          </div>
-          <div style={{ overflow: 'hidden' }}>
-            <p style={{ fontWeight: '700', fontSize: '14px', margin: 0, whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>{user?.name}</p>
-            <p style={{ fontSize: '11px', color: '#34d399', margin: 0, fontWeight: '600' }}>{user?.role?.toUpperCase()}</p>
-          </div>
-        </div>
-        <button
-          onClick={logout}
-          style={{ 
-            width: '100%', 
-            padding: '12px', 
-            borderRadius: '10px', 
-            background: 'rgba(239, 68, 68, 0.1)', 
-            border: '1px solid rgba(239, 68, 68, 0.2)', 
-            color: '#fca5a5',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '10px',
-            cursor: 'pointer',
-            fontWeight: '700',
-            transition: 'all 0.3s'
-          }}
-          onMouseOver={(e) => { e.currentTarget.style.background = '#ef4444'; e.currentTarget.style.color = 'white'; }}
-          onMouseOut={(e) => { e.currentTarget.style.background = 'rgba(239, 68, 68, 0.1)'; e.currentTarget.style.color = '#fca5a5'; }}
-        >
-          <LogOut size={18} />
-          <span>Logout</span>
-        </button>
-      </div>
     </aside>
   );
 };

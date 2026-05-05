@@ -4,13 +4,14 @@ import Sidebar from './Sidebar';
 import Footer from './Footer';
 import { motion } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
-import { Search, UserCircle } from 'lucide-react';
+import { Search, UserCircle, LogOut, User, Store } from 'lucide-react';
+import { AnimatePresence } from 'framer-motion';
 
 const Layout = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const mainContentRef = React.useRef(null);
-  const { user, hasPermission } = useAuth();
+  const { user, hasPermission, logout } = useAuth();
 
   // Reset scroll to top on route change
   useEffect(() => {
@@ -22,6 +23,7 @@ const Layout = () => {
   const [searchQuery, setSearchQuery] = React.useState('');
   const [suggestions, setSuggestions] = React.useState([]);
   const [showSuggestions, setShowSuggestions] = React.useState(false);
+  const [showUserDropdown, setShowUserDropdown] = React.useState(false);
 
   // Sidebar Menu Items for Search
   const menuItems = [
@@ -266,31 +268,136 @@ const Layout = () => {
             {/* Spacer Middle */}
             <div style={{ flex: 1 }}></div>
 
-            {/* User Profile / Login Symbol on the Right */}
-            <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
-              <div style={{
-                width: '45px',
-                height: '45px',
-                borderRadius: '50%',
-                border: '2px solid var(--primary)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                cursor: 'pointer',
-                transition: 'all 0.2s ease',
-                color: 'var(--primary)',
-                fontWeight: '800',
-                fontSize: '18px'
-              }}
+            {/* User Profile / Dropdown Section */}
+            <div style={{ position: 'relative', flex: 1, display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: '15px' }}>
+              <div style={{ textAlign: 'right' }}>
+                <p style={{ margin: 0, fontWeight: '700', fontSize: '14px', color: 'var(--text-main)' }}>{user?.name}</p>
+                <p style={{ margin: 0, fontSize: '11px', color: 'var(--primary)', fontWeight: '700' }}>{user?.role?.toUpperCase()}</p>
+              </div>
+
+              <div 
+                style={{
+                  width: '45px',
+                  height: '45px',
+                  borderRadius: '50%',
+                  border: '2px solid var(--primary)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                  color: 'var(--primary)',
+                  fontWeight: '800',
+                  fontSize: '18px',
+                  background: 'white',
+                  boxShadow: showUserDropdown ? '0 0 15px rgba(22, 163, 74, 0.2)' : 'none'
+                }}
+                onClick={() => setShowUserDropdown(!showUserDropdown)}
                 onMouseEnter={e => {
-                  e.currentTarget.style.transform = 'scale(1.1)';
+                  if (!showUserDropdown) e.currentTarget.style.transform = 'scale(1.1)';
                 }}
                 onMouseLeave={e => {
-                  e.currentTarget.style.transform = 'scale(1)';
+                  if (!showUserDropdown) e.currentTarget.style.transform = 'scale(1)';
                 }}
               >
                 {user?.name?.charAt(0).toUpperCase() || 'A'}
               </div>
+
+              <AnimatePresence>
+                {showUserDropdown && (
+                  <>
+                    {/* Backdrop to close dropdown */}
+                    <div 
+                      style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 98 }}
+                      onClick={() => setShowUserDropdown(false)}
+                    />
+                    
+                    <motion.div
+                      initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                      style={{
+                        position: 'absolute',
+                        top: '110%',
+                        right: 0,
+                        width: '240px',
+                        background: 'white',
+                        borderRadius: '16px',
+                        boxShadow: '0 10px 40px rgba(0,0,0,0.12)',
+                        border: '1px solid #f1f5f9',
+                        zIndex: 99,
+                        overflow: 'hidden',
+                        padding: '8px'
+                      }}
+                    >
+                      <div 
+                        onClick={() => { navigate('/user-profile'); setShowUserDropdown(false); }}
+                        style={{ 
+                          padding: '12px 15px', 
+                          borderRadius: '10px', 
+                          display: 'flex', 
+                          alignItems: 'center', 
+                          gap: '12px', 
+                          cursor: 'pointer',
+                          transition: 'all 0.2s',
+                          color: 'var(--text-main)',
+                          fontSize: '14px',
+                          fontWeight: '600'
+                        }}
+                        onMouseOver={e => e.currentTarget.style.background = '#f8fafc'}
+                        onMouseOut={e => e.currentTarget.style.background = 'transparent'}
+                      >
+                        <User size={18} color="var(--primary)" />
+                        <span>User Profile</span>
+                      </div>
+
+                      <div 
+                        onClick={() => { navigate('/profile'); setShowUserDropdown(false); }}
+                        style={{ 
+                          padding: '12px 15px', 
+                          borderRadius: '10px', 
+                          display: 'flex', 
+                          alignItems: 'center', 
+                          gap: '12px', 
+                          cursor: 'pointer',
+                          transition: 'all 0.2s',
+                          color: 'var(--text-main)',
+                          fontSize: '14px',
+                          fontWeight: '600'
+                        }}
+                        onMouseOver={e => e.currentTarget.style.background = '#f8fafc'}
+                        onMouseOut={e => e.currentTarget.style.background = 'transparent'}
+                      >
+                        <Store size={18} color="var(--primary)" />
+                        <span>Business Profile</span>
+                      </div>
+
+                      <div style={{ margin: '8px 0', borderTop: '1px solid #f1f5f9' }} />
+
+                      <div 
+                        onClick={() => { logout(); setShowUserDropdown(false); }}
+                        style={{ 
+                          padding: '12px 15px', 
+                          borderRadius: '10px', 
+                          display: 'flex', 
+                          alignItems: 'center', 
+                          gap: '12px', 
+                          cursor: 'pointer',
+                          transition: 'all 0.2s',
+                          color: '#ef4444',
+                          fontSize: '14px',
+                          fontWeight: '700'
+                        }}
+                        onMouseOver={e => e.currentTarget.style.background = '#fef2f2'}
+                        onMouseOut={e => e.currentTarget.style.background = 'transparent'}
+                      >
+                        <LogOut size={18} />
+                        <span>Logout</span>
+                      </div>
+                    </motion.div>
+                  </>
+                )}
+              </AnimatePresence>
             </div>
           </header>
         )}
