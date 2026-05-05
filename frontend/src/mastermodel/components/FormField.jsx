@@ -1,6 +1,6 @@
 import React from 'react';
 
-const FormField = ({ label, name, type = 'text', value, onChange, placeholder, required, options, isToggle }) => {
+const FormField = ({ label, name, type = 'text', value, onChange, placeholder, required, options, isToggle, hint, hintColor }) => {
   if (isToggle) {
     return (
       <div className="form-group" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
@@ -18,9 +18,25 @@ const FormField = ({ label, name, type = 'text', value, onChange, placeholder, r
 
   return (
     <div className="form-group">
-      <label style={{ marginBottom: '2px' }}>
-        {label} {required && <span style={{ color: '#ef4444', marginLeft: '2px' }}>*</span>}
-      </label>
+      <div style={{ marginBottom: '2px', display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '5px' }}>
+        <label style={{ margin: 0, display: 'inline-block' }}>
+          {label} {required && <span style={{ color: '#ef4444', marginLeft: '2px' }}>*</span>}
+        </label>
+        {hint && (
+          <span style={{ 
+            fontSize: '10px', 
+            color: hintColor || '#16a34a', 
+            fontWeight: '700', 
+            background: hintColor ? `${hintColor}10` : '#f0fdf4', 
+            padding: '2px 8px', 
+            borderRadius: '10px',
+            border: `1px solid ${hintColor ? `${hintColor}30` : '#dcfce7'}`,
+            whiteSpace: 'nowrap'
+          }}>
+            {hint}
+          </span>
+        )}
+      </div>
       {type === 'select' ? (
         <select 
           className="form-control" 

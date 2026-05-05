@@ -30,9 +30,13 @@ const ProductList = () => {
             <span style={{ fontWeight: '700', color: isLowStock ? '#ef4444' : '#16a34a' }}>
               {row.currentStock || 0} {row.secondaryUnit}
             </span>
-            {isLowStock && (
+            {isLowStock ? (
               <span className="badge badge-danger" style={{ fontSize: '10px', padding: '2px 8px' }}>
-                Low Stock
+                Low by {Number(row.minStock) - Number(row.currentStock)}
+              </span>
+            ) : (
+              <span className="badge badge-success" style={{ fontSize: '10px', padding: '2px 8px' }}>
+                Sufficient
               </span>
             )}
           </div>
