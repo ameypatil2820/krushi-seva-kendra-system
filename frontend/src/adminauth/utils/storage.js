@@ -17,6 +17,7 @@ export const setToStorage = (key, data) => {
 };
 
 export const initializeStorage = () => {
+  let updated = false;
   let existingRoles = getFromStorage(STORAGE_KEYS.ROLES) || [];
   
   const defaultRoles = [
@@ -35,34 +36,17 @@ export const initializeStorage = () => {
         users: ['manage'],
         roles: ['manage']
       }
-    },
-    {
-      id: 'user1-role',
-      roleName: 'User 1',
-      permissions: {
-        product: ['view'],
-        customer: ['view']
-      }
-    },
-    {
-      id: 'user2-role',
-      roleName: 'User 2',
-      permissions: {
-        sale: ['view'],
-        purchase: ['view']
-      }
-    },
-    {
-      id: 'user3-role',
-      roleName: 'User 3',
-      permissions: {
-        customer: ['view']
-      }
     }
   ];
 
+  // Filter out old default roles if they exist
+  const oldRoleNames = ['User 1', 'User 2', 'User 3'];
+  const originalLength = existingRoles.length;
+  existingRoles = existingRoles.filter(r => !oldRoleNames.includes(r.roleName));
+  
+  if (existingRoles.length !== originalLength) updated = true;
+
   // Add missing default roles
-  let updated = false;
   defaultRoles.forEach(defRole => {
     if (!existingRoles.some(r => r.roleName === defRole.roleName)) {
       existingRoles.push(defRole);
