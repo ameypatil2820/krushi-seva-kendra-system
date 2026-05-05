@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { STORAGE_KEYS, getFromStorage, setToStorage, initializeStorage } from '../../utils/storage';
-import { Users, UserPlus, Trash2, Shield } from 'lucide-react';
+import { Users, UserPlus, Trash2, Shield, Edit3 } from 'lucide-react';
 
 import '../../../mastermodel/styles/MasterModel.css';
 
@@ -107,9 +107,14 @@ const UserManagement = () => {
                     </td>
                     <td style={{ textAlign: 'left' }}>
                       {u.role !== 'Admin' && (
-                        <button onClick={() => handleDelete(u.id)} style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', padding: '5px' }}>
-                          <Trash2 size={16} />
-                        </button>
+                        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
+                          <button onClick={() => navigate(`/users/edit/${u.id}`)} style={{ background: 'none', border: 'none', color: 'var(--primary)', cursor: 'pointer', padding: '5px' }}>
+                            <Edit3 size={16} />
+                          </button>
+                          <button onClick={() => handleDelete(u.id)} style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', padding: '5px' }}>
+                            <Trash2 size={16} />
+                          </button>
+                        </div>
                       )}
                     </td>
                   </tr>

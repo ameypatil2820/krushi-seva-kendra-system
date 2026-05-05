@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { UserPlus, ArrowLeft, Save, X, User, Mail, Lock, Shield } from 'lucide-react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { UserPlus, ArrowLeft, Save, X, User, Mail, Lock, Shield, Edit3 } from 'lucide-react';
 import { STORAGE_KEYS, getFromStorage, setToStorage, initializeStorage } from '../../utils/storage';
 import FormField from '../../../mastermodel/components/FormField';
 import SearchableSelect from '../../../mastermodel/components/SearchableSelect';
@@ -8,6 +8,7 @@ import '../../../mastermodel/styles/MasterModel.css';
 
 const UserCreate = () => {
   const navigate = useNavigate();
+  const { id } = useParams();
   const [roles, setRoles] = useState([]);
   const [formData, setFormData] = useState({
     name: '',
@@ -21,7 +22,20 @@ const UserCreate = () => {
     initializeStorage();
     const savedRoles = getFromStorage(STORAGE_KEYS.ROLES) || [];
     setRoles(savedRoles.filter(r => r.roleName !== 'Admin').map(r => r.roleName));
-  }, []);
+
+    if (id) {
+      const users = getFromStorage(STORAGE_KEYS.USERS) || [];
+      const userToEdit = users.find(u => u.id === id);
+      if (userToEdit) {
+        setFormData({
+          name: userToEdit.name,
+          email: userToEdit.email,
+          password: userToEdit.password,
+          role: userToEdit.role
+        });
+      }
+    }
+  }, [id]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -38,18 +52,25 @@ const UserCreate = () => {
     }
 
     const currentUsers = getFromStorage(STORAGE_KEYS.USERS) || [];
-    if (currentUsers.some(u => u.email === formData.email)) {
+    
+    // Email uniqueness check (skip for current user being edited)
+    if (currentUsers.some(u => u.email === formData.email && u.id !== id)) {
       setError('Email address already registered');
       return;
     }
 
-    const userToAdd = { 
-      ...formData, 
-      id: Date.now().toString(),
-      createdAt: new Date().toISOString()
-    };
+    let updatedUsers;
+    if (id) {
+      updatedUsers = currentUsers.map(u => u.id === id ? { ...u, ...formData } : u);
+    } else {
+      const userToAdd = { 
+        ...formData, 
+        id: Date.now().toString(),
+        createdAt: new Date().toISOString()
+      };
+      updatedUsers = [...currentUsers, userToAdd];
+    }
     
-    const updatedUsers = [...currentUsers, userToAdd];
     setToStorage(STORAGE_KEYS.USERS, updatedUsers);
     navigate('/users');
   };
@@ -73,8 +94,8 @@ const UserCreate = () => {
           background: 'white'
         }}>
           <div>
-            <h2 style={{ fontSize: '18px', marginBottom: '1px' }}>Create New User Account</h2>
-            <p style={{ fontSize: '12px', margin: 0 }}>Assign access roles and system permissions</p>
+            <h2 style={{ fontSize: '18px', marginBottom: '1px' }}>{id ? 'Update User Account' : 'Create New User Account'}</h2>
+            <p style={{ fontSize: '12px', margin: 0 }}>{id ? 'Modify access roles and system permissions' : 'Assign access roles and system permissions'}</p>
           </div>
           <button type="button" className="btn-agro btn-outline" onClick={() => navigate('/users')} style={{ height: '34px', padding: '0 12px', fontSize: '12px' }}>
             <ArrowLeft size={16} /> Back
@@ -153,7 +174,8 @@ const UserCreate = () => {
             <X size={16} /> Cancel
           </button>
           <button type="submit" className="btn-agro btn-primary" style={{ height: '36px', minWidth: '160px', fontSize: '13px' }}>
-            <Save size={16} /> Create Account
+            {id ? <Save size={16} /> : <UserPlus size={16} />} 
+            <span style={{ marginLeft: '8px' }}>{id ? 'Update Account' : 'Create Account'}</span>
           </button>
         </div>
       </form>

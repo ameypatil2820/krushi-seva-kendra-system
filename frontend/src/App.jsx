@@ -7,6 +7,7 @@ import Login from './adminauth/pages/auth/Login';
 import AdminRegister from './adminauth/pages/auth/AdminRegister';
 import Dashboard from './adminauth/pages/dashboard/Dashboard';
 import RoleManagement from './adminauth/pages/dashboard/RoleManagement';
+import RoleCreate from './adminauth/pages/dashboard/RoleCreate';
 import UserManagement from './adminauth/pages/dashboard/UserManagement';
 import UserCreate from './adminauth/pages/dashboard/UserCreate';
 import BusinessProfile from './adminauth/pages/dashboard/BusinessProfile';
@@ -119,11 +120,23 @@ const AppRoutes = () => {
           <Route path="expiry" element={<ExpiryTracking />} />
         </Route>
 
-        <Route path="roles" element={
-          <ProtectedRoute module="roles" action="manage">
-            <RoleManagement />
-          </ProtectedRoute>
-        } />
+        <Route path="roles">
+          <Route index element={
+            <ProtectedRoute module="roles" action="manage">
+              <RoleManagement />
+            </ProtectedRoute>
+          } />
+          <Route path="create" element={
+            <ProtectedRoute module="roles" action="manage">
+              <RoleCreate />
+            </ProtectedRoute>
+          } />
+          <Route path="edit/:id" element={
+            <ProtectedRoute module="roles" action="manage">
+              <RoleCreate />
+            </ProtectedRoute>
+          } />
+        </Route>
 
         <Route path="users">
           <Route index element={
@@ -132,6 +145,11 @@ const AppRoutes = () => {
             </ProtectedRoute>
           } />
           <Route path="create" element={
+            <ProtectedRoute module="users" action="manage">
+              <UserCreate />
+            </ProtectedRoute>
+          } />
+          <Route path="edit/:id" element={
             <ProtectedRoute module="users" action="manage">
               <UserCreate />
             </ProtectedRoute>
