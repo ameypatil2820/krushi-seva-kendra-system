@@ -5,10 +5,14 @@ import { ShieldCheck, Plus, Trash2 } from 'lucide-react';
 
 import '../../../mastermodel/styles/MasterModel.css';
 
+import ConfirmModal from '../../../mastermodel/components/ConfirmModal';
+
 const RoleManagement = () => {
   const navigate = useNavigate();
   const [roles, setRoles] = useState([]);
   const [users, setUsers] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [roleToDelete, setRoleToDelete] = useState(null);
 
   useEffect(() => {
     const savedRoles = getFromStorage(STORAGE_KEYS.ROLES) || [];
@@ -25,11 +29,18 @@ const RoleManagement = () => {
     navigate(`/roles/edit/${role.id}`);
   };
 
-  const handleDelete = (id) => {
-    if (window.confirm('Are you sure you want to delete this role?')) {
-      const updatedRoles = roles.filter(r => r.id !== id);
+  const handleDeleteClick = (role) => {
+    setRoleToDelete(role);
+    setIsModalOpen(true);
+  };
+
+  const handleConfirmDelete = () => {
+    if (roleToDelete) {
+      const updatedRoles = roles.filter(r => r.id !== roleToDelete.id);
       setRoles(updatedRoles);
       setToStorage(STORAGE_KEYS.ROLES, updatedRoles);
+      setIsModalOpen(false);
+      setRoleToDelete(null);
     }
   };
 
@@ -82,7 +93,7 @@ const RoleManagement = () => {
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
                     <h4 style={{ margin: 0, fontSize: '16px', fontWeight: '800', color: 'var(--primary)' }}>{role.roleName}</h4>
                     {role.roleName !== 'Admin' && (
-                      <button onClick={(e) => { e.stopPropagation(); handleDelete(role.id); }} style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', padding: '5px' }}>
+                      <button onClick={(e) => { e.stopPropagation(); handleDeleteClick(role); }} style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', padding: '5px' }}>
                         <Trash2 size={16} />
                       </button>
                     )}
@@ -108,6 +119,13 @@ const RoleManagement = () => {
           </div>
         </div>
       </div>
+      <ConfirmModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        onConfirm={handleConfirmDelete} 
+        title="Delete Access Role?" 
+        message={`Are you sure you want to delete the ${roleToDelete?.roleName} role? This may affect users assigned to this role.`} 
+      />
     </div>
   );
 };

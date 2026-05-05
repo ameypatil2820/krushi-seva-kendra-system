@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useLayoutEffect } from 'react';
 import { Outlet, useLocation, Navigate, useNavigate } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import Footer from './Footer';
@@ -13,12 +13,7 @@ const Layout = () => {
   const mainContentRef = React.useRef(null);
   const { user, hasPermission, logout } = useAuth();
 
-  // Reset scroll to top on route change
-  useEffect(() => {
-    if (mainContentRef.current) {
-      mainContentRef.current.scrollTo(0, 0);
-    }
-  }, [location.pathname]);
+  // Note: Scroll resets are now handled structurally via React keys on the scroll container.
 
   const [searchQuery, setSearchQuery] = React.useState('');
   const [suggestions, setSuggestions] = React.useState([]);
@@ -163,15 +158,16 @@ const Layout = () => {
 
       {!isFullScreenPage && <Sidebar />}
 
-      <main ref={mainContentRef} className="main-content" style={{
+      <main className="main-content" style={{
         flex: 1,
-        overflowY: 'auto',
+        overflow: 'hidden', // Main wrapper no longer scrolls
         padding: '0',
         background: 'var(--background)',
         display: 'flex',
         flexDirection: 'column',
-        minHeight: '100vh'
+        height: '100vh'
       }}>
+
         {/* Top Navbar */}
         {!isFullScreenPage && (
           <header style={{
@@ -185,8 +181,6 @@ const Layout = () => {
             padding: '0 30px',
             borderRadius: '0',
             boxShadow: '0 4px 6px -1px rgba(0,0,0,0.02)',
-            position: 'sticky',
-            top: 0,
             zIndex: 100,
             borderBottom: '2px solid rgba(16, 185, 129, 0.1)'
           }}>
@@ -403,18 +397,29 @@ const Layout = () => {
           </header>
         )}
 
-        <div style={{ padding: '0', overflowX: 'hidden' }}>
-          <motion.div
-            key={location.pathname}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-          >
-            <Outlet />
-          </motion.div>
-        </div>
+        {/* Isolated Scroll Container for Content */}
+        <div 
+          key={location.pathname} // This key destroys and recreates the container on every route change, forcing a perfect scroll reset
+          style={{ 
+            flex: 1, 
+            overflowY: 'auto', 
+            overflowX: 'hidden',
+            display: 'flex',
+            flexDirection: 'column'
+          }}
+        >
+          <div style={{ padding: '0', flex: 1 }}>
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+            >
+              <Outlet />
+            </motion.div>
+          </div>
 
-        {!isFullScreenPage && <Footer />}
+          {!isFullScreenPage && <Footer />}
+        </div>
       </main>
     </div>
   );
