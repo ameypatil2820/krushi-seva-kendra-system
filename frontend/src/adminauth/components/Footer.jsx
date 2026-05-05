@@ -19,7 +19,7 @@ const Footer = () => {
         textAlign: 'center',
         fontWeight: '500'
       }}>
-        Copyright © 2026 <strong style={{ color: '#1e293b' }}>Krushi Seva Kendra</strong>. Designed with <span style={{ color: '#ef4444' }}>❤️</span> by <a href="#" style={{ color: '#16a34a', fontWeight: '700', textDecoration: 'none' }}>Cloud Regex</a>
+        Copyright © 2026 <strong style={{ color: '#1e293b' }}>Krushi Seva Kendra</strong>. Designed with ❤️ by <a href="https://cloudregex.com/" target="_blank" rel="noopener noreferrer" style={{ color: '#16a34a', fontWeight: '700', textDecoration: 'none' }}>Cloud Regex</a>
       </div>
     </footer>
   );

@@ -165,10 +165,13 @@ const AppRoutes = () => {
   );
 };
 
+import ScrollToTop from './mastermodel/components/ScrollToTop';
+
 function App() {
   return (
     <AuthProvider>
       <Router>
+        <ScrollToTop />
         <AppRoutes />
       </Router>
     </AuthProvider>

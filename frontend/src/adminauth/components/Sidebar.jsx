@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
 import {
   LayoutDashboard,
@@ -36,7 +37,15 @@ const Sidebar = () => {
   });
 
   const toggleGroup = (group) => {
-    setOpenGroups(prev => ({ ...prev, [group]: !prev[group] }));
+    setOpenGroups(prev => {
+      const isCurrentlyOpen = prev[group];
+      // Reset all groups to false, then toggle only the clicked one
+      return {
+        sales: group === 'sales' ? !isCurrentlyOpen : false,
+        purchase: group === 'purchase' ? !isCurrentlyOpen : false,
+        stock: group === 'stock' ? !isCurrentlyOpen : false
+      };
+    });
   };
 
   const menuItems = [
@@ -156,37 +165,58 @@ const Sidebar = () => {
                     {item.icon}
                     <span style={{ fontWeight: '600', fontSize: '15px' }}>{item.name}</span>
                   </div>
-                  {openGroups[item.id] ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
+                  <motion.div
+                    animate={{ rotate: openGroups[item.id] ? 180 : 0 }}
+                    transition={{ duration: 0.3 }}
+                    style={{ display: 'flex', alignItems: 'center' }}
+                  >
+                    <ChevronDown size={16} />
+                  </motion.div>
                 </div>
                 
-                {openGroups[item.id] && (
-                  <div style={{ paddingLeft: '20px', marginTop: '6px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                    {item.children.map((child) => (
-                      <NavLink
-                        key={child.path}
-                        to={child.path}
-                        className={({ isActive }) => `sidebar-link ${isActive ? 'active' : ''}`}
-                        style={({ isActive }) => ({
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '12px',
-                          padding: '8px 12px',
-                          borderRadius: '8px',
-                          color: isActive ? 'white' : 'rgba(255,255,255,0.6)',
-                          background: isActive ? '#059669' : 'transparent',
-                          textDecoration: 'none',
-                          transition: 'all 0.3s',
-                          fontSize: '13px',
-                          fontWeight: isActive ? '700' : '500',
-                          borderLeft: isActive ? '3px solid #34d399' : '3px solid transparent'
-                        })}
-                      >
-                        {child.icon}
-                        <span>{child.name}</span>
-                      </NavLink>
-                    ))}
-                  </div>
-                )}
+                <AnimatePresence initial={false}>
+                  {openGroups[item.id] && (
+                    <motion.div
+                      key="content"
+                      initial="collapsed"
+                      animate="open"
+                      exit="collapsed"
+                      variants={{
+                        open: { opacity: 1, height: "auto", marginBottom: 10 },
+                        collapsed: { opacity: 0, height: 0, marginBottom: 0 }
+                      }}
+                      transition={{ duration: 0.4, ease: [0.04, 0.62, 0.23, 0.98] }}
+                      style={{ overflow: 'hidden' }}
+                    >
+                      <div style={{ paddingLeft: '20px', marginTop: '6px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                        {item.children.map((child) => (
+                          <NavLink
+                            key={child.path}
+                            to={child.path}
+                            className={({ isActive }) => `sidebar-link ${isActive ? 'active' : ''}`}
+                            style={({ isActive }) => ({
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '12px',
+                              padding: '8px 12px',
+                              borderRadius: '8px',
+                              color: isActive ? 'white' : 'rgba(255,255,255,0.6)',
+                              background: isActive ? '#059669' : 'transparent',
+                              textDecoration: 'none',
+                              transition: 'all 0.3s',
+                              fontSize: '13px',
+                              fontWeight: isActive ? '700' : '500',
+                              borderLeft: isActive ? '3px solid #34d399' : '3px solid transparent'
+                            })}
+                          >
+                            {child.icon}
+                            <span>{child.name}</span>
+                          </NavLink>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </>
             ) : (
               <NavLink
