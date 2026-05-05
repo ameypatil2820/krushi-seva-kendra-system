@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { Search, ChevronDown, X } from 'lucide-react';
 
-const SearchableSelect = ({ options, value, onChange, placeholder, style, height = '40px', padding = '0 12px', textColor = 'white', bgColor = '#111827', inputRef: forwardedRef, onEnterSelect }) => {
+const SearchableSelect = ({ options, value, onChange, placeholder, style, height = '40px', padding = '0 12px', textColor = '#1e293b', bgColor = 'white', inputRef: forwardedRef, onEnterSelect }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [highlightedIndex, setHighlightedIndex] = useState(0);
@@ -22,6 +22,11 @@ const SearchableSelect = ({ options, value, onChange, placeholder, style, height
   }, [forwardedRef]);
 
   const selectedOption = options.find(opt => String(opt.id) === String(value));
+
+  const getDisplayValue = (opt) => {
+    if (!opt) return '';
+    return opt.batchNo ? `${opt.name} (${opt.batchNo})` : opt.name;
+  };
 
   const calcPos = () => {
     if (wrapperRef.current) {
@@ -49,12 +54,19 @@ const SearchableSelect = ({ options, value, onChange, placeholder, style, height
 
   useEffect(() => {
     if (!isOpen) return;
+    
+    // Initial calculation
     calcPos();
+    
+    // Recalculate after a short delay to handle layout shifts
+    const timer = setTimeout(calcPos, 50);
+    
     const onScroll = () => calcPos();
     const onResize = () => calcPos();
     window.addEventListener('scroll', onScroll, true);
     window.addEventListener('resize', onResize);
     return () => {
+      clearTimeout(timer);
       window.removeEventListener('scroll', onScroll, true);
       window.removeEventListener('resize', onResize);
     };
@@ -63,14 +75,17 @@ const SearchableSelect = ({ options, value, onChange, placeholder, style, height
   const filteredOptions = options.filter(opt =>
     (opt.name && opt.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
     (opt.city && opt.city.toLowerCase().includes(searchTerm.toLowerCase())) ||
-    (opt.code && opt.code.toLowerCase().includes(searchTerm.toLowerCase()))
+    (opt.code && opt.code.toLowerCase().includes(searchTerm.toLowerCase())) ||
+    (opt.batchNo && opt.batchNo.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
   const selectOption = (opt) => {
-    onChange(opt.id, opt);
-    setIsOpen(false);
-    setSearchTerm('');
-    setHighlightedIndex(0);
+    const result = onChange(opt.id, opt);
+    if (result !== false) {
+      setIsOpen(false);
+      setSearchTerm('');
+      setHighlightedIndex(0);
+    }
   };
 
   const handleKeyDown = (e) => {
@@ -87,7 +102,7 @@ const SearchableSelect = ({ options, value, onChange, placeholder, style, height
       if (filteredOptions[highlightedIndex]) {
         selectOption(filteredOptions[highlightedIndex]);
         // After selection, call the parent's enter handler (e.g. add new row)
-        if (onEnterSelect) setTimeout(() => onEnterSelect(), 30);
+        if (onEnterSelect) setTimeout(() => onEnterSelect(), 100);
       }
     } else if (e.key === 'Escape') {
       setIsOpen(false);
@@ -96,9 +111,11 @@ const SearchableSelect = ({ options, value, onChange, placeholder, style, height
   };
 
   const handleOpen = () => {
-    calcPos();
-    setIsOpen(true);
-    setTimeout(() => inputRef.current?.focus(), 0);
+    // Force recalculate and open
+    setTimeout(() => {
+      calcPos();
+      setIsOpen(true);
+    }, 0);
   };
 
   const dropdown = isOpen ? createPortal(
@@ -112,8 +129,8 @@ const SearchableSelect = ({ options, value, onChange, placeholder, style, height
         zIndex: 99999,
         maxHeight: '260px',
         overflowY: 'auto',
-        boxShadow: '0 15px 40px rgba(0,0,0,0.8)',
-        border: '1px solid rgba(255,255,255,0.12)',
+        boxShadow: '0 15px 40px rgba(0,0,0,0.15)',
+        border: '1px solid var(--border-light)',
         background: bgColor,
         padding: '6px',
         borderRadius: '12px',
@@ -127,7 +144,7 @@ const SearchableSelect = ({ options, value, onChange, placeholder, style, height
               padding: '10px 14px',
               cursor: 'pointer',
               borderRadius: '8px',
-              background: idx === highlightedIndex ? 'rgba(16,185,129,0.2)' : (String(value) === String(opt.id) ? 'rgba(16,185,129,0.15)' : 'transparent'),
+              background: idx === highlightedIndex ? 'var(--primary-soft)' : (String(value) === String(opt.id) ? 'var(--primary-soft)' : 'transparent'),
               marginBottom: '2px',
               display: 'flex',
               flexDirection: 'column',
@@ -140,9 +157,10 @@ const SearchableSelect = ({ options, value, onChange, placeholder, style, height
             <div style={{ fontWeight: '600', fontSize: '0.9rem', color: String(value) === String(opt.id) ? 'var(--primary)' : textColor }}>
               {opt.name}
             </div>
-            {(opt.city || opt.code) && (
-              <div style={{ fontSize: '0.75rem', color: '#9ca3af', marginTop: '3px' }}>
-                {opt.code && <span>{opt.code} </span>}
+            {(opt.city || opt.code || opt.batchNo) && (
+              <div style={{ fontSize: '0.75rem', color: '#64748b', marginTop: '3px', display: 'flex', gap: '8px' }}>
+                {opt.batchNo && <span style={{ color: 'var(--primary)', fontWeight: '700' }}>Batch: {opt.batchNo}</span>}
+                {opt.code && <span>Code: {opt.code} </span>}
                 {opt.city && <span>• {opt.city}</span>}
               </div>
             )}
@@ -166,11 +184,11 @@ const SearchableSelect = ({ options, value, onChange, placeholder, style, height
           cursor: 'text',
           padding: padding,
           height: height,
-          background: textColor === 'white' ? 'rgba(255,255,255,0.05)' : 'white',
+          background: bgColor,
           borderRadius: '10px',
           border: isOpen ? '2px solid var(--primary)' : '1px solid var(--border)',
-          transition: 'border 0.2s ease',
-          boxShadow: isOpen ? '0 0 10px rgba(16,185,129,0.2)' : 'none'
+          transition: 'all 0.2s ease',
+          boxShadow: isOpen ? '0 0 0 4px var(--primary-soft)' : 'none'
         }}
         onClick={handleOpen}
       >
@@ -186,10 +204,11 @@ const SearchableSelect = ({ options, value, onChange, placeholder, style, height
             color: textColor,
             width: '100%',
             height: '100%',
-            fontSize: '0.9rem'
+            fontSize: '0.9rem',
+            fontWeight: selectedOption ? '700' : '500'
           }}
-          placeholder={selectedOption ? selectedOption.name : placeholder}
-          value={isOpen ? searchTerm : (selectedOption ? selectedOption.name : '')}
+          placeholder={placeholder}
+          value={isOpen ? searchTerm : getDisplayValue(selectedOption)}
           onChange={e => {
             setSearchTerm(e.target.value);
             if (!isOpen) { calcPos(); setIsOpen(true); }

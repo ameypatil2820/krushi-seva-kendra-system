@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Truck, Search, Plus, Calendar, FileText, IndianRupee, CheckCircle, Clock } from 'lucide-react';
 
 const initialBills = [
-  { id: 'PUR-001', supplierId: 'SUP-101', supplierName: 'Agro Traders Pvt Ltd', billDate: '2026-04-18', grandTotal: 18500.00, paidAmount: 18500.00, dueAmount: 0, paymentType: 'Bank', status: 'Paid' },
+  { id: 'PUR-001', supplierId: 'SUP-101', supplierName: 'Agro Traders Pvt Ltd', billDate: '2026-04-18', grandTotal: 18500.00, paidAmount: 18500.00, dueAmount: 0, paymentType: 'Swipe', status: 'Paid' },
   { id: 'PUR-002', supplierId: 'SUP-102', supplierName: 'Green Farms Supply', billDate: '2026-04-22', grandTotal: 42000.50, paidAmount: 20000, dueAmount: 22000.50, paymentType: 'Credit', status: 'Partial' },
   { id: 'PUR-003', supplierId: 'SUP-103', supplierName: 'Kisan Agro Mart', billDate: '2026-04-28', grandTotal: 9800.00, paidAmount: 0, dueAmount: 9800.00, paymentType: 'Credit', status: 'Unpaid' },
 ];

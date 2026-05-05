@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { Plus, Trash2, Save, ArrowLeft, Calendar, User, CreditCard, IndianRupee, Package } from 'lucide-react';
 import { MockService } from '../mastermodel/services/MockService';
 import SearchableSelect from './SearchableSelect';
+import toast from 'react-hot-toast';
 import '../mastermodel/styles/MasterModel.css';
 
 const newRow = () => ({
@@ -23,6 +24,7 @@ const SaleEntry = () => {
   const [customers, setCustomers] = useState([]);
   const [products, setProducts] = useState([]);
   const rowRefs = useRef({});
+  const qtyRefs = useRef({});
 
   const [master, setMaster] = useState({
     customerId: location.state?.quotationData?.customerId || '',
@@ -43,11 +45,13 @@ const SaleEntry = () => {
   // Focus the new row automatically after it renders
   useEffect(() => {
     if (rowToFocus.current) {
-      const el = rowRefs.current[rowToFocus.current];
-      if (el) {
-        el.focus();
-        rowToFocus.current = null;
-      }
+      setTimeout(() => {
+        const el = rowRefs.current[rowToFocus.current];
+        if (el) {
+          el.focus();
+          rowToFocus.current = null;
+        }
+      }, 100);
     }
   }, [children]);
 
@@ -83,16 +87,40 @@ const SaleEntry = () => {
   };
 
   const handleChildChange = (id, field, value, extraData) => {
+    // Check for duplicate products
+    if (field === 'productId' && value) {
+      const isDuplicate = children.some(child => String(child.productId) === String(value) && child.id !== id);
+      if (isDuplicate) {
+        toast.error("This product is already added in the list!");
+        return false;
+      }
+      toast.success(`${extraData?.name || 'Product'} added`);
+    }
+
     const updated = children.map(child => {
       if (child.id !== id) return child;
       let u = { ...child, [field]: value };
-      if (field === 'productId' && extraData) {
-        u.productName = extraData.name || '';
-        u.batchNo = extraData.batchNo || '';
-        u.saleRate = parseFloat(extraData.salePrice) || '';
-        u.taxPercent = parseFloat(extraData.tax) || '';
+      if (field === 'productId') {
+        if (extraData) {
+          u.productName = extraData.name || '';
+          u.batchNo = extraData.batchNo || '';
+          u.saleRate = parseFloat(extraData.salePrice) || '';
+          u.taxPercent = parseFloat(extraData.tax) || '';
+        } else if (!value) {
+          // Clear everything if product is cleared
+          u.productName = '';
+          u.batchNo = '';
+          u.saleRate = '';
+          u.taxPercent = '';
+          u.amount = 0;
+          u.taxAmount = 0;
+        }
       }
-      const qty = parseFloat(field === 'quantity' ? value : u.quantity) || 0;
+      
+      // Use 1 as default quantity for calculation if empty or <= 0
+      const rawQty = parseFloat(field === 'quantity' ? value : u.quantity);
+      const qty = (isNaN(rawQty) || rawQty <= 0) ? 1 : rawQty;
+      
       const rate = parseFloat(field === 'saleRate' ? value : u.saleRate) || 0;
       const taxP = parseFloat(field === 'taxPercent' ? value : u.taxPercent) || 0;
       const rowSub = qty * rate;
@@ -103,6 +131,14 @@ const SaleEntry = () => {
     });
     setChildren(updated);
     calculateTotals(updated, master.discount);
+
+    // Auto-focus quantity field after selecting a product
+    if (field === 'productId' && value) {
+      setTimeout(() => {
+        if (qtyRefs.current[id]) qtyRefs.current[id].focus();
+      }, 50);
+    }
+    return true;
   };
 
   const addChildRow = (focusAfter = true) => {
@@ -242,10 +278,22 @@ const SaleEntry = () => {
                             height="34px"
                             inputRef={el => rowRefs.current[child.id] = el}
                           />
-                          {child.batchNo && <div style={{ fontSize: '10px', color: 'var(--text-muted)', marginTop: '2px' }}>Batch: {child.batchNo}</div>}
                         </td>
                         <td>
-                          <input type="number" className="form-control" style={{ height: '34px', fontSize: '13px' }} value={child.quantity} onChange={(e) => handleChildChange(child.id, 'quantity', e.target.value)} onKeyDown={(e) => handleEnterNavigation(e, idx)} />
+                          <input 
+                            type="number" 
+                            className="form-control" 
+                            style={{ height: '34px', fontSize: '13px' }} 
+                            ref={el => qtyRefs.current[child.id] = el}
+                            value={child.quantity}
+                            onChange={(e) => handleChildChange(child.id, 'quantity', e.target.value)} 
+                            onBlur={(e) => {
+                              if (!e.target.value || parseFloat(e.target.value) <= 0) {
+                                handleChildChange(child.id, 'quantity', '1');
+                              }
+                            }}
+                            onKeyDown={(e) => handleEnterNavigation(e, idx)} 
+                          />
                         </td>
                         <td>
                           <input type="number" className="form-control" style={{ height: '34px', fontSize: '13px' }} value={child.saleRate} onChange={(e) => handleChildChange(child.id, 'saleRate', e.target.value)} onKeyDown={(e) => handleEnterNavigation(e, idx)} />
@@ -274,7 +322,7 @@ const SaleEntry = () => {
                     <label style={{ fontSize: '12px' }}>Payment Type</label>
                     <select className="form-control" style={{ width: '120px', height: '36px', fontSize: '13px', padding: '0 10px' }} value={master.paymentType} onChange={(e) => handleMasterChange('paymentType', e.target.value)}>
                       <option value="Cash">Cash</option>
-                      <option value="Bank">Bank</option>
+                      <option value="Swipe">Swipe</option>
                       <option value="UPI">UPI</option>
                       <option value="Credit">Credit</option>
                     </select>

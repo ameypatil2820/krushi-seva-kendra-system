@@ -3,7 +3,7 @@ import { Save, ArrowLeft, Plus, Trash2, Truck, Calendar, ShoppingBag, Package } 
 import { useNavigate } from 'react-router-dom';
 import { MockService } from '../mastermodel/services/MockService';
 import SearchableSelect from './SearchableSelect';
-
+import toast from 'react-hot-toast';
 import '../mastermodel/styles/MasterModel.css';
 
 const NewPurchaseOrder = () => {
@@ -11,6 +11,7 @@ const NewPurchaseOrder = () => {
   const [suppliers, setSuppliers] = useState([]);
   const [products, setProducts] = useState([]);
   const rowRefs = useRef({});
+  const qtyRefs = useRef({});
   const [master, setMaster] = useState({
     supplierId: '',
     orderDate: new Date().toISOString().split('T')[0],
@@ -30,11 +31,13 @@ const NewPurchaseOrder = () => {
 
   useEffect(() => {
     if (rowToFocus.current) {
-      const el = rowRefs.current[rowToFocus.current];
-      if (el) {
-        el.focus();
-        rowToFocus.current = null;
-      }
+      setTimeout(() => {
+        const el = rowRefs.current[rowToFocus.current];
+        if (el) {
+          el.focus();
+          rowToFocus.current = null;
+        }
+      }, 100);
     }
   }, [items]);
 
@@ -68,17 +71,44 @@ const NewPurchaseOrder = () => {
   };
 
   const handleItemChange = (id, field, value, extraData) => {
+    // Check for duplicate products
+    if (field === 'productId' && value) {
+      const isDuplicate = items.some(item => String(item.productId) === String(value) && item.id !== id);
+      if (isDuplicate) {
+        toast.error("This product is already added in the list!");
+        return false;
+      }
+      toast.success(`${extraData?.name || 'Product'} added`);
+    }
+
     const updatedItems = items.map(item => {
       if (item.id === id) {
         let updatedItem = { ...item, [field]: value };
-        if (field === 'productId' && extraData) {
-          updatedItem.expectedPrice = parseFloat(extraData.purchasePrice) || 0;
+        if (field === 'productId') {
+          if (extraData) {
+            updatedItem.productName = extraData.name || '';
+            updatedItem.expectedPrice = parseFloat(extraData.purchasePrice) || 0;
+          } else if (!value) {
+            updatedItem.productName = '';
+            updatedItem.expectedPrice = 0;
+          }
         }
+        
+        // Use 1 as default quantity for calculation if empty or <= 0
+        updatedItem.quantity = field === 'quantity' ? value : updatedItem.quantity;
         return updatedItem;
       }
       return item;
     });
     setItems(updatedItems);
+    
+    // Auto-focus quantity field after selecting a product
+    if (field === 'productId' && value) {
+      setTimeout(() => {
+        if (qtyRefs.current[id]) qtyRefs.current[id].focus();
+      }, 50);
+    }
+    return true;
   };
 
   return (
@@ -174,7 +204,22 @@ const NewPurchaseOrder = () => {
                             inputRef={el => rowRefs.current[item.id] = el}
                           />
                         </td>
-                        <td><input type="number" className="form-control" style={{ height: '34px', fontSize: '13px' }} value={item.quantity} onChange={(e) => handleItemChange(item.id, 'quantity', e.target.value)} onKeyDown={(e) => handleEnterNavigation(e, idx)} /></td>
+                        <td>
+                          <input 
+                            type="number" 
+                            className="form-control" 
+                            style={{ height: '34px', fontSize: '13px' }} 
+                            ref={el => qtyRefs.current[item.id] = el}
+                            value={item.quantity} 
+                            onChange={(e) => handleItemChange(item.id, 'quantity', e.target.value)} 
+                            onBlur={(e) => {
+                              if (!e.target.value || parseFloat(e.target.value) <= 0) {
+                                handleItemChange(item.id, 'quantity', '1');
+                              }
+                            }}
+                            onKeyDown={(e) => handleEnterNavigation(e, idx)} 
+                          />
+                        </td>
                         <td><input type="number" className="form-control" style={{ height: '34px', fontSize: '13px' }} value={item.expectedPrice} onChange={(e) => handleItemChange(item.id, 'expectedPrice', e.target.value)} onKeyDown={(e) => handleEnterNavigation(e, idx)} /></td>
                         <td style={{ fontSize: '13px', fontWeight: '700' }}>₹{(item.quantity * item.expectedPrice).toFixed(2)}</td>
                         <td style={{ textAlign: 'center' }}>

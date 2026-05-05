@@ -20,7 +20,7 @@ const ViewPurchaseBill = () => {
         supplierId: 'SUP-101',
         supplierName: 'Agro Traders Pvt Ltd',
         billDate: '2026-04-18',
-        paymentType: 'Bank',
+        paymentType: 'Swipe',
         status: 'Paid',
         totalAmount: 18000.00,
         taxAmount: 500.00,
