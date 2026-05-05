@@ -13,12 +13,12 @@ import UserCreate from './adminauth/pages/dashboard/UserCreate';
 import BusinessProfile from './adminauth/pages/dashboard/BusinessProfile';
 import UserProfile from './adminauth/pages/dashboard/UserProfile';
 import ModulePage from './adminauth/pages/dashboard/ModulePage';
-import { 
+import {
   Suppliers, SupplierCreate, SupplierEdit, SupplierView,
   Customers, CustomerCreate, CustomerEdit, CustomerView,
   Categories, CategoryCreate, CategoryEdit,
   Taxes, TaxCreate, TaxEdit,
-  Products, ProductCreate, ProductEdit, ProductView 
+  Products, ProductCreate, ProductEdit, ProductView
 } from './mastermodel/pages';
 
 import SaleBill from './sales/SaleBill';
@@ -66,7 +66,7 @@ const AppRoutes = () => {
           <Route path="edit/:id" element={<CustomerEdit />} />
           <Route path="view/:id" element={<CustomerView />} />
         </Route>
-        
+
         <Route path="suppliers">
           <Route index element={<Suppliers />} />
           <Route path="create" element={<SupplierCreate />} />
@@ -84,7 +84,7 @@ const AppRoutes = () => {
           <Route path="create" element={<TaxCreate />} />
           <Route path="edit/:id" element={<TaxEdit />} />
         </Route>
-        
+
         {/* Sales Routes */}
         <Route path="sales">
           <Route path="bills" element={<SaleBill />} />
@@ -97,7 +97,7 @@ const AppRoutes = () => {
           <Route path="returns/view/:id" element={<ViewSaleReturn />} />
           <Route index element={<ModulePage title="Sales" module="sale" />} />
         </Route>
-        
+
         {/* Purchase Routes */}
         <Route path="purchase">
           <Route path="bills" element={<PurchaseBill />} />
@@ -166,12 +166,14 @@ const AppRoutes = () => {
 };
 
 import { Toaster } from 'react-hot-toast';
+import ScrollToTop from './mastermodel/components/ScrollToTop';
 
 function App() {
   return (
     <AuthProvider>
       <Toaster position="top-right" reverseOrder={false} />
       <Router>
+        <ScrollToTop />
         <AppRoutes />
       </Router>
     </AuthProvider>
