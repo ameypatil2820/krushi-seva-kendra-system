@@ -195,7 +195,7 @@ const PurchaseEntry = () => {
                 </div>
                 <div className="form-group" style={{ margin: 0 }}>
                   <label style={{ fontSize: '12px', marginBottom: '3px' }}>Payment Mode</label>
-                  <select className="form-control" style={{ height: '36px', fontSize: '13px' }} value={master.paymentType} onChange={(e) => handleMasterChange('paymentType', e.target.value)}>
+                  <select className="form-control" style={{ height: '38px', fontSize: '13px', padding: '0 12px' }} value={master.paymentType} onChange={(e) => handleMasterChange('paymentType', e.target.value)}>
                     <option value="Cash">Cash</option>
                     <option value="Bank">Bank</option>
                     <option value="UPI">UPI</option>
